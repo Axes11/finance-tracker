@@ -1,4 +1,6 @@
 // app/layout.tsx
+'use client';
+
 import './globals.css';
 import { fontSans } from '@/shared/lib/font';
 import { ReactNode } from 'react';

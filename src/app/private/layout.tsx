@@ -1,3 +1,5 @@
+'use client';
+
 import useUserStore from '@/entities/user/store';
 import { redirect } from 'next/navigation';
 import { ReactNode } from 'react';
