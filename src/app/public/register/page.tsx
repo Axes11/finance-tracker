@@ -1,5 +1,5 @@
 'use client';
 
 export default function RegisterPage() {
-	return <div>Register Page</div>;
+	return <div>Welcome to the Register!</div>;
 }
