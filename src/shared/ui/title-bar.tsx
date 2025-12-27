@@ -2,7 +2,7 @@ import { X, ArrowsOutSimple, Minus } from '@phosphor-icons/react';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import { Color } from '@/shared/constants/colors.ts';
 
-export default function TitleBar() {
+export function TitleBar() {
 	return (
 		<>
 			<header className='titlebar fixed w-full h-10 flex items-center flex-row-reverse justify-end border-b pl-2.5' data-tauri-drag-region>

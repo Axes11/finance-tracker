@@ -1,22 +1,26 @@
 'use client';
 
-import { useLogin } from '@/features/auth/login';
-import { Field, FieldDescription, FieldGroup, FieldLabel, FieldLegend, FieldSet, Input, Card, Button } from '@/shared/ui';
+import { Field, FieldDescription, FieldGroup, FieldLabel, FieldLegend, FieldSet } from '@/shared/ui/field.tsx';
+import { Input } from '@/shared/ui/input.tsx';
+import { Card } from '@/shared/ui/card.tsx';
+import { Button } from '@/shared/ui/button.tsx';
 import { PublicPaths } from '@/shared/config/public-routes.ts';
+import { useRegister } from '@/features/auth/register/hooks/useRegister.ts';
 
-export function LoginForm() {
-	const { register, router, handleSubmit, errors, onSubmit } = useLogin();
+export function RegisterForm() {
+	const { register, router, handleSubmit, errors, onSubmit } = useRegister();
 
 	return (
 		<div className='w-full max-w-md'>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<Card className={'p-6'}>
 					<FieldSet>
-						<FieldLegend className='font-bold'>Log In and Track Your Money!</FieldLegend>
+						<FieldLegend className='font-bold'>Register and Track Your Money!</FieldLegend>
 						<FieldDescription>Note and track your money in all your spaces!</FieldDescription>
 						<FieldGroup>
 							<Field>
 								<FieldLabel htmlFor='email'>E-mail</FieldLabel>
+								<FieldDescription>Enter unique email for your user.</FieldDescription>
 								<Input
 									id='email'
 									type='text'
@@ -33,6 +37,7 @@ export function LoginForm() {
 							</Field>
 							<Field>
 								<FieldLabel htmlFor='password'>Password</FieldLabel>
+								<FieldDescription>Password must be at least 8 characters long.</FieldDescription>
 								<Input
 									id='password'
 									type='password'
@@ -45,14 +50,11 @@ export function LoginForm() {
 							</Field>
 						</FieldGroup>
 						<Button type='submit' className='cursor-pointer'>
-							Log In
+							Register
 						</Button>
 						<div className='flex items-center justify-center flex-col'>
-							<Button type='button' onClick={() => router.push(PublicPaths.FORGOT_PASSWORD)} className='cursor-pointer' variant='link'>
-								Forgot Password?
-							</Button>
-							<Button type='button' onClick={() => router.push(PublicPaths.REGISTER)} className='cursor-pointer' variant='link'>
-								Don`t have an account?
+							<Button type='button' onClick={() => router.push(PublicPaths.LOGIN)} className='cursor-pointer' variant='link'>
+								Already have an account?
 							</Button>
 						</div>
 					</FieldSet>

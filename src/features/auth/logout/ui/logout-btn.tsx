@@ -1,8 +1,8 @@
 'use client';
 
-import { Button } from '@/shared/ui/button.tsx';
+import { Button } from '@/shared/ui';
 import { SignOut } from '@phosphor-icons/react';
-import { useLogout } from '@/features/auth/logout/hooks/useLogout.ts';
+import { useLogout } from '@/features/auth/logout';
 
 export default function LogoutBtn() {
 	const { logout } = useLogout();

@@ -1,5 +1,11 @@
 'use client';
 
+import { RegisterForm } from '@/features/auth/register';
+
 export default function RegisterPage() {
-	return <div>Welcome to the Register!</div>;
+	return (
+		<div className='flex flex-col justify-center items-center gap-6'>
+			<RegisterForm />
+		</div>
+	);
 }

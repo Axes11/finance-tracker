@@ -1,10 +1,10 @@
 'use client';
 
-import useUserStore from '@/entities/user/store';
+import { useUserStore } from '@/entities/user';
 import { ReactNode, useEffect } from 'react';
-import Navigation from '@/widgets/navigation/ui/navigation.tsx';
+import { Navigation } from '@/widgets';
 import { useRouter } from 'next/navigation';
-import { RoutePaths } from '@/shared/config/routes.ts';
+import { PublicPaths } from '@/shared/config/public-routes.ts';
 
 export default function PrivateLayout({ children }: { children: ReactNode }) {
 	const user = useUserStore((state) => state.user);
@@ -12,7 +12,7 @@ export default function PrivateLayout({ children }: { children: ReactNode }) {
 
 	useEffect(() => {
 		if (!user) {
-			router.push(RoutePaths.LOGIN);
+			router.push(PublicPaths.LOGIN);
 		}
 	}, [user, router]);
 

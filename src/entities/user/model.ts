@@ -1,11 +1,6 @@
-// import { User, Session } from '@supabase/supabase-js';
-
-// export type LoginResponse = {
-// 	user: User;
-// 	session: Session;
-// };
+import { User, Session } from '@supabase/supabase-js';
 
 export type LoginResponse = {
-	id: string;
-	name: string;
+	user: User;
+	session: Session;
 };

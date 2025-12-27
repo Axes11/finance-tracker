@@ -1,4 +1,4 @@
-import useUserStore from '@/entities/user/store.ts';
+import { useUserStore } from '@/entities/user';
 
 export function useLogout() {
 	const user = useUserStore();

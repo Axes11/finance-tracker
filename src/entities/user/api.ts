@@ -16,3 +16,12 @@ export const logout = async (): Promise<void> => {
 
 	if (error) throw error;
 };
+
+export const register = async (email: string, password: string): Promise<void> => {
+	const { error } = await supabaseClient.auth.signUp({
+		email: email,
+		password: password,
+	});
+
+	if (error) throw error;
+};

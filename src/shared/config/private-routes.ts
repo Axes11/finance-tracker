@@ -1,6 +1,4 @@
-export const AppRoutes = {
-	LOGIN: 'login',
-	REGISTER: 'register',
+export const PrivateRoutes = {
 	HOME: 'home',
 	CRYPTO: 'cryto',
 	STOCKS: 'stocks',
@@ -8,9 +6,7 @@ export const AppRoutes = {
 	MAIN: 'main',
 };
 
-export const RoutePaths: Record<keyof typeof AppRoutes, string> = {
-	LOGIN: '/public/login',
-	REGISTER: '/public/register',
+export const PrivatePaths: Record<keyof typeof PrivateRoutes, string> = {
 	HOME: '/private/home',
 	CRYPTO: '/private/crypto',
 	STOCKS: '/private/stocks',

@@ -3,11 +3,11 @@
 import './globals.css';
 
 import { ReactNode } from 'react';
-
-import TitleBar from '@/shared/ui/title-bar.tsx';
-import { fontSans } from '@/shared/lib/font';
 import { ThemeProvider } from 'next-themes';
-import { QueryProvider } from '@/shared/providers/query-provider.tsx';
+
+import { TitleBar, Toaster } from '@/shared/ui';
+import { fontSans } from '@/shared/lib/font';
+import { QueryProvider } from '@/shared/providers';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
 	return (
@@ -17,6 +17,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 					<ThemeProvider attribute='class' defaultTheme='light' enableSystem>
 						<TitleBar />
 						<main>{children}</main>
+						<Toaster />
 					</ThemeProvider>
 				</QueryProvider>
 			</body>

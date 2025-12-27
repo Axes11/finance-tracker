@@ -1,10 +1,10 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-
-import { RoutePaths } from '@/shared/config/routes.ts';
-import useUserStore from '@/entities/user/store.ts';
 import { useEffect } from 'react';
+
+import { PrivatePaths } from '@/shared/config/private-routes.ts';
+import { useUserStore } from '@/entities/user';
 
 export default function WelcomePage() {
 	const router = useRouter();
@@ -12,9 +12,7 @@ export default function WelcomePage() {
 
 	useEffect(() => {
 		if (user) {
-			router.push(RoutePaths.MAIN);
-		} else {
-			router.push(RoutePaths.LOGIN);
+			router.push(PrivatePaths.MAIN);
 		}
 	}, [user, router]);
 
