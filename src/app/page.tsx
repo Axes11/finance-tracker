@@ -1,14 +1,20 @@
 'use client';
 
-import { Button } from '@/shared/ui/button';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function WelcomePage() {
+export default function Page() {
 	const router = useRouter();
 
-	const redirectToLogin = () => {
-		router.push('/public/login');
-	};
+	useEffect(() => {
+		const hash = window.location.hash;
 
-	return <Button onClick={redirectToLogin}>Redirect to Login</Button>;
+		if (hash.includes('type=recovery')) {
+			return;
+		}
+
+		router.replace('/login');
+	}, [router]);
+
+	return null;
 }

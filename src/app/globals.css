@@ -118,3 +118,19 @@
     @apply bg-background text-foreground;
   }
 }
+
+html, body, #__next {
+  height: 100%;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+#__next::-webkit-scrollbar {
+  display: none;
+}
+
+main{
+  padding-top: 40px;
+}

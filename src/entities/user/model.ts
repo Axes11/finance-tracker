@@ -1,6 +1,6 @@
 import { User, Session } from '@supabase/supabase-js';
 
 export type LoginResponse = {
-	user: User;
-	session: Session;
+	user: User | null;
+	session: Session | null;
 };

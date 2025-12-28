@@ -1,31 +1,50 @@
-import { login } from '@/entities/user/api';
-import { LoginResponse } from '@/entities/user/model';
-import useUserStore from '@/entities/user/store';
+import { useUserStore, login } from '@/entities/user';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import type { LoginResponse } from '@/entities/user';
+import { PrivatePaths } from '@/shared/config/private-routes.ts';
+import { AuthError } from '@supabase/supabase-js';
 
-interface ILogin {
+interface Inputs {
 	email: string;
 	password: string;
 }
 
-export default function useLogin() {
+const ERROR_MAP: Record<string, string> = {
+	'Invalid login credentials': 'Wrong email or password',
+	'Email not confirmed': 'Email not confirmed. Please check your inbox.',
+};
+
+export function useLogin() {
+	const router = useRouter();
+
 	const { loginUser } = useUserStore();
 
-	const mutation = useMutation<LoginResponse, Error, ILogin>({
+	const {
+		register,
+		handleSubmit,
+		watch,
+		formState: { errors },
+	} = useForm<Inputs>();
+	const onSubmit: SubmitHandler<Inputs> = (data) => {
+		mutation.mutate({ email: data.email, password: data.password });
+	};
+
+	const mutation = useMutation<LoginResponse, AuthError, Inputs>({
 		mutationFn: ({ email, password }) => login(email, password),
 		onSuccess: (data) => {
-			loginUser(data.user);
+			toast.success('Login successful!');
 
-			localStorage.setItem('token', data?.session.access_token);
-			localStorage.setItem('refresh-token', data?.session.refresh_token);
+			if (data.user) loginUser(data.user);
+
+			router.push(PrivatePaths.MAIN);
 		},
-		onError: () => {
-			toast('Login Error!', {
-				description: 'Something went wrong!',
-			});
+		onError: (error) => {
+			toast.error(ERROR_MAP[error.message] ?? 'Login error! Please try again.');
 		},
 	});
 
-	return { mutation };
+	return { register, mutation, router, handleSubmit, watch, errors, onSubmit };
 }
