@@ -1,7 +1,7 @@
 'use client';
 
 import { House, CurrencyBtc, ChartLineUp, Vault, SunDim, Moon } from '@phosphor-icons/react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
 
 import { Card, Button } from '@/shared/ui';
@@ -15,21 +15,23 @@ export function Navigation() {
 
 	const switchTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
 
+	const pathname = usePathname();
+
+	const tabs = [
+		{ path: PrivatePaths.MAIN, icon: <House size={32} /> },
+		{ path: PrivatePaths.CRYPTO, icon: <CurrencyBtc size={32} /> },
+		{ path: PrivatePaths.STOCKS, icon: <ChartLineUp size={32} /> },
+		{ path: PrivatePaths.BANK, icon: <Vault size={32} /> },
+	];
+
 	return (
 		<nav className='flex absolute w-full justify-center items-center'>
 			<Card className='flex fixed bottom-5 flex-row gap-4 p-3'>
-				<Button onClick={() => router.push(PrivatePaths.MAIN)} variant='outline' size='icon'>
-					<House size={32} />
-				</Button>
-				<Button onClick={() => router.push(PrivatePaths.CRYPTO)} variant='outline' size='icon'>
-					<CurrencyBtc size={32} />
-				</Button>
-				<Button onClick={() => router.push(PrivatePaths.STOCKS)} variant='outline' size='icon'>
-					<ChartLineUp size={32} />
-				</Button>
-				<Button onClick={() => router.push(PrivatePaths.BANK)} variant='outline' size='icon'>
-					<Vault size={32} />
-				</Button>
+				{tabs.map((tab) => (
+					<Button key={tab.path} onClick={() => router.push(tab.path)} variant={pathname === tab.path ? 'default' : 'outline'} size='icon'>
+						{tab.icon}
+					</Button>
+				))}
 				<Button onClick={switchTheme} variant='outline' size='icon'>
 					{theme === 'light' ? <Moon size={32} /> : <SunDim size={32} />}
 				</Button>

@@ -8,7 +8,7 @@ import { PublicPaths } from '@/shared/config/public-routes.ts';
 import { useRegister } from '@/features/auth/register/hooks/useRegister.ts';
 
 export function RegisterForm() {
-	const { register, router, handleSubmit, errors, onSubmit } = useRegister();
+	const { register, router, handleSubmit, errors, onSubmit, mutation } = useRegister();
 
 	return (
 		<div className='w-full max-w-md'>
@@ -33,7 +33,7 @@ export function RegisterForm() {
 										},
 									})}
 								/>
-								{errors.password && <FieldDescription className='text-red-500'>{errors.password?.message}</FieldDescription>}
+								{errors.email && <FieldDescription className='text-red-500'>{errors.email?.message}</FieldDescription>}
 							</Field>
 							<Field>
 								<FieldLabel htmlFor='password'>Password</FieldLabel>
@@ -50,7 +50,7 @@ export function RegisterForm() {
 							</Field>
 						</FieldGroup>
 						<Button type='submit' className='cursor-pointer'>
-							Register
+							{mutation.isPending ? 'Registering...' : 'Register'}
 						</Button>
 						<div className='flex items-center justify-center flex-col'>
 							<Button type='button' onClick={() => router.push(PublicPaths.LOGIN)} className='cursor-pointer' variant='link'>

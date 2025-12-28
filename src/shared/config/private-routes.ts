@@ -1,6 +1,6 @@
 export const PrivateRoutes = {
 	HOME: 'home',
-	CRYPTO: 'cryto',
+	CRYPTO: 'crypto',
 	STOCKS: 'stocks',
 	BANK: 'bank',
 	MAIN: 'main',

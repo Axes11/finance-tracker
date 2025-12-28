@@ -8,3 +8,4 @@ export { Separator } from './separator.tsx';
 export { Toaster } from './sonner.tsx';
 export { Switch } from './switch.tsx';
 export { TitleBar } from './title-bar.tsx';
+export { Spinner } from './spinner.tsx';

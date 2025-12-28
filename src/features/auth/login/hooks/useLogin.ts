@@ -5,11 +5,17 @@ import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import type { LoginResponse } from '@/entities/user';
 import { PrivatePaths } from '@/shared/config/private-routes.ts';
+import { AuthError } from '@supabase/supabase-js';
 
 interface Inputs {
 	email: string;
 	password: string;
 }
+
+const ERROR_MAP: Record<string, string> = {
+	'Invalid login credentials': 'Wrong email or password',
+	'Email not confirmed': 'Email not confirmed. Please check your inbox.',
+};
 
 export function useLogin() {
 	const router = useRouter();
@@ -26,19 +32,17 @@ export function useLogin() {
 		mutation.mutate({ email: data.email, password: data.password });
 	};
 
-	const mutation = useMutation<LoginResponse, Error, Inputs>({
+	const mutation = useMutation<LoginResponse, AuthError, Inputs>({
 		mutationFn: ({ email, password }) => login(email, password),
 		onSuccess: (data) => {
 			toast.success('Login successful!');
 
-			loginUser(data.user);
-			router.push(PrivatePaths.MAIN);
+			if (data.user) loginUser(data.user);
 
-			localStorage.setItem('token', data?.session.access_token);
-			localStorage.setItem('refresh-token', data?.session.refresh_token);
+			router.push(PrivatePaths.MAIN);
 		},
-		onError: () => {
-			toast.error('Login Error! Something went wrong during login.');
+		onError: (error) => {
+			toast.error(ERROR_MAP[error.message] ?? 'Login error! Please try again.');
 		},
 	});
 

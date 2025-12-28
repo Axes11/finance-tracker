@@ -3,18 +3,19 @@
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-import { PrivatePaths } from '@/shared/config/private-routes.ts';
-import { useUserStore } from '@/entities/user';
+import { PublicPaths } from '@/shared/config/public-routes.ts';
+import { Spinner } from '@/shared/ui';
 
 export default function WelcomePage() {
 	const router = useRouter();
-	const user = useUserStore();
 
 	useEffect(() => {
-		if (user) {
-			router.push(PrivatePaths.MAIN);
-		}
-	}, [user, router]);
+		router.replace(PublicPaths.LOGIN);
+	}, [router]);
 
-	return;
+	return (
+		<div className='flex min-h-screen justify-center items-center bg-background text-foreground'>
+			<Spinner />
+		</div>
+	);
 }

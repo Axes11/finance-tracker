@@ -4,7 +4,8 @@ import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 
 import { PublicPaths } from '@/shared/config/public-routes.ts';
-import { register as registerUser } from '@/entities/user';
+import { LoginResponse, register as registerUser } from '@/entities/user';
+import { AuthError } from '@supabase/supabase-js';
 
 interface Inputs {
 	email: string;
@@ -24,16 +25,21 @@ export function useRegister() {
 		mutation.mutate({ email: data.email, password: data.password });
 	};
 
-	const mutation = useMutation<void, Error, Inputs>({
+	const mutation = useMutation<LoginResponse, AuthError, Inputs>({
 		mutationFn: ({ email, password }) => registerUser(email, password),
-		onSuccess: () => {
-			toast.success('Registration successful! Please check your email to confirm your account.');
+		onSuccess: (data): void => {
+			if (data.user) {
+				toast.error('This email is already registered. Please log in.');
+				return;
+			} else {
+				toast.success('Registration successful! Please check your email to confirm your account.');
+			}
 			router.push(PublicPaths.LOGIN);
 		},
-		onError: () => {
-			toast.error('Registration Error! Something went wrong during registration.');
+		onError: (error: AuthError) => {
+			toast.error(error.message ?? 'Registration error! Please try again.');
 		},
 	});
 
-	return { register, handleSubmit, watch, errors, onSubmit, router };
+	return { register, handleSubmit, watch, errors, onSubmit, router, mutation };
 }

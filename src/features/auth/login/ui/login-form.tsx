@@ -5,7 +5,7 @@ import { Field, FieldDescription, FieldGroup, FieldLabel, FieldLegend, FieldSet,
 import { PublicPaths } from '@/shared/config/public-routes.ts';
 
 export function LoginForm() {
-	const { register, router, handleSubmit, errors, onSubmit } = useLogin();
+	const { register, router, handleSubmit, errors, onSubmit, mutation } = useLogin();
 
 	return (
 		<div className='w-full max-w-md'>
@@ -29,7 +29,7 @@ export function LoginForm() {
 										},
 									})}
 								/>
-								{errors.password && <FieldDescription className='text-red-500'>{errors.password?.message}</FieldDescription>}
+								{errors.email && <FieldDescription className='text-red-500'>{errors.email?.message}</FieldDescription>}
 							</Field>
 							<Field>
 								<FieldLabel htmlFor='password'>Password</FieldLabel>
@@ -45,7 +45,7 @@ export function LoginForm() {
 							</Field>
 						</FieldGroup>
 						<Button type='submit' className='cursor-pointer'>
-							Log In
+							{mutation.isPending ? 'Log In' : 'Logging In...'}
 						</Button>
 						<div className='flex items-center justify-center flex-col'>
 							<Button type='button' onClick={() => router.push(PublicPaths.FORGOT_PASSWORD)} className='cursor-pointer' variant='link'>
