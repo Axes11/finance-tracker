@@ -1,21 +1,20 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
-import { PublicPaths } from '@/shared/config/public-routes.ts';
-import { Spinner } from '@/shared/ui';
-
-export default function WelcomePage() {
+export default function Page() {
 	const router = useRouter();
 
 	useEffect(() => {
-		router.replace(PublicPaths.LOGIN);
+		const hash = window.location.hash;
+
+		if (hash.includes('type=recovery')) {
+			return;
+		}
+
+		router.replace('/login');
 	}, [router]);
 
-	return (
-		<div className='flex min-h-screen justify-center items-center bg-background text-foreground'>
-			<Spinner />
-		</div>
-	);
+	return null;
 }

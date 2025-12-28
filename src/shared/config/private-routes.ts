@@ -7,9 +7,9 @@ export const PrivateRoutes = {
 };
 
 export const PrivatePaths: Record<keyof typeof PrivateRoutes, string> = {
-	HOME: '/private/home',
-	CRYPTO: '/private/crypto',
-	STOCKS: '/private/stocks',
-	BANK: '/private/bank',
-	MAIN: '/private/main',
+	HOME: '/home',
+	CRYPTO: '/crypto',
+	STOCKS: '/stocks',
+	BANK: '/bank',
+	MAIN: '/main',
 };

@@ -26,19 +26,15 @@ export function useRegister() {
 	};
 
 	const mutation = useMutation<LoginResponse, AuthError, Inputs>({
-		mutationFn: ({ email, password }) => registerUser(email, password),
-		onSuccess: (data): void => {
-			if (data.user) {
-				toast.error('This email is already registered. Please log in.');
-				return;
-			} else {
-				toast.success('Registration successful! Please check your email to confirm your account.');
-			}
+		mutationFn: ({ email, password }) => registerUser(email.trim(), password.trim()),
+		onSuccess: (): void => {
+			toast.success('Registration successful!');
 			router.push(PublicPaths.LOGIN);
 		},
 		onError: (error: AuthError) => {
 			toast.error(error.message ?? 'Registration error! Please try again.');
 		},
+		retry: false,
 	});
 
 	return { register, handleSubmit, watch, errors, onSubmit, router, mutation };

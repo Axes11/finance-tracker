@@ -9,3 +9,4 @@ export { Toaster } from './sonner.tsx';
 export { Switch } from './switch.tsx';
 export { TitleBar } from './title-bar.tsx';
 export { Spinner } from './spinner.tsx';
+export { FormWrapper } from './form-wrapper.tsx';
