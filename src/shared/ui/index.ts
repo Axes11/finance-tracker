@@ -10,3 +10,6 @@ export { Switch } from './switch.tsx';
 export { TitleBar } from './title-bar.tsx';
 export { Spinner } from './spinner.tsx';
 export { FormWrapper } from './form-wrapper.tsx';
+export { Badge } from './badge.tsx';
+export { ModalWrapper } from './modal-wrapper.tsx';
+export { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './dialog.tsx';

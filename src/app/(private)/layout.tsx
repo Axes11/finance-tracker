@@ -25,8 +25,8 @@ export default function PrivateLayout({ children }: { children: ReactNode }) {
 		);
 
 	return (
-		<div className='flex min-h-screen justify-center items-center bg-background text-foreground'>
-			<main>{children}</main>
+		<div className='flex min-h-screen bg-background text-foreground'>
+			<main className='w-full p-8'>{children}</main>
 			<Navigation />
 		</div>
 	);

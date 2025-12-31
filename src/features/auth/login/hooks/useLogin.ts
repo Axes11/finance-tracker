@@ -6,6 +6,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import type { LoginResponse } from '@/entities/user';
 import { PrivatePaths } from '@/shared/config/private-routes.ts';
 import { AuthError } from '@supabase/supabase-js';
+import { useAccountStore } from '@/entities/account';
 
 interface Inputs {
 	email: string;
@@ -21,6 +22,7 @@ export function useLogin() {
 	const router = useRouter();
 
 	const { loginUser } = useUserStore();
+	const { loadAccounts } = useAccountStore();
 
 	const {
 		register,
@@ -36,6 +38,7 @@ export function useLogin() {
 		mutationFn: ({ email, password }) => login(email, password),
 		onSuccess: (data) => {
 			toast.success('Login successful!');
+			loadAccounts();
 
 			if (data.user) loginUser(data.user);
 

@@ -1,5 +1,11 @@
 'use client';
 
+import { SummaryBord } from '@/widgets/summary-bord/ui/summary-bord.tsx';
+
 export default function MainPage() {
-	return <div>Welcome to the Main!</div>;
+	return (
+		<div>
+			<SummaryBord />
+		</div>
+	);
 }
