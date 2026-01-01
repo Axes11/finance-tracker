@@ -2,8 +2,8 @@
 
 import { useAccountStore } from '@/entities/account';
 import { Spinner } from '@/shared/ui';
-import { CreateAccount } from '@/features/accounts/create-account';
 import { useEffect } from 'react';
+import { SummaryBord } from '@/widgets';
 
 export default function StocksPage() {
 	const { isLoading, getAccounts, loadAccounts } = useAccountStore();
@@ -22,19 +22,14 @@ export default function StocksPage() {
 		);
 	}
 
-	if (getAccounts('stocks').length === 0) {
-		return <CreateAccount type='stocks' />;
-	}
-
 	return (
 		<div>
-			<h1>Your Stocks Accounts</h1>
-			{getAccounts('stocks').map((account) => (
-				<ul key={account.id}>
-					<li>{account.name}</li>
-					<li>{account.description}</li>
-				</ul>
-			))}
+			<SummaryBord
+				data={getAccounts('stocks')}
+				header='Stocks Accounts Overview'
+				description='Here you can see your balances in all categories, if you want see details switch to another page!'
+				type='stocks'
+			/>
 		</div>
 	);
 }

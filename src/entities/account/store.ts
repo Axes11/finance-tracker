@@ -27,7 +27,7 @@ export const useAccountStore = create<AccountStore>((set, get) => ({
 			toast.error(`Error loading accounts: ${err.message}`);
 		}
 	},
-	getAccounts: (type: AccountType) => {
+	getAccounts: (type?: AccountType) => {
 		return get().accounts.filter((account) => account.type === type) || [];
 	},
 }));

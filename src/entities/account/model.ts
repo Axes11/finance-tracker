@@ -1,7 +1,7 @@
 export type AccountSchema = {
 	id: string;
 	user_id: string;
-	type: string;
+	type: AccountType;
 	name: string;
 	description: string;
 	created_at: string;

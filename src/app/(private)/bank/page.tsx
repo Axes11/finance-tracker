@@ -2,8 +2,8 @@
 
 import { useAccountStore } from '@/entities/account';
 import { Spinner } from '@/shared/ui';
-import { CreateAccount } from '@/features/accounts/create-account';
 import { useEffect } from 'react';
+import { SummaryBord } from '@/widgets';
 
 export default function BankPage() {
 	const { isLoading, getAccounts, loadAccounts } = useAccountStore();
@@ -22,19 +22,14 @@ export default function BankPage() {
 		);
 	}
 
-	if (getAccounts('bank').length === 0) {
-		return <CreateAccount type='bank' />;
-	}
-
 	return (
 		<div>
-			<h1>Your Bank Accounts</h1>
-			{getAccounts('bank').map((account) => (
-				<ul key={account.id}>
-					<li>{account.name}</li>
-					<li>{account.description}</li>
-				</ul>
-			))}
+			<SummaryBord
+				data={getAccounts('bank')}
+				header='Bank Accounts Overview'
+				description='Here you can see your balances in all categories, if you want see details switch to another page!'
+				type='bank'
+			/>
 		</div>
 	);
 }

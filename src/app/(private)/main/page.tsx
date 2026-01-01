@@ -1,11 +1,14 @@
 'use client';
 
-import { SummaryBord } from '@/widgets/summary-bord/ui/summary-bord.tsx';
+import { SummaryBord } from '@/widgets';
+import { useAccountStore } from '@/entities/account';
 
 export default function MainPage() {
+	const { accounts } = useAccountStore();
+
 	return (
 		<div>
-			<SummaryBord />
+			<SummaryBord data={accounts} header='Dashboard Overview' description='Here you can see your balances in all categories, if you want see details switch to another page!' />
 		</div>
 	);
 }

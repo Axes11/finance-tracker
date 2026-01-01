@@ -13,3 +13,8 @@ export const getAccounts = async (): Promise<AccountSchema[]> => {
 
 	return data;
 };
+
+export const deleteAccount = async (id: string): Promise<void> => {
+	const { error } = await supabaseClient.from('accounts').delete().eq('id', id);
+	if (error) throw error;
+};

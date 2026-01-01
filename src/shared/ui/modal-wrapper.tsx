@@ -1,12 +1,6 @@
 import { Button, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../ui';
 import { ReactNode } from 'react';
-
-interface BottomActions {
-	function?: () => void;
-	text: string;
-	type?: 'submit' | 'button';
-	disabled?: boolean;
-}
+import { Colors } from '@/shared/constants';
 
 interface ModalWrapperProps {
 	header: string;
@@ -16,6 +10,14 @@ interface ModalWrapperProps {
 	isOpen: boolean;
 	onClose?: () => void;
 	onSubmit?: () => void;
+}
+
+interface BottomActions {
+	function?: () => void;
+	text: string;
+	type?: 'submit' | 'button';
+	color?: keyof typeof Colors;
+	disabled?: boolean;
 }
 
 export function ModalWrapper({ header, description, children, isOpen, onClose, onSubmit, bottomActions }: ModalWrapperProps) {
@@ -32,17 +34,11 @@ export function ModalWrapper({ header, description, children, isOpen, onClose, o
 						<DialogClose asChild>
 							<Button variant='outline'>Cancel</Button>
 						</DialogClose>
-						{bottomActions?.map((btn, key) =>
-							btn.function ? (
-								<Button className='cursor-pointer' key={key} type={btn.type} onClick={btn.function} disabled={btn.disabled}>
-									{btn.text}
-								</Button>
-							) : (
-								<Button className='cursor-pointer' key={key} type={btn.type} disabled={btn.disabled}>
-									{btn.text}
-								</Button>
-							),
-						)}
+						{bottomActions?.map((btn, key) => (
+							<Button color={btn.color ? Colors[btn.color] : undefined} className='cursor-pointer' key={key} type={btn.type} onClick={btn.function} disabled={btn.disabled}>
+								{btn.text}
+							</Button>
+						))}
 					</DialogFooter>
 				</form>
 			</DialogContent>

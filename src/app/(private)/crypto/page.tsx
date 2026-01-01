@@ -1,9 +1,9 @@
 'use client';
 
-import { CreateAccount } from '@/features/accounts/create-account';
 import { useAccountStore } from '@/entities/account';
 import { Spinner } from '@/shared/ui';
 import { useEffect } from 'react';
+import { SummaryBord } from '@/widgets';
 
 export default function CryptoPage() {
 	const { isLoading, getAccounts, loadAccounts } = useAccountStore();
@@ -22,19 +22,14 @@ export default function CryptoPage() {
 		);
 	}
 
-	if (getAccounts('crypto').length === 0) {
-		return <CreateAccount type='crypto' />;
-	}
-
 	return (
 		<div>
-			<h1>Your Crypto Accounts</h1>
-			{getAccounts('crypto').map((account) => (
-				<ul key={account.id}>
-					<li>{account.name}</li>
-					<li>{account.description}</li>
-				</ul>
-			))}
+			<SummaryBord
+				data={getAccounts('crypto')}
+				header='Crypto Accounts Overview'
+				description='Here you can see your balances in all categories, if you want see details switch to another page!'
+				type='crypto'
+			/>
 		</div>
 	);
 }
