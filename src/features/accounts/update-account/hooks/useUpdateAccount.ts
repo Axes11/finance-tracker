@@ -19,6 +19,7 @@ export const useUpdateAccount = ({ id, onClose }: UpdateAccount) => {
 
 	const {
 		register,
+		reset,
 		handleSubmit,
 		formState: { errors },
 	} = useForm<Inputs>();
@@ -31,6 +32,7 @@ export const useUpdateAccount = ({ id, onClose }: UpdateAccount) => {
 		onSuccess: () => {
 			toast.success('Account updated successfully');
 			loadAccounts();
+			reset();
 			onClose();
 		},
 		onError: (error) => {

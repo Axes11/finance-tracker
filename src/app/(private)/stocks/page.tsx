@@ -1,25 +1,10 @@
 'use client';
 
-import { useEffect } from 'react';
-
 import { useAccountStore } from '@/entities';
-import { Spinner } from '@/shared';
 import { SummaryBord } from '@/widgets';
 
 export default function StocksPage() {
-	const { isLoading, getAccounts, loadAccounts } = useAccountStore();
-
-	useEffect(() => {
-		loadAccounts();
-	}, []);
-
-	if (isLoading) {
-		return (
-			<div>
-				<Spinner />
-			</div>
-		);
-	}
+	const { getAccounts } = useAccountStore();
 
 	return (
 		<div>

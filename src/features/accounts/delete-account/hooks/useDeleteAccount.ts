@@ -19,6 +19,7 @@ export const useDeleteAccount = ({ id, onClose }: UseDeleteAccountProps) => {
 	const {
 		register,
 		handleSubmit,
+		reset,
 		formState: { errors },
 	} = useForm<Inputs>();
 	const onSubmit = () => {
@@ -30,6 +31,7 @@ export const useDeleteAccount = ({ id, onClose }: UseDeleteAccountProps) => {
 		onSuccess: () => {
 			toast.success('Account deleted successfully.');
 			loadAccounts();
+			reset();
 			onClose();
 		},
 		onError: (error: Error) => {

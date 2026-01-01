@@ -10,7 +10,7 @@ interface CreateAccountModalProps {
 }
 
 export default function CreateAccountModal({ type, isOpen, onClose }: CreateAccountModalProps) {
-	const { register, handleSubmit, onSubmit, isPending, errors } = useCreateAccount(type);
+	const { register, handleSubmit, onSubmit, isPending, errors } = useCreateAccount({ type, onClose });
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
