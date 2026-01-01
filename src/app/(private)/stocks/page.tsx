@@ -10,9 +10,7 @@ export default function StocksPage() {
 	const { isLoading, getAccounts, loadAccounts } = useAccountStore();
 
 	useEffect(() => {
-		if (!getAccounts('stocks').length && getAccounts('stocks').length !== 0) {
-			loadAccounts();
-		}
+		loadAccounts();
 	}, []);
 
 	if (isLoading) {

@@ -18,3 +18,8 @@ export const deleteAccount = async (id: string): Promise<void> => {
 	const { error } = await supabaseClient.from('accounts').delete().eq('id', id);
 	if (error) throw error;
 };
+
+export const updateAccount = async (id: string, updates: Partial<{ name: string; description: string }>): Promise<void> => {
+	const { error } = await supabaseClient.from('accounts').update(updates).eq('id', id);
+	if (error) throw error;
+};

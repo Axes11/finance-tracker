@@ -44,5 +44,4 @@ export {
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
-	SummaryCard,
 } from './ui';

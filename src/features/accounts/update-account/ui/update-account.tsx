@@ -1,11 +1,25 @@
-// import { useState } from 'react';
+import { useState } from 'react';
+import { PencilSimple } from '@phosphor-icons/react';
+
 import { Button } from '@/shared/ui';
 
-export function UpdateAccount() {
-	// const [isOpen, setIsOpen] = useState(false);
+import { UpdateAccountModal } from './update-modal.tsx';
+
+interface UpdateAccountProps {
+	id: string;
+	title: string;
+	description: string;
+}
+
+export function UpdateAccount({ id, title, description }: UpdateAccountProps) {
+	const [isOpen, setIsOpen] = useState(false);
+
 	return (
 		<div>
-			<Button></Button>
+			<UpdateAccountModal id={id} title={title} description={description} isOpen={isOpen} onClose={() => setIsOpen(false)} />
+			<Button onClick={() => setIsOpen(true)} variant='ghost' className='text-gray-400 hover:text-blue-500 transition-colors'>
+				<PencilSimple size={32} />
+			</Button>
 		</div>
 	);
 }

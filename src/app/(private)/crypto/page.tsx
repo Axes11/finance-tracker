@@ -10,9 +10,7 @@ export default function CryptoPage() {
 	const { isLoading, getAccounts, loadAccounts } = useAccountStore();
 
 	useEffect(() => {
-		if (!getAccounts('crypto').length && getAccounts('crypto').length !== 0) {
-			loadAccounts();
-		}
+		loadAccounts();
 	}, []);
 
 	if (isLoading) {

@@ -10,9 +10,7 @@ export default function BankPage() {
 	const { isLoading, getAccounts, loadAccounts } = useAccountStore();
 
 	useEffect(() => {
-		if (!getAccounts('bank').length && getAccounts('bank').length !== 0) {
-			loadAccounts();
-		}
+		loadAccounts();
 	}, []);
 
 	if (isLoading) {
