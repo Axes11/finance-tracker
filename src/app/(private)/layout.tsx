@@ -5,8 +5,7 @@ import { ReactNode, useEffect } from 'react';
 
 import { useUserStore } from '@/entities';
 import { Navigation } from '@/widgets';
-import { PublicPaths } from '@/shared/config';
-import { Spinner } from '@/shared/ui';
+import { PublicPaths, Spinner } from '@/shared';
 
 export default function PrivateLayout({ children }: { children: ReactNode }) {
 	const { user, isAuthLoading } = useUserStore();

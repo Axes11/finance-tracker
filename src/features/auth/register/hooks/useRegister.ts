@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import { AuthError } from '@supabase/supabase-js';
 
-import { PublicPaths } from '@/shared/config/public-routes.ts';
+import { PublicPaths } from '@/shared';
 import { LoginResponse, register as registerUser } from '@/entities';
 
 interface Inputs {

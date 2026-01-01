@@ -1,4 +1,4 @@
-import { Field, FieldDescription, FieldLabel, Input, ModalWrapper } from '@/shared/ui';
+import { Field, FieldDescription, FieldLabel, Input, ModalWrapper } from '@/shared';
 
 import { useDeleteAccount } from '../hooks/useDeleteAccount.ts';
 

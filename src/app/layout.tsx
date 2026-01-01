@@ -6,11 +6,8 @@ import { ReactNode, useEffect } from 'react';
 import { ThemeProvider } from 'next-themes';
 import { AuthChangeEvent, Session } from '@supabase/supabase-js';
 
-import { TitleBar, Toaster } from '@/shared/ui';
-import { fontSans } from '@/shared/lib';
-import { QueryProvider } from '@/shared/providers';
+import { fontSans, supabaseClient, TitleBar, Toaster, QueryProvider } from '@/shared';
 import { useUserStore } from '@/entities';
-import { supabaseClient } from '@/shared/lib';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
 	const { loginUser, logoutUser, setAuthLoading } = useUserStore();

@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 
 import { useAccountStore } from '@/entities';
-import { Spinner } from '@/shared/ui';
+import { Spinner } from '@/shared';
 import { SummaryBord } from '@/widgets';
 
 export default function BankPage() {

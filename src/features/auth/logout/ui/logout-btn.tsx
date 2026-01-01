@@ -2,7 +2,7 @@
 
 import { SignOut } from '@phosphor-icons/react';
 
-import { Button } from '@/shared/ui';
+import { Button } from '@/shared';
 import { useLogout } from '../hooks/useLogout.ts';
 
 export function LogoutBtn() {

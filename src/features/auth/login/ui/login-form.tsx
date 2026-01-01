@@ -1,7 +1,6 @@
 'use client';
 
-import { PublicPaths } from '@/shared/config';
-import { FormWrapper, Field, FieldDescription, FieldLabel, Input } from '@/shared/ui';
+import { FormWrapper, Field, FieldDescription, FieldLabel, Input, PublicPaths } from '@/shared';
 
 import { useLogin } from '../hooks/useLogin.ts';
 

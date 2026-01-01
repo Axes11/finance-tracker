@@ -1,5 +1,5 @@
-import { supabaseClient } from '@/shared/lib';
-import { AccountSchema, AccountType } from '@/entities/account/model.ts';
+import { supabaseClient } from '@/shared';
+import { AccountSchema, AccountType } from '@/entities';
 
 export const createAccount = async (type: AccountType, name: string, description: string): Promise<void> => {
 	const { error } = await supabaseClient.from('accounts').insert([{ type, name, description }]);

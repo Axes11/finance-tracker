@@ -1,7 +1,7 @@
 import { PlusCircle } from '@phosphor-icons/react';
 import { useState } from 'react';
 
-import { Button, Card } from '@/shared/ui';
+import { Button, Card } from '@/shared';
 import { AccountType } from '@/entities';
 import CreateAccountModal from '../ui/create-modal.tsx';
 

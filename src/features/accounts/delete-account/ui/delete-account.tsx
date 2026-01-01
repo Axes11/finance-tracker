@@ -1,7 +1,7 @@
 import { Trash } from '@phosphor-icons/react';
 import { useState } from 'react';
 
-import { Button } from '@/shared/ui';
+import { Button } from '@/shared';
 
 import DeleteAccountModal from '../ui/delete-modal.tsx';
 

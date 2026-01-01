@@ -5,8 +5,7 @@ import { useEffect } from 'react';
 
 import { LoginForm } from '@/features';
 import { useUserStore } from '@/entities';
-import { PrivatePaths } from '@/shared/config';
-import { Spinner } from '@/shared/ui';
+import { PrivatePaths, Spinner } from '@/shared';
 
 export default function LoginPage() {
 	const router = useRouter();

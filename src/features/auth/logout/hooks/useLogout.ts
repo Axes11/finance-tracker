@@ -1,5 +1,5 @@
 import { useUserStore } from '@/entities';
-import { supabaseClient } from '@/shared/lib';
+import { supabaseClient } from '@/shared';
 
 export function useLogout() {
 	const user = useUserStore();

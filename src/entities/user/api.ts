@@ -1,5 +1,4 @@
-import { supabaseClient } from '@/shared/lib';
-import { PublicPaths } from '@/shared/config';
+import { supabaseClient, PublicPaths } from '@/shared';
 
 import { LoginResponse } from './model.ts';
 

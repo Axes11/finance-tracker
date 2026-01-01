@@ -5,7 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { AuthError } from '@supabase/supabase-js';
 
 import { useUserStore, login, useAccountStore, LoginResponse } from '@/entities';
-import { PrivatePaths } from '@/shared/config/private-routes.ts';
+import { PrivatePaths } from '@/shared';
 
 interface Inputs {
 	email: string;

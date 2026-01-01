@@ -1,7 +1,6 @@
 'use client';
 
-import { Card, Field, FieldDescription, FieldLabel, FormWrapper, Input } from '@/shared/ui';
-import { PublicPaths } from '@/shared/config';
+import { Card, Field, FieldDescription, FieldLabel, FormWrapper, Input, PublicPaths } from '@/shared';
 
 import { useForgotPassword } from '../hooks/useForgotPassword.ts';
 
