@@ -7,10 +7,10 @@ import { ThemeProvider } from 'next-themes';
 import { AuthChangeEvent, Session } from '@supabase/supabase-js';
 
 import { TitleBar, Toaster } from '@/shared/ui';
-import { fontSans } from '@/shared/lib/font';
+import { fontSans } from '@/shared/lib';
 import { QueryProvider } from '@/shared/providers';
-import { useUserStore } from '@/entities/user';
-import supabaseClient from '@/shared/lib/supabaseClient.ts';
+import { useUserStore } from '@/entities';
+import { supabaseClient } from '@/shared/lib';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
 	const { loginUser, logoutUser, setAuthLoading } = useUserStore();

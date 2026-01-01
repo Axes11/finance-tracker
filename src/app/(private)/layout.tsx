@@ -1,10 +1,11 @@
 'use client';
 
-import { useUserStore } from '@/entities/user';
-import { ReactNode, useEffect } from 'react';
-import { Navigation } from '@/widgets';
 import { useRouter } from 'next/navigation';
-import { PublicPaths } from '@/shared/config/public-routes.ts';
+import { ReactNode, useEffect } from 'react';
+
+import { useUserStore } from '@/entities';
+import { Navigation } from '@/widgets';
+import { PublicPaths } from '@/shared/config';
 import { Spinner } from '@/shared/ui';
 
 export default function PrivateLayout({ children }: { children: ReactNode }) {

@@ -1,7 +1,7 @@
 'use client';
 
 import { SummaryBord } from '@/widgets';
-import { useAccountStore } from '@/entities/account';
+import { useAccountStore } from '@/entities';
 
 export default function MainPage() {
 	const { accounts } = useAccountStore();

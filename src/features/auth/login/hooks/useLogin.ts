@@ -1,12 +1,11 @@
-import { useUserStore, login } from '@/entities/user';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import type { LoginResponse } from '@/entities/user';
-import { PrivatePaths } from '@/shared/config/private-routes.ts';
 import { AuthError } from '@supabase/supabase-js';
-import { useAccountStore } from '@/entities/account';
+
+import { useUserStore, login, useAccountStore, LoginResponse } from '@/entities';
+import { PrivatePaths } from '@/shared/config/private-routes.ts';
 
 interface Inputs {
 	email: string;

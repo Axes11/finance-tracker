@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
-import { deleteAccount } from '@/entities/account/api.ts';
 import { toast } from 'sonner';
-import { useAccountStore } from '@/entities/account';
 import { useForm } from 'react-hook-form';
+
+import { deleteAccount, useAccountStore } from '@/entities';
 
 interface UseDeleteAccountProps {
 	id: string;

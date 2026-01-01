@@ -1,1 +1,1 @@
-export { Colors } from './colors.ts';
+export { Colors, Color, type Colors as ColorType } from './colors';

@@ -1,7 +1,7 @@
-import { AccountError, AccountSchema, AccountType } from '@/entities/account';
 import { create } from 'zustand';
-import { getAccounts } from '@/entities/account/api.ts';
 import { toast } from 'sonner';
+
+import { AccountError, AccountSchema, AccountType, getAccounts } from '@/entities';
 
 type AccountStore = {
 	accounts: AccountSchema[];

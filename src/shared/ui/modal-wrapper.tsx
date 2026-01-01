@@ -1,6 +1,5 @@
-import { Button, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../ui';
+import { Button, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, Colors } from '@/shared';
 import { ReactNode } from 'react';
-import { Colors } from '@/shared/constants';
 
 interface ModalWrapperProps {
 	header: string;

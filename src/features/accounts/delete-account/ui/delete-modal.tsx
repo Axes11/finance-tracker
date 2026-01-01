@@ -1,5 +1,6 @@
 import { Field, FieldDescription, FieldLabel, Input, ModalWrapper } from '@/shared/ui';
-import { useDeleteAccount } from '@/features/accounts/delete-account/hooks/useDeleteAccount.ts';
+
+import { useDeleteAccount } from '../hooks/useDeleteAccount.ts';
 
 interface CreateAccountModalProps {
 	id: string;

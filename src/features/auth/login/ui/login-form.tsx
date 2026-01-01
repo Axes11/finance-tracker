@@ -1,9 +1,9 @@
 'use client';
 
-import { useLogin } from '@/features/auth/login';
-import { Field, FieldDescription, FieldLabel, Input } from '@/shared/ui';
-import { PublicPaths } from '@/shared/config/public-routes.ts';
-import { FormWrapper } from '@/shared/ui';
+import { PublicPaths } from '@/shared/config';
+import { FormWrapper, Field, FieldDescription, FieldLabel, Input } from '@/shared/ui';
+
+import { useLogin } from '../hooks/useLogin.ts';
 
 export function LoginForm() {
 	const { register, router, handleSubmit, errors, onSubmit, mutation } = useLogin();

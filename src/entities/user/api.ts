@@ -1,6 +1,7 @@
-import { supabaseClient } from '../../shared/lib';
+import { supabaseClient } from '@/shared/lib';
+import { PublicPaths } from '@/shared/config';
+
 import { LoginResponse } from './model.ts';
-import { PublicPaths } from '@/shared/config/public-routes.ts';
 
 export const login = async (email: string, password: string): Promise<LoginResponse> => {
 	const { data, error } = await supabaseClient.auth.signInWithPassword({

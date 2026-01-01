@@ -1,10 +1,11 @@
 'use client';
 
-import { LoginForm } from '@/features/auth/login';
-import { useUserStore } from '@/entities/user';
-import { useEffect } from 'react';
-import { PrivatePaths } from '@/shared/config/private-routes.ts';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
+import { LoginForm } from '@/features';
+import { useUserStore } from '@/entities';
+import { PrivatePaths } from '@/shared/config';
 import { Spinner } from '@/shared/ui';
 
 export default function LoginPage() {

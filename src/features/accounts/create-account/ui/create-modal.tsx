@@ -1,6 +1,7 @@
 import { Field, FieldDescription, FieldLabel, Input, ModalWrapper } from '@/shared/ui';
+import { AccountType } from '@/entities';
+
 import { useCreateAccount } from '../hooks/useCreateAccount.ts';
-import { AccountType } from '@/entities/account';
 
 interface CreateAccountModalProps {
 	type: AccountType;

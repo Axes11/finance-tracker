@@ -1,2 +1,2 @@
-export { Navigation } from './navigation/ui/navigation.tsx';
-export { SummaryBord } from './summary-bord/ui/summary-bord.tsx';
+export { Navigation } from '@/widgets/navigation/ui/navigation.tsx';
+export { SummaryBord } from '@/widgets/summary-bord/ui/summary-bord.tsx';

@@ -1,9 +1,8 @@
-import { useMutation } from '@tanstack/react-query';
-import { createAccount } from '@/entities/account/api.ts';
-import { toast } from 'sonner';
-import { Account, AccountType } from '@/entities/account';
-import { useAccountStore } from '@/entities/account';
 import { useForm } from 'react-hook-form';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'sonner';
+
+import { useAccountStore, createAccount, Account, AccountType } from '@/entities';
 
 interface Inputs {
 	title: string;

@@ -1,6 +1,6 @@
 import { X, ArrowsOutSimple, Minus } from '@phosphor-icons/react';
 import { getCurrentWindow } from '@tauri-apps/api/window';
-import { Color } from '@/shared/constants/colors.ts';
+import { Color } from '@/shared/constants';
 
 export function TitleBar() {
 	return (

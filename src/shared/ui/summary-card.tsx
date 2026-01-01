@@ -1,9 +1,7 @@
 import { ChartLineUp, CurrencyBtc, CurrencyCircleDollar, Vault } from '@phosphor-icons/react';
 
-import { Badge, Card } from '@/shared/ui';
-import { formatCurrency } from '@/shared/lib';
-import { formatPriceDifference } from '@/shared/lib/format/price-difference.tsx';
-import { DeleteAccount } from '@/features/accounts/delete-account/ui/delete-account.tsx';
+import { Badge, Card, formatCurrency, formatPriceDifference } from '@/shared';
+import { DeleteAccount } from '@/features';
 
 interface Card {
 	id: string;

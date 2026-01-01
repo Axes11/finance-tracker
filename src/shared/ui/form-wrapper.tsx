@@ -1,6 +1,4 @@
-import { FieldDescription, FieldGroup, FieldLegend, FieldSet } from '@/shared/ui/field.tsx';
-import { Button } from '@/shared/ui/button.tsx';
-import { Card } from '@/shared/ui/card.tsx';
+import { FieldDescription, FieldGroup, FieldLegend, FieldSet, Button, Card } from '@/shared';
 import { ReactNode } from 'react';
 
 interface BodyActions {

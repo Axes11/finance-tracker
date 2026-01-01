@@ -1,7 +1,6 @@
-import { Card } from '@/shared/ui';
-import { SummaryCard } from '@/shared/ui';
-import { AccountSchema, AccountType } from '@/entities/account';
-import { CreateAccount } from '@/features/accounts/create-account';
+import { Card, SummaryCard } from '@/shared';
+import { AccountSchema, AccountType } from '@/entities';
+import { CreateAccount } from '@/features';
 
 interface SummaryCardProps {
 	data: AccountSchema[];

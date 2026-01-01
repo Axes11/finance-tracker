@@ -1,8 +1,9 @@
 'use client';
 
-import { useAccountStore } from '@/entities/account';
-import { Spinner } from '@/shared/ui';
 import { useEffect } from 'react';
+
+import { useAccountStore } from '@/entities';
+import { Spinner } from '@/shared/ui';
 import { SummaryBord } from '@/widgets';
 
 export default function BankPage() {
