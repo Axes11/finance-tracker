@@ -3,17 +3,20 @@
 import { useRouter } from 'next/navigation';
 import { ReactNode, useEffect } from 'react';
 
-import { useAccountStore, useUserStore } from '@/entities';
+import { useAccountStore, useTransactionsStore, useUserStore } from '@/entities';
 import { Navigation } from '@/widgets';
 import { PublicPaths, Spinner } from '@/shared';
 
 export default function PrivateLayout({ children }: { children: ReactNode }) {
+	const router = useRouter();
+
 	const { user, isAuthLoading } = useUserStore();
 	const { loadAccounts } = useAccountStore();
-	const router = useRouter();
+	const { loadTransactions } = useTransactionsStore();
 
 	useEffect(() => {
 		loadAccounts();
+		loadTransactions();
 	}, []);
 
 	useEffect(() => {

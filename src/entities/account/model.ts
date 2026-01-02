@@ -14,8 +14,3 @@ export type Account = {
 	name: string;
 	description: string;
 };
-
-export type AccountError = {
-	message: string;
-	status: number;
-};

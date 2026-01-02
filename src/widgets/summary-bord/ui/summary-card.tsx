@@ -25,10 +25,11 @@ export function SummaryCard({ id, badge, title, change, description, amount }: C
 			<div className='flex justify-between items-center w-full'>
 				<div className='flex flex-row gap-3 items-start'>
 					<div>
-						<span className='text-base font-bold text-muted-foreground'>{title}</span>
+						<span className='text-base font-bold text-muted-foreground'>
+							{title} <Badge>{ICONS_MAP[badge]}</Badge>
+						</span>
 						<div className='text-xs text-muted-foreground mt-0'>{description}</div>
 					</div>
-					<Badge>{ICONS_MAP[badge]}</Badge>
 				</div>
 				<UpdateAccount id={id} title={title} description={description} />
 			</div>

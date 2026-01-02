@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, Colors } from '@/shared';
+import { Button, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, Colors, ScrollArea } from '@/shared';
 import { ReactNode } from 'react';
 
 interface ModalWrapperProps {
@@ -8,6 +8,7 @@ interface ModalWrapperProps {
 	bottomActions?: BottomActions[];
 	isOpen: boolean;
 	onClose?: () => void;
+	scrollable?: boolean;
 	onSubmit?: () => void;
 }
 
@@ -19,10 +20,10 @@ interface BottomActions {
 	disabled?: boolean;
 }
 
-export function ModalWrapper({ header, description, children, isOpen, onClose, onSubmit, bottomActions }: ModalWrapperProps) {
-	return (
+export function ModalWrapper({ header, description, children, isOpen, onClose, scrollable, onSubmit, bottomActions }: ModalWrapperProps) {
+	const content = (
 		<Dialog open={isOpen} onOpenChange={(open) => !open && onClose?.()}>
-			<DialogContent className='sm:max-w-[425px]'>
+			<DialogContent className='sm:max-w-[500px]'>
 				<form className='flex flex-col gap-3' action={onSubmit}>
 					<DialogHeader>
 						<DialogTitle>{header}</DialogTitle>
@@ -43,4 +44,6 @@ export function ModalWrapper({ header, description, children, isOpen, onClose, o
 			</DialogContent>
 		</Dialog>
 	);
+
+	return scrollable ? <ScrollArea className='h-72 w-48 rounded-md border'>{content}</ScrollArea> : content;
 }

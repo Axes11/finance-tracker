@@ -1,10 +1,11 @@
 'use client';
 
-import { useAccountStore } from '@/entities';
-import { SummaryBord } from '@/widgets';
+import { useAccountStore, useTransactionsStore } from '@/entities';
+import { SummaryBord, TransactionsTable } from '@/widgets';
 
 export default function CryptoPage() {
 	const { getAccounts } = useAccountStore();
+	const { getTransactions } = useTransactionsStore();
 
 	return (
 		<div>
@@ -14,6 +15,7 @@ export default function CryptoPage() {
 				description='Here you can see your balances in all categories, if you want see details switch to another page!'
 				type='crypto'
 			/>
+			<TransactionsTable data={getTransactions('crypto')} />
 		</div>
 	);
 }

@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import { toast } from 'sonner';
 
-import { AccountError, AccountSchema, AccountType, getAccounts } from '@/entities';
+import { AccountSchema, AccountType, getAccounts } from '@/entities';
+import { Error } from '@/shared';
 
 type AccountStore = {
 	accounts: AccountSchema[];
@@ -22,7 +23,7 @@ export const useAccountStore = create<AccountStore>((set, get) => ({
 			const res = await getAccounts();
 			set({ accounts: res, isLoading: false });
 		} catch (error) {
-			const err = error as AccountError;
+			const err = error as Error;
 			set({ isLoading: false });
 			toast.error(`Error loading accounts: ${err.message}`);
 		}

@@ -6,3 +6,5 @@ export { ForgotPasswordForm } from '@/features/auth/forgot-password/ui/forgot-pa
 export { LoginForm } from '@/features/auth/login/ui/login-form.tsx';
 export { LogoutBtn } from '@/features/auth/logout/ui/logout-btn.tsx';
 export { RegisterForm } from '@/features/auth/register/ui/register-form.tsx';
+
+export { CreateTransaction } from '@/features/transactions/create-transaction/ui/create-transaction.tsx';

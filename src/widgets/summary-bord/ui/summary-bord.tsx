@@ -1,6 +1,6 @@
 import { Card } from '@/shared';
 import { AccountSchema, AccountType, useAccountStore } from '@/entities';
-import { CreateAccount } from '@/features';
+import { CreateAccount, CreateTransaction } from '@/features';
 
 import { SummaryCard } from '../ui/summary-card.tsx';
 import { SummaryCardSkeleton } from '@/widgets/summary-bord/ui/summary-card-skeleton.tsx';
@@ -33,6 +33,7 @@ export function SummaryBord({ data, header, description, type }: SummaryCardProp
 					: data.map((item: AccountSchema, index: number) => <SummaryCard id={item.id} key={index} title={item.name} description={item.description} amount={2000} badge={item.type} change={2000} />)}
 				{type && <CreateAccount type={type} />}
 			</div>
+			<div>{type && !isLoading && data.length !== 0 && <CreateTransaction type={type} />}</div>
 		</Card>
 	);
 }

@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { AuthError } from '@supabase/supabase-js';
 
-import { useUserStore, login, useAccountStore, LoginResponse } from '@/entities';
+import { useUserStore, login, useAccountStore, LoginResponse, useTransactionsStore } from '@/entities';
 import { PrivatePaths } from '@/shared';
 
 interface Inputs {
@@ -22,6 +22,7 @@ export function useLogin() {
 
 	const { loginUser } = useUserStore();
 	const { loadAccounts } = useAccountStore();
+	const { loadTransactions } = useTransactionsStore();
 
 	const {
 		register,
@@ -38,6 +39,7 @@ export function useLogin() {
 		onSuccess: (data) => {
 			toast.success('Login successful!');
 			loadAccounts();
+			loadTransactions();
 
 			if (data.user) loginUser(data.user);
 
