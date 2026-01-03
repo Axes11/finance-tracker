@@ -1,0 +1,25 @@
+import { supabaseClient } from '@/shared';
+import { AccountSchema, AccountType } from '@/entities';
+
+export const createAccount = async (type: AccountType, name: string, description: string): Promise<void> => {
+	const { error } = await supabaseClient.from('accounts').insert([{ type, name, description }]);
+	if (error) throw error;
+};
+
+export const getAccounts = async (): Promise<AccountSchema[]> => {
+	const { data, error } = await supabaseClient.from('accounts').select('*');
+
+	if (error) throw error;
+
+	return data;
+};
+
+export const deleteAccount = async (id: string): Promise<void> => {
+	const { error } = await supabaseClient.from('accounts').delete().eq('id', id);
+	if (error) throw error;
+};
+
+export const updateAccount = async (id: string, updates: Partial<{ name: string; description: string }>): Promise<void> => {
+	const { error } = await supabaseClient.from('accounts').update(updates).eq('id', id);
+	if (error) throw error;
+};

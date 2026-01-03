@@ -4,9 +4,8 @@ import { House, CurrencyBtc, ChartLineUp, Vault, SunDim, Moon } from '@phosphor-
 import { usePathname, useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
 
-import { Card, Button } from '@/shared/ui';
-import { PrivatePaths } from '@/shared/config/private-routes.ts';
-import LogoutBtn from '@/features/auth/logout/ui/logout-btn.tsx';
+import { Card, Button, PrivatePaths } from '@/shared';
+import { LogoutBtn } from '@/features';
 
 export function Navigation() {
 	const router = useRouter();

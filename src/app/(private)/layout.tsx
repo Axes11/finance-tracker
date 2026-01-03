@@ -1,15 +1,23 @@
 'use client';
 
-import { useUserStore } from '@/entities/user';
-import { ReactNode, useEffect } from 'react';
-import { Navigation } from '@/widgets';
 import { useRouter } from 'next/navigation';
-import { PublicPaths } from '@/shared/config/public-routes.ts';
-import { Spinner } from '@/shared/ui';
+import { ReactNode, useEffect } from 'react';
+
+import { useAccountStore, useTransactionsStore, useUserStore } from '@/entities';
+import { Navigation } from '@/widgets';
+import { PublicPaths, Spinner } from '@/shared';
 
 export default function PrivateLayout({ children }: { children: ReactNode }) {
-	const { user, isAuthLoading } = useUserStore();
 	const router = useRouter();
+
+	const { user, isAuthLoading } = useUserStore();
+	const { loadAccounts } = useAccountStore();
+	const { loadTransactions } = useTransactionsStore();
+
+	useEffect(() => {
+		loadAccounts();
+		loadTransactions();
+	}, []);
 
 	useEffect(() => {
 		if (!isAuthLoading && !user) {
@@ -25,8 +33,8 @@ export default function PrivateLayout({ children }: { children: ReactNode }) {
 		);
 
 	return (
-		<div className='flex min-h-screen justify-center items-center bg-background text-foreground'>
-			<main>{children}</main>
+		<div className='flex min-h-screen bg-background text-foreground'>
+			<main className='w-full p-8'>{children}</main>
 			<Navigation />
 		</div>
 	);

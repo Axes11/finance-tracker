@@ -2,10 +2,10 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
-
-import { PublicPaths } from '@/shared/config/public-routes.ts';
-import { LoginResponse, register as registerUser } from '@/entities/user';
 import { AuthError } from '@supabase/supabase-js';
+
+import { PublicPaths } from '@/shared';
+import { LoginResponse, register as registerUser } from '@/entities';
 
 interface Inputs {
 	email: string;

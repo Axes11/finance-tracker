@@ -1,6 +1,6 @@
 'use client';
 
-import { RegisterForm } from '@/features/auth/register';
+import { RegisterForm } from '@/features';
 
 export default function RegisterPage() {
 	return (

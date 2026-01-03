@@ -1,10 +1,11 @@
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
-import { sendChangePasswordEmail, updatePassword } from '@/entities/user/api.ts';
 import { toast } from 'sonner';
 import { AuthError } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+
+import { sendChangePasswordEmail, updatePassword } from '@/entities';
 
 interface Inputs {
 	email: string;

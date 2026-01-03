@@ -1,8 +1,8 @@
 'use client';
 
-import { Card, Field, FieldDescription, FieldLabel, FormWrapper, Input } from '@/shared/ui';
-import { useForgotPassword } from '@/features/auth/forgot-password';
-import { PublicPaths } from '@/shared/config/public-routes.ts';
+import { Card, Field, FieldDescription, FieldLabel, FormWrapper, Input, PublicPaths } from '@/shared';
+
+import { useForgotPassword } from '../hooks/useForgotPassword.ts';
 
 export function ForgotPasswordForm() {
 	const { step, sendCode, changePassword, handleSubmit, register, errors, router, mutationSendCode, mutationChangePassword, resendAfter } = useForgotPassword();

@@ -1,11 +1,11 @@
-import { useUserStore, login } from '@/entities/user';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import type { LoginResponse } from '@/entities/user';
-import { PrivatePaths } from '@/shared/config/private-routes.ts';
 import { AuthError } from '@supabase/supabase-js';
+
+import { useUserStore, login, useAccountStore, LoginResponse, useTransactionsStore } from '@/entities';
+import { PrivatePaths } from '@/shared';
 
 interface Inputs {
 	email: string;
@@ -21,6 +21,8 @@ export function useLogin() {
 	const router = useRouter();
 
 	const { loginUser } = useUserStore();
+	const { loadAccounts } = useAccountStore();
+	const { loadTransactions } = useTransactionsStore();
 
 	const {
 		register,
@@ -36,6 +38,8 @@ export function useLogin() {
 		mutationFn: ({ email, password }) => login(email, password),
 		onSuccess: (data) => {
 			toast.success('Login successful!');
+			loadAccounts();
+			loadTransactions();
 
 			if (data.user) loginUser(data.user);
 
