@@ -1,7 +1,7 @@
 import { supabaseClient } from '@/shared';
 import { AccountType, TransactionShema } from '@/entities';
 
-export const createTransaction = async (account_id: string, amount: number, description: string, currency: string, category: string, type: AccountType, date: Date): Promise<void> => {
+export const createTransaction = async (account_id: string, amount: number, description: string, currency: string, category: string, type: AccountType, date: string): Promise<void> => {
 	const { error } = await supabaseClient.from('transactions').insert([{ account_id, amount, description, currency, category, type, date }]);
 
 	if (error) throw error;
@@ -21,8 +21,8 @@ export const deleteTransaction = async (id: string): Promise<void> => {
 	if (error) throw error;
 };
 
-export const updateTransaction = async (id: string, amount: number, description: string): Promise<void> => {
-	const { error } = await supabaseClient.from('transactions').update({ amount, description }).eq('id', id);
+export const updateTransaction = async (id: string, amount: number, description: string, currency: string, category: string, date: string): Promise<void> => {
+	const { error } = await supabaseClient.from('transactions').update({ amount, description, currency, category, date }).eq('id', id);
 
 	if (error) throw error;
 };

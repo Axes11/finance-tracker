@@ -22,3 +22,4 @@ export { ScrollArea } from './scroll-area.tsx';
 export { Popover, PopoverContent, PopoverTrigger } from './popover.tsx';
 export { Calendar } from './calendar.tsx';
 export { DatePicker } from './date-picker.tsx';
+export { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './carousel.tsx';

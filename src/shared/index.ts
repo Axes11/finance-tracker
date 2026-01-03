@@ -6,7 +6,7 @@ export { PublicRoutes, PublicPaths } from '@/shared/config';
 export { Colors, Color, type Colors as ColorType, CurrencyCrypto, CurrencyMoney, CurrencyStocks } from '@/shared/constants';
 
 // Lib exports
-export { fontSans, supabaseClient, cn, formatCurrency, formatPriceDifference } from '@/shared/lib';
+export { fontSans, supabaseClient, cn, formatCurrency, formatPriceDifference, toDateOnly } from '@/shared/lib';
 
 // Providers exports
 export { QueryProvider, ThemeProvider } from '@/shared/providers';
@@ -68,6 +68,11 @@ export {
 	PopoverTrigger,
 	Calendar,
 	DatePicker,
+	Carousel,
+	CarouselContent,
+	CarouselItem,
+	CarouselNext,
+	CarouselPrevious,
 } from '@/shared/ui';
 
 export type { Error } from '@/shared/types';

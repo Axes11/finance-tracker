@@ -28,7 +28,7 @@ const defineCurrencyOptions = (type: AccountType): CurrencyOption[] => {
 	}));
 };
 
-export default function CreateTransactionModal({ type, isOpen, onClose }: CreateAccountModalProps) {
+export function CreateTransactionModal({ type, isOpen, onClose }: CreateAccountModalProps) {
 	const { register, control, handleSubmit, onSubmit, isPending, errors, getAccounts } = useCreateTransaction({ type, onClose });
 
 	const accountOptions = getAccounts(type).map((acc) => ({

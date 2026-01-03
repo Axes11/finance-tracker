@@ -1,9 +1,9 @@
-import { Card } from '@/shared';
+import { Card, Carousel, CarouselContent, CarouselItem } from '@/shared';
 import { AccountSchema, AccountType, useAccountStore } from '@/entities';
 import { CreateAccount, CreateTransaction } from '@/features';
 
 import { SummaryCard } from '../ui/summary-card.tsx';
-import { SummaryCardSkeleton } from '@/widgets/summary-bord/ui/summary-card-skeleton.tsx';
+import { SummaryCardSkeleton } from '../ui/summary-card-skeleton.tsx';
 
 interface SummaryCardProps {
 	data: AccountSchema[];
@@ -26,13 +26,34 @@ export function SummaryBord({ data, header, description, type }: SummaryCardProp
 					<span className='text-sm text-muted-foreground'>No accounts found.</span>
 				</Card>
 			)}
-			<div className='grid grid-cols-4 gap-2 auto-rows-fr'>
-				{isLoading && Array.from({ length: type ? 3 : 4 }).map((_, index) => <SummaryCardSkeleton key={index} />)}
-				{type
-					? data?.map((item: AccountSchema, index: number) => <SummaryCard id={item.id} key={index} title={item.name} description={item.description} amount={2000} badge={type} change={2000} />)
-					: data.map((item: AccountSchema, index: number) => <SummaryCard id={item.id} key={index} title={item.name} description={item.description} amount={2000} badge={item.type} change={2000} />)}
-				{type && <CreateAccount type={type} />}
-			</div>
+			{isLoading && (
+				<div className='grid grid-cols-4 gap-2 auto-rows-fr'>
+					{Array.from({ length: type ? 3 : 4 }).map((_, i) => (
+						<SummaryCardSkeleton key={i} />
+					))}
+				</div>
+			)}
+			<Carousel className='w-full'>
+				<CarouselContent>
+					{Array.from({ length: Math.ceil(data.length / 4) }).map((_, slideIndex) => {
+						const start = slideIndex * 4;
+						const end = start + 4;
+						const chunk = data.slice(start, end);
+
+						return (
+							<CarouselItem key={slideIndex}>
+								<div className='grid grid-cols-4 gap-2 auto-rows-fr'>
+									{chunk.map((item: AccountSchema) => (
+										<SummaryCard key={item.id} id={item.id} title={item.name} description={item.description} amount={2000} badge={type ?? item.type} change={2000} />
+									))}
+
+									{type && slideIndex === Math.ceil(data.length / 4) - 1 && <CreateAccount type={type} />}
+								</div>
+							</CarouselItem>
+						);
+					})}
+				</CarouselContent>
+			</Carousel>
 			<div>{type && !isLoading && data.length !== 0 && <CreateTransaction type={type} />}</div>
 		</Card>
 	);

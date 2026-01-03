@@ -5,9 +5,9 @@ import { Button, Card } from '@/shared';
 import { AccountType } from '@/entities';
 import CreateAccountModal from '../ui/create-modal.tsx';
 
-type CreateAccountProps = {
+interface CreateAccountProps {
 	type: AccountType;
-};
+}
 
 export function CreateAccount({ type }: CreateAccountProps) {
 	const [isOpen, setIsOpen] = useState(false);

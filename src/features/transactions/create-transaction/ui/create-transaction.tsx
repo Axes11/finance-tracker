@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Button } from '@/shared';
 import { AccountType } from '@/entities';
 
-import CreateTransactionModal from '../ui/create-modal.tsx';
+import { CreateTransactionModal } from '../ui/create-modal.tsx';
 
 type CreateAccountProps = {
 	type: AccountType;

@@ -3,6 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { AccountType, createTransaction, CurrencyCrypto, CurrencyMoney, CurrencyStocks, useAccountStore, useTransactionsStore } from '@/entities';
+import { toDateOnly } from '@/shared';
 
 interface CreateTransactionProps {
 	type: AccountType;
@@ -25,6 +26,7 @@ export function useCreateTransaction({ type, onClose }: CreateTransactionProps) 
 	const {
 		register,
 		control,
+		reset,
 		handleSubmit,
 		formState: { errors },
 	} = useForm<Inputs>();
@@ -33,10 +35,11 @@ export function useCreateTransaction({ type, onClose }: CreateTransactionProps) 
 	};
 
 	const mutation = useMutation({
-		mutationFn: ({ account_id, amount, description, category, currency, date }: Inputs) => createTransaction(account_id, amount, description, category, currency, type, date),
+		mutationFn: ({ account_id, amount, description, category, currency, date }: Inputs) => createTransaction(account_id, amount, description, currency, category, type, toDateOnly(date)),
 		onSuccess: () => {
 			toast.success('Transaction successfully created!');
 			loadTransactions();
+			reset();
 			onClose();
 		},
 		onError: (error) => {
