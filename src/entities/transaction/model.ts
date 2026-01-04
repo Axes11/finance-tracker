@@ -1,7 +1,7 @@
-import { CurrencyMoney, CurrencyCrypto, CurrencyStocks } from '@/shared';
-import { AccountType } from '@/entities';
+import { CurrencyMoney, CurrencyCrypto, CurrencyStocks } from '@/shared/constants';
+import { AccountType } from '@/shared/types';
 
-export type TransactionShema = {
+export type TransactionSchema = {
 	id: string;
 	user_id: string;
 	account_id: string;

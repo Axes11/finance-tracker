@@ -1,9 +1,11 @@
+'use client';
+
 import { Trash } from '@phosphor-icons/react';
 import { useState } from 'react';
 
-import { Button } from '@/shared';
+import { Button } from '@/shared/ui';
 
-import { DeleteTransactionModal } from '../ui/delete-modal.tsx';
+import { DeleteTransactionModal } from '../ui/delete-modal';
 
 type CreateAccountProps = {
 	id: string;

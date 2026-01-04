@@ -1,41 +1,36 @@
-'use client';
-
-import { useRouter } from 'next/navigation';
-import { ReactNode, useEffect } from 'react';
-
-import { useAccountStore, useTransactionsStore, useUserStore } from '@/entities';
 import { Navigation } from '@/widgets';
-import { PublicPaths, Spinner } from '@/shared';
 
-export default function PrivateLayout({ children }: { children: ReactNode }) {
-	const router = useRouter();
+export const dynamic = 'force-dynamic';
 
-	const { user, isAuthLoading } = useUserStore();
-	const { loadAccounts } = useAccountStore();
-	const { loadTransactions } = useTransactionsStore();
+import { redirect } from 'next/navigation';
+import { ReactNode } from 'react';
+import { getSupabaseServer } from '@/shared/lib/server/supabaseServer.ts';
+import { getAccounts } from '@/entities/account/api.ts';
+import { getTotalTransactionsAmount, getTransactions } from '@/entities/transaction/api.ts';
+import { AccountHydrator } from '@/entities/account/ui/account-hydrator.tsx';
+import { TransactionHydrator } from '@/entities/transaction/ui/transaction-hydrator.tsx';
+import { TotalAmountHydrator } from '@/entities/transaction/ui/total-amount-hydrator.tsx';
 
-	useEffect(() => {
-		loadAccounts();
-		loadTransactions();
-	}, []);
+export default async function PrivateLayout({ children }: { children: ReactNode }) {
+	const supabaseServer = await getSupabaseServer();
 
-	useEffect(() => {
-		if (!isAuthLoading && !user) {
-			router.replace(PublicPaths.LOGIN);
-		}
-	}, [user, isAuthLoading, router]);
+	const {
+		data: { user },
+	} = await supabaseServer.auth.getUser();
 
-	if (isAuthLoading || !user)
-		return (
-			<div className='flex min-h-screen justify-center items-center bg-background text-foreground'>
-				<Spinner />
-			</div>
-		);
+	if (!user) {
+		redirect('/login');
+	}
+
+	const [accounts, transactions, { total, crypto, bank, stocks, accountTotals }] = await Promise.all([getAccounts(), getTransactions(), getTotalTransactionsAmount()]);
 
 	return (
-		<div className='flex min-h-screen bg-background text-foreground'>
-			<main className='w-full p-8'>{children}</main>
+		<>
+			<AccountHydrator data={accounts} />
+			<TransactionHydrator data={transactions} />
+			<TotalAmountHydrator total={{ total, crypto, bank, stocks }} accounts={accountTotals} />
+			{children}
 			<Navigation />
-		</div>
+		</>
 	);
 }

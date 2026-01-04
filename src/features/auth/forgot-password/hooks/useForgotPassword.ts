@@ -5,7 +5,7 @@ import { AuthError } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { sendChangePasswordEmail, updatePassword } from '@/entities';
+import { sendChangePasswordEmail, updatePassword } from '@/entities/user/api.ts';
 
 interface Inputs {
 	email: string;

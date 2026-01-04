@@ -1,8 +1,9 @@
 'use client';
 
-import { Field, FieldDescription, FieldLabel, Input, PublicPaths, FormWrapper } from '@/shared';
+import { FormWrapper, Field, FieldDescription, FieldLabel, Input } from '@/shared/ui';
+import { PublicPaths } from '@/shared/config';
 
-import { useRegister } from '../hooks/useRegister.ts';
+import { useRegister } from '../hooks/useRegister';
 
 export function RegisterForm() {
 	const { register, router, handleSubmit, errors, onSubmit, mutation } = useRegister();

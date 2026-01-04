@@ -1,4 +1,6 @@
-import { Card, Skeleton } from '@/shared';
+'use client';
+
+import { Card, Skeleton } from '@/shared/ui';
 
 export function SummaryCardSkeleton() {
 	return (

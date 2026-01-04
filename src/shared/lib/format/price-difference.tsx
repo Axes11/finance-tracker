@@ -1,3 +1,5 @@
+'use client';
+
 import { ReactNode } from 'react';
 import { TrendDown, TrendUp, ArrowRight } from '@phosphor-icons/react';
 import { Colors } from '@/shared/constants';

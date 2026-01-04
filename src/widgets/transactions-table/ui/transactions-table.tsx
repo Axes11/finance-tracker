@@ -1,13 +1,25 @@
-import { Card, Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/shared';
-import { TransactionShema, TransactionRow, useTransactionsStore, TransactionRowSkeleton } from '@/entities';
-import { DeleteTransaction, UpdateTransaction } from '@/features';
+'use client';
+
+import { TransactionRow, TransactionSchema, TransactionRowSkeleton } from '@/entities/transaction';
+import { useTransactionsStore } from '@/entities/transaction/store.ts';
+import { useAccountStore } from '@/entities/account/store.ts';
+
+import { UpdateTransaction, DeleteTransaction } from '@/features/transactions';
+
+import { Card, Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/shared/ui';
+import { AccountType } from '@/shared/types';
 
 interface TransactionsTableProps {
-	data: TransactionShema[];
+	type?: AccountType;
 }
 
-export function TransactionsTable({ data }: TransactionsTableProps) {
+export function TransactionsTable({ type }: TransactionsTableProps) {
 	const { isLoading } = useTransactionsStore();
+	const { getAccountById } = useAccountStore();
+
+	const { transactions, getTransactionsByType } = useTransactionsStore();
+
+	const data = type ? getTransactionsByType(type) : transactions;
 
 	return (
 		<Card className='p-6 mt-2'>
@@ -16,6 +28,7 @@ export function TransactionsTable({ data }: TransactionsTableProps) {
 					<TableRow>
 						<TableHead className='w-[100px]'>№</TableHead>
 						<TableHead>Type</TableHead>
+						<TableHead>Account</TableHead>
 						<TableHead>Description</TableHead>
 						<TableHead>Category</TableHead>
 						<TableHead>Status</TableHead>
@@ -33,10 +46,11 @@ export function TransactionsTable({ data }: TransactionsTableProps) {
 				)}
 				{data.length > 0 && (
 					<TableBody>
-						{data.map((transaction: TransactionShema, index: number) => (
+						{data.map((transaction: TransactionSchema, index: number) => (
 							<TransactionRow
 								key={index}
 								transaction={transaction}
+								accountName={getAccountById(transaction.account_id) || 'Unknown Account'}
 								type={transaction.amount < 0 ? 'sent' : 'received'}
 								index={index}
 								rightSlot={
@@ -52,7 +66,7 @@ export function TransactionsTable({ data }: TransactionsTableProps) {
 				{data.length === 0 && !isLoading && (
 					<TableFooter>
 						<TableRow>
-							<TableCell colSpan={8} className='text-center'>
+							<TableCell colSpan={9} className='text-center'>
 								No transactions found.
 							</TableCell>
 						</TableRow>

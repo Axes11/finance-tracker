@@ -1,1 +1,1 @@
-export type { Error } from './types';
+export type { Error, AccountType } from './types';

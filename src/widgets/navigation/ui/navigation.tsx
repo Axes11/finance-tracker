@@ -4,8 +4,10 @@ import { House, CurrencyBtc, ChartLineUp, Vault, SunDim, Moon } from '@phosphor-
 import { usePathname, useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
 
-import { Card, Button, PrivatePaths } from '@/shared';
-import { LogoutBtn } from '@/features';
+import { PrivatePaths } from '@/shared/config';
+import { Card, Button } from '@/shared/ui';
+
+import { LogoutBtn } from '@/features/auth/logout/ui/logout-btn.tsx';
 
 export function Navigation() {
 	const router = useRouter();
@@ -24,15 +26,15 @@ export function Navigation() {
 	];
 
 	return (
-		<nav className='flex absolute w-full justify-center items-center'>
-			<Card className='flex fixed bottom-5 flex-row gap-4 p-3'>
+		<nav className='fixed bottom-5 left-0 right-0 flex justify-center z-50 pointer-events-none'>
+			<Card className='flex flex-row gap-4 p-3 pointer-events-auto'>
 				{tabs.map((tab) => (
 					<Button key={tab.path} onClick={() => router.push(tab.path)} variant={pathname === tab.path ? 'default' : 'outline'} size='icon'>
 						{tab.icon}
 					</Button>
 				))}
 				<Button onClick={switchTheme} variant='outline' size='icon'>
-					{theme === 'light' ? <Moon size={32} /> : <SunDim size={32} />}
+					{!theme || theme === 'light' ? <Moon size={32} /> : <SunDim size={32} />}
 				</Button>
 				<LogoutBtn />
 			</Card>

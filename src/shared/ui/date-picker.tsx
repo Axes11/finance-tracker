@@ -2,8 +2,9 @@
 
 import * as React from 'react';
 import { ChevronDownIcon } from 'lucide-react';
-
-import { Button, Calendar, Popover, PopoverContent, PopoverTrigger } from '@/shared';
+import { Popover, PopoverContent, PopoverTrigger } from './popover';
+import { Button } from './button';
+import { Calendar } from './calendar';
 
 interface DatePickerProps {
 	placeholder: string;
@@ -20,7 +21,7 @@ export function DatePicker({ placeholder, value, onChange }: DatePickerProps) {
 	};
 
 	return (
-		<div className='flex flex-col gap-3'>
+		<div className='flex flex-col gap-3 w-full'>
 			<Popover open={open} onOpenChange={setOpen}>
 				<PopoverTrigger asChild>
 					<Button variant='outline' id='date' className='w-48 justify-between font-normal'>

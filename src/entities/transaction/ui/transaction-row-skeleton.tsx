@@ -1,4 +1,4 @@
-import { Skeleton, TableCell, TableRow } from '@/shared';
+import { TableCell, TableRow, Skeleton } from '@/shared/ui';
 
 export function TransactionRowSkeleton() {
 	return (

@@ -1,15 +1,15 @@
-import { useUserStore } from '@/entities';
-import { supabaseClient } from '@/shared';
+import { useUserStore } from '@/entities/user';
+import { logout } from '@/entities/user/api.ts';
 
 export function useLogout() {
 	const user = useUserStore();
 
-	const logout = () => {
-		supabaseClient.auth.signOut();
+	const logoutUser = () => {
+		logout();
 		user.logoutUser();
 	};
 
 	return {
-		logout,
+		logoutUser,
 	};
 }

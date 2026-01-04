@@ -1,7 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { deleteTransaction, useTransactionsStore } from '@/entities';
+import { deleteTransaction } from '@/entities/transaction/api.ts';
+import { useLoadTransactions } from '@/shared/hooks/useLoadTransactions.ts';
+import { useLoadTotalAmount } from '@/shared/hooks/useLoadTotalAmount.ts';
 
 interface UseDeleteTransactionProps {
 	id: string;
@@ -9,13 +11,15 @@ interface UseDeleteTransactionProps {
 }
 
 export function useDeleteTransaction({ id, onClose }: UseDeleteTransactionProps) {
-	const { loadTransactions } = useTransactionsStore();
+	const { loadTransactions } = useLoadTransactions();
+	const { loadTotalAmount } = useLoadTotalAmount();
 
 	const mutation = useMutation({
 		mutationFn: (id: string) => deleteTransaction(id),
 		onSuccess: () => {
 			toast.success('Transaction successfully deleted!');
 			loadTransactions();
+			loadTotalAmount();
 			onClose();
 		},
 		onError: (error) => {

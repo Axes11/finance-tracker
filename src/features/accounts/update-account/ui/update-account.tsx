@@ -1,9 +1,11 @@
+'use client';
+
 import { useState } from 'react';
 import { PencilSimple } from '@phosphor-icons/react';
 
 import { Button } from '@/shared/ui';
 
-import { UpdateAccountModal } from './update-modal.tsx';
+import { UpdateAccountModal } from '@/features/accounts/update-account/ui/update-modal';
 
 interface UpdateAccountProps {
 	id: string;

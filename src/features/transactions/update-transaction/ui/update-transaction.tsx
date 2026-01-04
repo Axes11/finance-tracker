@@ -1,13 +1,16 @@
+'use client';
+
 import { PencilSimple } from '@phosphor-icons/react';
 import { useState } from 'react';
 
-import { TransactionShema } from '@/entities';
-import { Button } from '@/shared';
+import { TransactionSchema } from '@/entities/transaction/model.ts';
 
-import { UpdateTransactionModal } from '../ui/update-modal.tsx';
+import { Button } from '@/shared/ui';
+
+import { UpdateTransactionModal } from '../ui/update-modal';
 
 interface UpdateTransactionProps {
-	transaction: TransactionShema;
+	transaction: TransactionSchema;
 }
 
 export function UpdateTransaction({ transaction }: UpdateTransactionProps) {

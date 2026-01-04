@@ -1,9 +1,12 @@
+'use client';
+
 import { PlusCircle } from '@phosphor-icons/react';
 import { useState } from 'react';
 
-import { Button, Card } from '@/shared';
-import { AccountType } from '@/entities';
-import CreateAccountModal from '../ui/create-modal.tsx';
+import { Button, Card } from '@/shared/ui';
+import { AccountType } from '@/shared/types';
+
+import CreateAccountModal from '../ui/create-modal';
 
 interface CreateAccountProps {
 	type: AccountType;

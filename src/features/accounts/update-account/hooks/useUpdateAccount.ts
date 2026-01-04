@@ -2,7 +2,8 @@ import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { updateAccount, useAccountStore } from '@/entities';
+import { updateAccount } from '@/entities/account/api.ts';
+import { useLoadAccount } from '@/shared/hooks/useLoadAccount.ts';
 
 interface UpdateAccount {
 	id: string;
@@ -15,8 +16,6 @@ interface Inputs {
 }
 
 export const useUpdateAccount = ({ id, onClose }: UpdateAccount) => {
-	const { loadAccounts } = useAccountStore();
-
 	const {
 		register,
 		reset,
@@ -26,6 +25,8 @@ export const useUpdateAccount = ({ id, onClose }: UpdateAccount) => {
 	const onSubmit = (data: Inputs) => {
 		mutation.mutate(data);
 	};
+
+	const { loadAccounts } = useLoadAccount();
 
 	const mutation = useMutation({
 		mutationFn: async (data: Inputs) => await updateAccount(id, { name: data.name, description: data.description }),

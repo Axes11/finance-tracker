@@ -2,8 +2,12 @@ import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { CurrencyCrypto, CurrencyMoney, CurrencyStocks, updateTransaction, useTransactionsStore } from '@/entities';
-import { toDateOnly } from '@/shared';
+import { updateTransaction } from '@/entities/transaction/api.ts';
+import { useLoadTransactions } from '@/shared/hooks/useLoadTransactions.ts';
+import { useLoadTotalAmount } from '@/shared/hooks/useLoadTotalAmount.ts';
+
+import { toDateOnly } from '@/shared/lib';
+import { CurrencyCrypto, CurrencyMoney, CurrencyStocks } from '@/entities/transaction';
 
 interface Transaction {
 	id: string;
@@ -20,7 +24,8 @@ interface Inputs {
 }
 
 export function useUpdateTransaction({ id, onClose }: Transaction) {
-	const { loadTransactions } = useTransactionsStore();
+	const { loadTransactions } = useLoadTransactions();
+	const { loadTotalAmount } = useLoadTotalAmount();
 
 	const {
 		register,
@@ -38,6 +43,7 @@ export function useUpdateTransaction({ id, onClose }: Transaction) {
 		onSuccess: () => {
 			toast.success('Transaction updated successfully.!');
 			loadTransactions();
+			loadTotalAmount();
 			reset();
 			onClose();
 		},

@@ -1,6 +1,5 @@
 import * as React from 'react';
-
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/shared';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from './select';
 
 interface SelectOption {
 	label: string;

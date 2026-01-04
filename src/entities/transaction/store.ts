@@ -1,35 +1,40 @@
 import { create } from 'zustand';
-import { toast } from 'sonner';
+import { TransactionSchema } from './model.ts';
+import { AccountType } from '@/shared/types';
 
-import { AccountType, getTransactions, TransactionShema } from '@/entities';
-import { Error } from '@/shared';
+interface TotalAmount {
+	crypto: number;
+	stocks: number;
+	bank: number;
+	total: number;
+}
 
-type TransactionsStore = {
-	transactions: TransactionShema[];
+interface TransactionsStore {
+	transactions: TransactionSchema[];
+	totalAmount: TotalAmount;
+	totalAmountForAccounts: Record<string, number>;
 	isLoading: boolean;
-	loadTransactions: () => Promise<void>;
-	getTransactions: (type: AccountType) => TransactionShema[];
-};
+
+	setTransactions: (transactions: TransactionSchema[]) => void;
+	setTotalAmount: (amount: TotalAmount) => void;
+	setTotalAmountForAccounts: (totals: Record<string, number>) => void;
+	setIsLoading: (value: boolean) => void;
+
+	getTransactionsByType: (type: AccountType) => TransactionSchema[];
+}
 
 export const useTransactionsStore = create<TransactionsStore>((set, get) => ({
 	transactions: [],
+	totalAmount: { crypto: 0, stocks: 0, bank: 0, total: 0 },
+	totalAmountForAccounts: {},
 	isLoading: false,
 
-	loadTransactions: async () => {
-		if (get().isLoading) return;
+	setTransactions: (transactions) => set({ transactions, isLoading: false }),
+	setTotalAmount: (totalAmount) => set({ totalAmount }),
+	setTotalAmountForAccounts: (totalAmountForAccounts) => set({ totalAmountForAccounts }),
+	setIsLoading: (isLoading) => set({ isLoading }),
 
-		set({ isLoading: true });
-		try {
-			const res = await getTransactions();
-			console.log('store: ', res);
-			set({ transactions: res, isLoading: false });
-		} catch (error) {
-			const err = error as Error;
-			set({ isLoading: false });
-			toast.error(`Error loading transactions: ${err.message}`);
-		}
-	},
-	getTransactions: (type: AccountType) => {
-		return get().transactions.filter((transaction) => transaction.type === type);
+	getTransactionsByType: (type) => {
+		return get().transactions.filter((t) => t.type === type);
 	},
 }));

@@ -4,8 +4,11 @@ import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { AuthError } from '@supabase/supabase-js';
 
-import { useUserStore, login, useAccountStore, LoginResponse, useTransactionsStore } from '@/entities';
-import { PrivatePaths } from '@/shared';
+import { login } from '@/entities/user/api';
+import { LoginResponse } from '@/entities/user/model';
+import { useUserStore } from '@/entities/user/store';
+
+import { PrivatePaths } from '@/shared/config';
 
 interface Inputs {
 	email: string;
@@ -21,8 +24,6 @@ export function useLogin() {
 	const router = useRouter();
 
 	const { loginUser } = useUserStore();
-	const { loadAccounts } = useAccountStore();
-	const { loadTransactions } = useTransactionsStore();
 
 	const {
 		register,
@@ -38,8 +39,6 @@ export function useLogin() {
 		mutationFn: ({ email, password }) => login(email, password),
 		onSuccess: (data) => {
 			toast.success('Login successful!');
-			loadAccounts();
-			loadTransactions();
 
 			if (data.user) loginUser(data.user);
 
