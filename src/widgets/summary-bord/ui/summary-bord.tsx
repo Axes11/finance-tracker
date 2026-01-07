@@ -20,12 +20,16 @@ interface SummaryCardProps {
 }
 
 export function SummaryBord({ header, description, type }: SummaryCardProps) {
-	const { accounts, getAccountsByType, isLoading } = useAccountStore();
-	const { totalAmount, totalAmountForAccounts } = useTransactionsStore();
+	const { accounts, getAccountsByType, hydrated: accountHydrated } = useAccountStore();
+	const { totalAmount, totalAmountForAccounts, hydrated: transactionsHydrated } = useTransactionsStore();
 
-	const data = type ? getAccountsByType(type) : accounts;
+	const data: AccountSchema[] = type ? getAccountsByType(type) : accounts;
 
-	const totalSlides = Math.max(Math.ceil((accounts.length - 3) / 4) + 1, 2);
+	const totalSlides: number = Math.max(Math.ceil((accounts.length - 3) / 4) + 1, 2);
+
+	const isLoading = !accountHydrated || !transactionsHydrated;
+	const hasTransactions = transactionsHydrated && totalAmountForAccounts && Object.keys(totalAmountForAccounts).length > 0;
+	const isEmpty = accountHydrated && !accounts.length && !hasTransactions;
 
 	return (
 		<Card className='p-6 w-full'>
@@ -33,19 +37,14 @@ export function SummaryBord({ header, description, type }: SummaryCardProps) {
 				<span className='text-2xl font-bold'>{header}</span>
 				<span className='text-sm text-muted-foreground'>{description}</span>
 			</div>
-			{data.length === 0 && !type && !isLoading && (
-				<Card className='flex items-center justify-center'>
-					<span className='text-sm text-muted-foreground'>No accounts found.</span>
-				</Card>
-			)}
 			{isLoading && (
 				<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 auto-rows-fr'>
-					{Array.from({ length: type ? 3 : 4 }).map((_, i) => (
+					{Array.from({ length: 4 }).map((_, i) => (
 						<SummaryCardSkeleton key={i} />
 					))}
 				</div>
 			)}
-			{data.length !== 0 && !isLoading && (
+			{!isEmpty && !isLoading && (
 				<Carousel className='w-full'>
 					<CarouselContent>
 						{Array.from({ length: totalSlides }).map((_, slideIndex) => {
@@ -81,14 +80,14 @@ export function SummaryBord({ header, description, type }: SummaryCardProps) {
 					</CarouselContent>
 				</Carousel>
 			)}
-			{type && !isLoading && data.length === 0 && (
+			{type && isEmpty && (
 				<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 auto-rows-fr'>
 					<div className='mt-4'>
 						<CreateAccount type={type} />
 					</div>
 				</div>
 			)}
-			<div>{type && !isLoading && data.length !== 0 && <CreateTransaction type={type} />}</div>
+			{type && <CreateTransaction type={type} />}
 		</Card>
 	);
 }

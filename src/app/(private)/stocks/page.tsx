@@ -1,5 +1,3 @@
-'use client';
-
 import { SummaryBord, TransactionsTable } from '@/widgets';
 
 export default function StocksPage() {

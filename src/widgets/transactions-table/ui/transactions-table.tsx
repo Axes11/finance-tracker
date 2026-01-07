@@ -14,12 +14,15 @@ interface TransactionsTableProps {
 }
 
 export function TransactionsTable({ type }: TransactionsTableProps) {
-	const { isLoading } = useTransactionsStore();
 	const { getAccountById } = useAccountStore();
 
-	const { transactions, getTransactionsByType } = useTransactionsStore();
+	const { transactions, getTransactionsByType, hydrated } = useTransactionsStore();
 
 	const data = type ? getTransactionsByType(type) : transactions;
+
+	const isLoading = !hydrated;
+	const isEmpty = hydrated && data.length === 0;
+	const hasTransactions = hydrated && data.length > 0;
 
 	return (
 		<Card className='p-6 mt-2'>
@@ -44,7 +47,7 @@ export function TransactionsTable({ type }: TransactionsTableProps) {
 						))}
 					</TableBody>
 				)}
-				{data.length > 0 && (
+				{hasTransactions && (
 					<TableBody>
 						{data.map((transaction: TransactionSchema, index: number) => (
 							<TransactionRow
@@ -63,7 +66,7 @@ export function TransactionsTable({ type }: TransactionsTableProps) {
 						))}
 					</TableBody>
 				)}
-				{data.length === 0 && !isLoading && (
+				{isEmpty && (
 					<TableFooter>
 						<TableRow>
 							<TableCell colSpan={9} className='text-center'>

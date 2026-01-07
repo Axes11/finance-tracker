@@ -1,9 +1,9 @@
 import { TableCell, TableRow } from '@/shared/ui';
 import { ReactNode } from 'react';
-import { TransactionShema } from '@/entities/transaction/model.ts';
+import { TransactionSchema } from '@/entities/transaction/model.ts';
 
 interface TransactionRowProps {
-	transaction: TransactionShema;
+	transaction: TransactionSchema;
 	accountName: string;
 	index: number;
 	type: 'sent' | 'received';

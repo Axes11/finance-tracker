@@ -56,7 +56,7 @@ export function CreateTransactionModal({ type, isOpen, onClose }: CreateAccountM
 			isOpen={isOpen}
 			onClose={onClose}
 			onSubmit={handleSubmit(onSubmit)}>
-			<div className='flex gap-4 justify-between'>
+			<div className='grid grid-cols-2 gap-4'>
 				<div className='flex flex-col gap-4'>
 					<FormField label='Account' tag='account_id' description='Select account for transaction' error={errors.account_id}>
 						<Controller

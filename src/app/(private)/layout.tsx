@@ -1,11 +1,11 @@
-import { Navigation } from '@/widgets';
-
 export const dynamic = 'force-dynamic';
 
 import { redirect } from 'next/navigation';
 import { ReactNode } from 'react';
+
 import { getSupabaseServer } from '@/shared/lib/server/supabaseServer.ts';
 import { getAccounts } from '@/entities/account/api.ts';
+import { Navigation } from '@/widgets';
 import { getTotalTransactionsAmount, getTransactions } from '@/entities/transaction/api.ts';
 import { AccountHydrator } from '@/entities/account/ui/account-hydrator.tsx';
 import { TransactionHydrator } from '@/entities/transaction/ui/transaction-hydrator.tsx';

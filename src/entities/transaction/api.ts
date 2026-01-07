@@ -1,6 +1,6 @@
 'use server';
 
-import { TransactionShema } from './model.ts';
+import { TransactionSchema } from './model.ts';
 import { getCryptoPrice, getForexPrice, getStockPrice } from './lib.ts';
 
 import { getSupabaseServer } from '@/shared/lib/server/supabaseServer';
@@ -14,7 +14,7 @@ export const createTransaction = async (account_id: string, amount: number, desc
 	if (error) throw error;
 };
 
-export const getTransactions = async (): Promise<TransactionShema[]> => {
+export const getTransactions = async (): Promise<TransactionSchema[]> => {
 	const supabase = await getSupabaseServer();
 
 	const { data, error } = await supabase.from('transactions').select('*');
