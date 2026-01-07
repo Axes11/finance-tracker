@@ -1,6 +1,6 @@
 'use client';
 
-import { ModalWrapper, Field, FieldDescription, FieldLabel, Input } from '@/shared/ui';
+import { ModalWrapper, Input, FormField } from '@/shared/ui';
 
 import { useCreateAccount } from '../hooks/useCreateAccount';
 import { AccountType } from '@/shared/types';
@@ -28,9 +28,7 @@ export default function CreateAccountModal({ type, isOpen, onClose }: CreateAcco
 			isOpen={isOpen}
 			onClose={onClose}
 			onSubmit={handleSubmit(onSubmit)}>
-			<Field className='mb-2'>
-				<FieldLabel htmlFor='title'>Title</FieldLabel>
-				<FieldDescription>Give your account title</FieldDescription>
+			<FormField label='Title' description='Give your account title' tag='title' error={errors.title}>
 				<Input
 					id='title'
 					type='text'
@@ -43,11 +41,8 @@ export default function CreateAccountModal({ type, isOpen, onClose }: CreateAcco
 						},
 					})}
 				/>
-				{errors.title && <p className='text-red-500 text-sm'>{errors.title.message}</p>}
-			</Field>
-			<Field>
-				<FieldLabel htmlFor='description'>Description (Optional)</FieldLabel>
-				<FieldDescription>Give your account description</FieldDescription>
+			</FormField>
+			<FormField label='Descrption' description='Give your account descrption (Optional)' tag='description' error={errors.description}>
 				<Input
 					id='description'
 					type='text'
@@ -59,8 +54,7 @@ export default function CreateAccountModal({ type, isOpen, onClose }: CreateAcco
 						},
 					})}
 				/>
-				{errors.description && <p className='text-red-500 text-sm'>{errors.description.message}</p>}
-			</Field>
+			</FormField>
 		</ModalWrapper>
 	);
 }

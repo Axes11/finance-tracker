@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, FormWrapper, Field, FieldDescription, FieldLabel, Input } from '@/shared/ui';
+import { Card, FormWrapper, FieldDescription, Input, FormField } from '@/shared/ui';
 import { PublicPaths } from '@/shared/config';
 
 import { useForgotPassword } from '../hooks/useForgotPassword';
@@ -54,9 +54,7 @@ export function ForgotPasswordForm() {
 							},
 						]}>
 						{step === 'sendCode' && (
-							<Field>
-								<FieldLabel htmlFor='email'>E-mail</FieldLabel>
-								<FieldDescription>Your email address.</FieldDescription>
+							<FormField label='E-mail' description='Your email address.' tag='email' error={errors.email}>
 								<Input
 									id='email'
 									type='text'
@@ -69,12 +67,10 @@ export function ForgotPasswordForm() {
 										},
 									})}
 								/>
-								{errors.email && <FieldDescription className='text-red-500'>{errors.email?.message}</FieldDescription>}
-							</Field>
+							</FormField>
 						)}
 						{step === 'newPassword' && (
-							<Field>
-								<FieldLabel htmlFor='newPassword'>New Password</FieldLabel>
+							<FormField label='New Password' description='Your password must be atleast 8 charactres length' tag='newPassword' error={errors.newPassword}>
 								<Input
 									id='newPassword'
 									type='password'
@@ -87,8 +83,7 @@ export function ForgotPasswordForm() {
 										},
 									})}
 								/>
-								{errors.newPassword && <FieldDescription className='text-red-500'>{errors.newPassword?.message}</FieldDescription>}
-							</Field>
+							</FormField>
 						)}
 					</FormWrapper>
 				) : (

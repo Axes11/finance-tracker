@@ -1,6 +1,6 @@
 'use client';
 
-import { ModalWrapper, Field, FieldDescription, FieldLabel, Input } from '@/shared/ui';
+import { ModalWrapper, Input, FormField } from '@/shared/ui';
 import { useUpdateAccount } from '@/features/accounts/update-account/hooks/useUpdateAccount';
 
 interface UpdateAccountModalProps {
@@ -28,25 +28,20 @@ export function UpdateAccountModal({ id, title, description, isOpen, onClose }: 
 			isOpen={isOpen}
 			onClose={onClose}
 			onSubmit={handleSubmit(onSubmit)}>
-			<Field className='mb-2'>
-				<FieldLabel htmlFor='title'>Title</FieldLabel>
-				<FieldDescription>Change title to new</FieldDescription>
+			<FormField label='Title' description='Update you account title' tag='title' error={errors.title}>
 				<Input
 					id='title'
 					type='text'
 					placeholder={`New title`}
-					{...register('name', {
+					{...register('title', {
 						value: title,
 						required: 'Title is required',
 					})}
 				/>
-				{errors.name && <p className='text-red-500 text-sm'>{errors.name.message}</p>}
-			</Field>
-			<Field className='mb-2'>
-				<FieldLabel htmlFor='title'>Description</FieldLabel>
-				<FieldDescription>Change description to new</FieldDescription>
+			</FormField>
+			<FormField label='Title' description='Update you account description' tag='description' error={errors.description}>
 				<Input
-					id='title'
+					id='description'
 					type='text'
 					placeholder={`New description (Optional)`}
 					{...register('description', {
@@ -57,8 +52,7 @@ export function UpdateAccountModal({ id, title, description, isOpen, onClose }: 
 						},
 					})}
 				/>
-				{errors.description && <p className='text-red-500 text-sm'>{errors.description.message}</p>}
-			</Field>
+			</FormField>
 		</ModalWrapper>
 	);
 }

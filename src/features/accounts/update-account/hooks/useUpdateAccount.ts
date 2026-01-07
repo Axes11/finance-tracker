@@ -11,7 +11,7 @@ interface UpdateAccount {
 }
 
 interface Inputs {
-	name: string;
+	title: string;
 	description?: string;
 }
 
@@ -29,7 +29,7 @@ export const useUpdateAccount = ({ id, onClose }: UpdateAccount) => {
 	const { loadAccounts } = useLoadAccount();
 
 	const mutation = useMutation({
-		mutationFn: async (data: Inputs) => await updateAccount(id, { name: data.name, description: data.description }),
+		mutationFn: async (data: Inputs) => await updateAccount(id, { name: data.title, description: data.description }),
 		onSuccess: () => {
 			toast.success('Account updated successfully');
 			loadAccounts();

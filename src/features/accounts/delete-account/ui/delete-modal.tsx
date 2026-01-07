@@ -1,6 +1,6 @@
 'use client';
 
-import { ModalWrapper, Field, FieldDescription, FieldLabel, Input } from '@/shared/ui';
+import { ModalWrapper, Input, FormField } from '@/shared/ui';
 
 import { useDeleteAccount } from '../hooks/useDeleteAccount';
 
@@ -28,9 +28,7 @@ export default function DeleteAccountModal({ id, title, isOpen, onClose }: Creat
 			isOpen={isOpen}
 			onClose={onClose}
 			onSubmit={handleSubmit(onSubmit)}>
-			<Field className='mb-2'>
-				<FieldLabel htmlFor='title'>Title</FieldLabel>
-				<FieldDescription>Give your account title</FieldDescription>
+			<FormField label='Submit' description='Submit if you wanna delete account' tag='title' error={errors.title}>
 				<Input
 					id='title'
 					type='text'
@@ -43,8 +41,7 @@ export default function DeleteAccountModal({ id, title, isOpen, onClose }: Creat
 						},
 					})}
 				/>
-				{errors.title && <p className='text-red-500 text-sm'>{errors.title.message}</p>}
-			</Field>
+			</FormField>
 		</ModalWrapper>
 	);
 }
