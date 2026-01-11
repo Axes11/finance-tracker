@@ -1,34 +1,23 @@
 import { create } from 'zustand';
-import { toast } from 'sonner';
-
-import { AccountSchema, AccountType, getAccounts } from '@/entities';
-import { Error } from '@/shared';
+import { AccountSchema } from '@/entities/account';
+import { AccountType } from '@/shared/types';
 
 type AccountStore = {
 	accounts: AccountSchema[];
-	isLoading: boolean;
-	loadAccounts: () => Promise<void>;
+	hydrated: boolean;
+	setAccounts: (accounts: AccountSchema[]) => void;
+	getAccountById: (id: string) => string | undefined;
+	getAccountsByType: (type: AccountType) => AccountSchema[];
 	getAccounts: (type: AccountType) => AccountSchema[];
 };
 
 export const useAccountStore = create<AccountStore>((set, get) => ({
 	accounts: [],
-	isLoading: false,
+	hydrated: false,
 
-	loadAccounts: async () => {
-		if (get().isLoading) return;
+	setAccounts: (accounts) => set({ accounts, hydrated: true }),
 
-		set({ isLoading: true });
-		try {
-			const res = await getAccounts();
-			set({ accounts: res, isLoading: false });
-		} catch (error) {
-			const err = error as Error;
-			set({ isLoading: false });
-			toast.error(`Error loading accounts: ${err.message}`);
-		}
-	},
-	getAccounts: (type?: AccountType) => {
-		return get().accounts.filter((account) => account.type === type) || [];
-	},
+	getAccountById: (id) => get().accounts.find((a) => a.id === id)?.name,
+	getAccountsByType: (type: AccountType) => get().accounts.filter((a) => a.type === type) || [],
+	getAccounts: (type) => get().accounts.filter((a) => a.type === type) || [],
 }));

@@ -1,8 +1,9 @@
 'use client';
 
-import { FormWrapper, Field, FieldDescription, FieldLabel, Input, PublicPaths } from '@/shared';
+import { FormWrapper, Input, FormField } from '@/shared/ui';
+import { PublicPaths } from '@/shared/config';
 
-import { useLogin } from '../hooks/useLogin.ts';
+import { useLogin } from '../hooks/useLogin';
 
 export function LoginForm() {
 	const { register, router, handleSubmit, errors, onSubmit, mutation } = useLogin();
@@ -32,8 +33,7 @@ export function LoginForm() {
 							type: 'button',
 						},
 					]}>
-					<Field>
-						<FieldLabel htmlFor='email'>E-mail</FieldLabel>
+					<FormField label='E-mail' description='Your email address.' tag='email' error={errors.email}>
 						<Input
 							id='email'
 							type='text'
@@ -46,10 +46,8 @@ export function LoginForm() {
 								},
 							})}
 						/>
-						{errors.email && <FieldDescription className='text-red-500'>{errors.email?.message}</FieldDescription>}
-					</Field>
-					<Field>
-						<FieldLabel htmlFor='password'>Password</FieldLabel>
+					</FormField>
+					<FormField label='Password' description='Your password must be atleast 8 charachters length' tag='password' error={errors.password}>
 						<Input
 							id='password'
 							type='password'
@@ -58,8 +56,7 @@ export function LoginForm() {
 								required: 'Password is required',
 							})}
 						/>
-						{errors.password && <FieldDescription className='text-red-500'>{errors.password?.message}</FieldDescription>}
-					</Field>
+					</FormField>
 				</FormWrapper>
 			</form>
 		</div>

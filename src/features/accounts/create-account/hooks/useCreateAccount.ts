@@ -2,7 +2,11 @@ import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { useAccountStore, createAccount, Account, AccountType } from '@/entities';
+import { createAccount } from '@/entities/account/api.ts';
+import { useLoadAccount } from '@/shared/hooks/useLoadAccount.ts';
+
+import { Account } from '@/entities/account';
+import { AccountType } from '@/shared/types';
 
 type CreateAccountProps = {
 	type: AccountType;
@@ -15,8 +19,6 @@ interface Inputs {
 }
 
 export const useCreateAccount = ({ type, onClose }: CreateAccountProps) => {
-	const { loadAccounts } = useAccountStore();
-
 	const {
 		register,
 		handleSubmit,
@@ -27,9 +29,11 @@ export const useCreateAccount = ({ type, onClose }: CreateAccountProps) => {
 		mutation.mutate({ type, name: data.title, description: data.description });
 	};
 
+	const { loadAccounts } = useLoadAccount();
+
 	const mutation = useMutation({
 		mutationFn: async ({ type, name, description }: Account) => createAccount(type, name, description),
-		onSuccess: () => {
+		onSuccess: async () => {
 			toast.success('Account created successfully.');
 			reset();
 			loadAccounts();

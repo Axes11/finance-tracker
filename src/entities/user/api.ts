@@ -1,9 +1,14 @@
-import { supabaseClient, PublicPaths } from '@/shared';
+'use server';
 
-import { LoginResponse } from './model.ts';
+import { PublicPaths } from '@/shared/config';
+import { getSupabaseServer } from '@/shared/lib/server/supabaseServer';
+
+import { LoginResponse } from './model';
 
 export const login = async (email: string, password: string): Promise<LoginResponse> => {
-	const { data, error } = await supabaseClient.auth.signInWithPassword({
+	const supabase = await getSupabaseServer();
+
+	const { data, error } = await supabase.auth.signInWithPassword({
 		email: email,
 		password: password,
 	});
@@ -13,13 +18,17 @@ export const login = async (email: string, password: string): Promise<LoginRespo
 };
 
 export const logout = async (): Promise<void> => {
-	const { error } = await supabaseClient.auth.signOut();
+	const supabase = await getSupabaseServer();
+
+	const { error } = await supabase.auth.signOut();
 
 	if (error) throw error;
 };
 
 export const register = async (email: string, password: string): Promise<LoginResponse> => {
-	const { data, error } = await supabaseClient.auth.signUp({
+	const supabase = await getSupabaseServer();
+
+	const { data, error } = await supabase.auth.signUp({
 		email: email,
 		password: password,
 	});
@@ -30,7 +39,9 @@ export const register = async (email: string, password: string): Promise<LoginRe
 };
 
 export const sendChangePasswordEmail = async (email: string): Promise<void> => {
-	const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+	const supabase = await getSupabaseServer();
+
+	const { error } = await supabase.auth.resetPasswordForEmail(email, {
 		redirectTo: `${process.env.NEXT_PUBLIC_DEFAULT_URL + PublicPaths.FORGOT_PASSWORD}`,
 	});
 
@@ -38,13 +49,15 @@ export const sendChangePasswordEmail = async (email: string): Promise<void> => {
 };
 
 export const updatePassword = async (newPassword: string, access_token: string, refresh_token: string): Promise<void> => {
-	await supabaseClient.auth.setSession({ access_token, refresh_token });
+	const supabase = await getSupabaseServer();
 
-	const { error } = await supabaseClient.auth.updateUser({
+	await supabase.auth.setSession({ access_token, refresh_token });
+
+	const { error } = await supabase.auth.updateUser({
 		password: newPassword,
 	});
 
 	if (error) throw error;
 
-	await supabaseClient.auth.signOut();
+	await supabase.auth.signOut();
 };

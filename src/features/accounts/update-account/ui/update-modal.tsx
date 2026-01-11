@@ -1,5 +1,7 @@
-import { Field, FieldDescription, FieldLabel, Input, ModalWrapper } from '@/shared';
-import { useUpdateAccount } from '../hooks/useUpdateAccount.ts';
+'use client';
+
+import { ModalWrapper, Input, FormField } from '@/shared/ui';
+import { useUpdateAccount } from '@/features/accounts/update-account/hooks/useUpdateAccount';
 
 interface UpdateAccountModalProps {
 	id: string;
@@ -13,52 +15,44 @@ export function UpdateAccountModal({ id, title, description, isOpen, onClose }: 
 	const { register, handleSubmit, onSubmit, errors, isPending } = useUpdateAccount({ id, onClose });
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)}>
-			<ModalWrapper
-				header={`Update Account ${title}`}
-				description='Fill in the details to update the account.'
-				bottomActions={[
-					{
-						text: isPending ? 'Updating account...' : 'Update Account',
-						type: 'submit',
-						disabled: isPending,
-					},
-				]}
-				isOpen={isOpen}
-				onClose={onClose}
-				onSubmit={handleSubmit(onSubmit)}>
-				<Field className='mb-2'>
-					<FieldLabel htmlFor='title'>Title</FieldLabel>
-					<FieldDescription>Change title to new</FieldDescription>
-					<Input
-						id='title'
-						type='text'
-						placeholder={`New title`}
-						{...register('name', {
-							value: title,
-							required: 'Title is required',
-						})}
-					/>
-					{errors.name && <p className='text-red-500 text-sm'>{errors.name.message}</p>}
-				</Field>
-				<Field className='mb-2'>
-					<FieldLabel htmlFor='title'>Description</FieldLabel>
-					<FieldDescription>Change description to new</FieldDescription>
-					<Input
-						id='title'
-						type='text'
-						placeholder={`New description (Optional)`}
-						{...register('description', {
-							value: description,
-							maxLength: {
-								value: 200,
-								message: 'Description cannot exceed 200 characters',
-							},
-						})}
-					/>
-					{errors.description && <p className='text-red-500 text-sm'>{errors.description.message}</p>}
-				</Field>
-			</ModalWrapper>
-		</form>
+		<ModalWrapper
+			header={`Update Account ${title}`}
+			description='Fill in the details to update the account.'
+			bottomActions={[
+				{
+					text: isPending ? 'Updating account...' : 'Update Account',
+					type: 'submit',
+					disabled: isPending,
+				},
+			]}
+			isOpen={isOpen}
+			onClose={onClose}
+			onSubmit={handleSubmit(onSubmit)}>
+			<FormField label='Title' description='Update you account title' tag='title' error={errors.title}>
+				<Input
+					id='title'
+					type='text'
+					placeholder={`New title`}
+					{...register('title', {
+						value: title,
+						required: 'Title is required',
+					})}
+				/>
+			</FormField>
+			<FormField label='Title' description='Update you account description' tag='description' error={errors.description}>
+				<Input
+					id='description'
+					type='text'
+					placeholder={`New description (Optional)`}
+					{...register('description', {
+						value: description,
+						maxLength: {
+							value: 200,
+							message: 'Description cannot exceed 200 characters',
+						},
+					})}
+				/>
+			</FormField>
+		</ModalWrapper>
 	);
 }

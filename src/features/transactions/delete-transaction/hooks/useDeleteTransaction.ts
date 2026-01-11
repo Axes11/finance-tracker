@@ -1,36 +1,40 @@
-import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { deleteTransaction } from '@/entities';
+import { deleteTransaction } from '@/entities/transaction/api.ts';
+import { useLoadTransactions } from '@/shared/hooks/useLoadTransactions.ts';
+import { useLoadTotalAmount } from '@/shared/hooks/useLoadTotalAmount.ts';
 
-export function useDeleteTransaction(id: string) {
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
-	const onSubmit = () => {
-		mutation.mutate(id);
-	};
+interface UseDeleteTransactionProps {
+	id: string;
+	onClose: () => void;
+}
+
+export function useDeleteTransaction({ id, onClose }: UseDeleteTransactionProps) {
+	const { loadTransactions } = useLoadTransactions();
+	const { loadTotalAmount } = useLoadTotalAmount();
 
 	const mutation = useMutation({
 		mutationFn: (id: string) => deleteTransaction(id),
 		onSuccess: () => {
-			toast.success('Transaction successfully created!');
+			toast.success('Transaction successfully deleted!');
+			loadTransactions();
+			loadTotalAmount();
+			onClose();
 		},
 		onError: (error) => {
-			toast.error(`Error creating transaction: ${error.message}`);
+			toast.error(`Error deleting transaction: ${error.message}`);
 		},
 	});
+
+	const handleDelete = () => {
+		mutation.mutate(id);
+	};
 
 	const { isPending } = mutation;
 
 	return {
 		isPending,
-		register,
-		handleSubmit,
-		onSubmit,
-		errors,
+		handleDelete,
 	};
 }

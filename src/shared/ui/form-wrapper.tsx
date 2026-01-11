@@ -1,5 +1,7 @@
-import { FieldDescription, FieldGroup, FieldLegend, FieldSet, Button, Card } from '@/shared';
 import { ReactNode } from 'react';
+import { FieldDescription, FieldGroup, FieldLegend, FieldSet } from './field';
+import { Card } from './card';
+import { Button } from './button';
 
 interface BodyActions {
 	function?: () => void;

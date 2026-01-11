@@ -2,7 +2,8 @@ import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useForm } from 'react-hook-form';
 
-import { deleteAccount, useAccountStore } from '@/entities';
+import { deleteAccount } from '@/entities/account/api.ts';
+import { useLoadAccount } from '@/shared/hooks/useLoadAccount.ts';
 
 interface UseDeleteAccountProps {
 	id: string;
@@ -14,8 +15,6 @@ interface Inputs {
 }
 
 export const useDeleteAccount = ({ id, onClose }: UseDeleteAccountProps) => {
-	const { loadAccounts } = useAccountStore();
-
 	const {
 		register,
 		handleSubmit,
@@ -25,6 +24,8 @@ export const useDeleteAccount = ({ id, onClose }: UseDeleteAccountProps) => {
 	const onSubmit = () => {
 		mutation.mutate(id);
 	};
+
+	const { loadAccounts } = useLoadAccount();
 
 	const mutation = useMutation({
 		mutationFn: async (accountId: string) => deleteAccount(accountId),

@@ -2,8 +2,9 @@
 
 import { useMemo } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-
-import { cn, Label, Separator } from '@/shared';
+import { Label } from './label';
+import { cn } from '@/shared/lib';
+import { Separator } from '@radix-ui/react-select';
 
 function FieldSet({ className, ...props }: React.ComponentProps<'fieldset'>) {
 	return <fieldset data-slot='field-set' className={cn('flex flex-col gap-6', 'has-[>[data-slot=checkbox-group]]:gap-3 has-[>[data-slot=radio-group]]:gap-3', className)} {...props} />;

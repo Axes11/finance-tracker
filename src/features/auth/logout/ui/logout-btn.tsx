@@ -2,14 +2,14 @@
 
 import { SignOut } from '@phosphor-icons/react';
 
-import { Button } from '@/shared';
-import { useLogout } from '../hooks/useLogout.ts';
+import { Button } from '@/shared/ui';
+import { useLogout } from '../hooks/useLogout';
 
 export function LogoutBtn() {
-	const { logout } = useLogout();
+	const { logoutUser } = useLogout();
 
 	return (
-		<Button onClick={logout} variant='outline' size='icon'>
+		<Button onClick={logoutUser} variant='outline' size='icon'>
 			<SignOut size={32} />
 		</Button>
 	);

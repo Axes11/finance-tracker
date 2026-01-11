@@ -1,41 +1,36 @@
-'use client';
+export const dynamic = 'force-dynamic';
 
-import { useRouter } from 'next/navigation';
-import { ReactNode, useEffect } from 'react';
+import { redirect } from 'next/navigation';
+import { ReactNode } from 'react';
 
-import { useAccountStore, useTransactionsStore, useUserStore } from '@/entities';
+import { getSupabaseServer } from '@/shared/lib/server/supabaseServer.ts';
+import { getAccounts } from '@/entities/account/api.ts';
 import { Navigation } from '@/widgets';
-import { PublicPaths, Spinner } from '@/shared';
+import { getTotalTransactionsAmount, getTransactions } from '@/entities/transaction/api.ts';
+import { AccountHydrator } from '@/entities/account/ui/account-hydrator.tsx';
+import { TransactionHydrator } from '@/entities/transaction/ui/transaction-hydrator.tsx';
+import { TotalAmountHydrator } from '@/entities/transaction/ui/total-amount-hydrator.tsx';
 
-export default function PrivateLayout({ children }: { children: ReactNode }) {
-	const router = useRouter();
+export default async function PrivateLayout({ children }: { children: ReactNode }) {
+	const supabaseServer = await getSupabaseServer();
 
-	const { user, isAuthLoading } = useUserStore();
-	const { loadAccounts } = useAccountStore();
-	const { loadTransactions } = useTransactionsStore();
+	const {
+		data: { user },
+	} = await supabaseServer.auth.getUser();
 
-	useEffect(() => {
-		loadAccounts();
-		loadTransactions();
-	}, []);
+	if (!user) {
+		redirect('/login');
+	}
 
-	useEffect(() => {
-		if (!isAuthLoading && !user) {
-			router.replace(PublicPaths.LOGIN);
-		}
-	}, [user, isAuthLoading, router]);
-
-	if (isAuthLoading || !user)
-		return (
-			<div className='flex min-h-screen justify-center items-center bg-background text-foreground'>
-				<Spinner />
-			</div>
-		);
+	const [accounts, transactions, { total, crypto, bank, stocks, accountTotals }] = await Promise.all([getAccounts(), getTransactions(), getTotalTransactionsAmount()]);
 
 	return (
-		<div className='flex min-h-screen bg-background text-foreground'>
-			<main className='w-full p-8'>{children}</main>
+		<>
+			<AccountHydrator data={accounts} />
+			<TransactionHydrator data={transactions} />
+			<TotalAmountHydrator total={{ total, crypto, bank, stocks }} accounts={accountTotals} />
+			{children}
 			<Navigation />
-		</div>
+		</>
 	);
 }

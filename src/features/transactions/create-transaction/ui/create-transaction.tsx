@@ -1,10 +1,12 @@
+'use client';
+
 import { CreditCard } from '@phosphor-icons/react';
 import { useState } from 'react';
 
-import { Button } from '@/shared';
-import { AccountType } from '@/entities';
+import { Button } from '@/shared/ui';
+import { AccountType } from '@/shared/types';
 
-import CreateTransactionModal from '../ui/create-modal.tsx';
+import { CreateTransactionModal } from '../ui/create-modal';
 
 type CreateAccountProps = {
 	type: AccountType;

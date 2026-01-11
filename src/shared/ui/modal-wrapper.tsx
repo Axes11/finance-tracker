@@ -1,4 +1,5 @@
-import { Button, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, Colors, ScrollArea } from '@/shared';
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, ScrollArea, Button } from '@/shared/ui';
+import { Colors } from '@/shared/constants';
 import { ReactNode } from 'react';
 
 interface ModalWrapperProps {
@@ -21,21 +22,30 @@ interface BottomActions {
 }
 
 export function ModalWrapper({ header, description, children, isOpen, onClose, scrollable, onSubmit, bottomActions }: ModalWrapperProps) {
-	const content = (
+	return (
 		<Dialog open={isOpen} onOpenChange={(open) => !open && onClose?.()}>
-			<DialogContent className='sm:max-w-[500px]'>
-				<form className='flex flex-col gap-3' action={onSubmit}>
-					<DialogHeader>
+			<DialogContent className='sm:max-w-[600px] max-h-[90vh] flex flex-col p-0'>
+				<form
+					className='flex flex-col h-full'
+					onSubmit={(e) => {
+						e.preventDefault();
+						onSubmit?.();
+					}}>
+					<DialogHeader className='p-6 pb-2'>
 						<DialogTitle>{header}</DialogTitle>
 						<DialogDescription>{description}</DialogDescription>
 					</DialogHeader>
-					{children}
-					<DialogFooter>
+
+					{scrollable ? <ScrollArea className='flex-1 p-6 pt-2 max-h-[60vh]'>{children}</ScrollArea> : <div className='flex-1 p-6 pt-2'>{children}</div>}
+
+					<DialogFooter className='p-6 pt-2'>
 						<DialogClose asChild>
-							<Button variant='outline'>Cancel</Button>
+							<Button variant='outline' type='button'>
+								Cancel
+							</Button>
 						</DialogClose>
 						{bottomActions?.map((btn, key) => (
-							<Button color={btn.color ? Colors[btn.color] : undefined} className='cursor-pointer' key={key} type={btn.type} onClick={btn.function} disabled={btn.disabled}>
+							<Button key={key} type={btn.type} onClick={btn.function} disabled={btn.disabled}>
 								{btn.text}
 							</Button>
 						))}
@@ -44,6 +54,4 @@ export function ModalWrapper({ header, description, children, isOpen, onClose, s
 			</DialogContent>
 		</Dialog>
 	);
-
-	return scrollable ? <ScrollArea className='h-72 w-48 rounded-md border'>{content}</ScrollArea> : content;
 }

@@ -2,7 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 
-import { Button, Card, PublicPaths } from '@/shared';
+import { Button, Card } from '@/shared/ui';
+import { PublicPaths } from '@/shared/config';
 
 export default function DontRememberEmail() {
 	const router = useRouter();

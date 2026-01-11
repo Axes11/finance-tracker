@@ -1,14 +1,10 @@
-'use client';
+import { SummaryBord, TransactionsTable } from '@/widgets';
 
-import { SummaryBord } from '@/widgets';
-import { useAccountStore } from '@/entities';
-
-export default function MainPage() {
-	const { accounts } = useAccountStore();
-
+export default async function MainPage() {
 	return (
 		<div>
-			<SummaryBord data={accounts} header='Dashboard Overview' description='Here you can see your balances in all categories, if you want see details switch to another page!' />
+			<SummaryBord header='Dashboard Overview' description='Here you can see your balances in all categories, if you want see details switch to another page!' />
+			<TransactionsTable />
 		</div>
 	);
 }

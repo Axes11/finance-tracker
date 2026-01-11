@@ -1,7 +1,11 @@
+'use client';
+
 import { ChartLineUp, CurrencyBtc, CurrencyCircleDollar, Vault } from '@phosphor-icons/react';
 
-import { Badge, Card, formatCurrency, formatPriceDifference } from '@/shared';
-import { DeleteAccount, UpdateAccount } from '@/features';
+import { DeleteAccount, UpdateAccount } from '@/features/accounts';
+
+import { formatCurrency, formatPriceDifference } from '@/shared/lib';
+import { Badge, Card } from '@/shared/ui';
 
 interface Card {
 	id: string;
@@ -21,7 +25,7 @@ const ICONS_MAP = {
 
 export function SummaryCard({ id, badge, title, change, description, amount }: Card) {
 	return (
-		<Card className='p-6 flex flex-col gap-4 items-start justify-between w-full'>
+		<Card className='p-6 flex flex-col gap-4 items-start justify-between w-full min-h-52'>
 			<div className='flex justify-between items-center w-full'>
 				<div className='flex flex-row gap-3 items-start'>
 					<div>
@@ -35,7 +39,7 @@ export function SummaryCard({ id, badge, title, change, description, amount }: C
 			</div>
 
 			<div className='flex flex-row gap-1 items-end'>
-				<span className='text-3xl font-bold'>${formatCurrency(amount.toString())}</span>
+				<span className='text-3xl font-bold'>${formatCurrency(Math.ceil(amount).toString())}</span>
 				<span className='text-sm text-muted-foreground font-bold'>USD</span>
 			</div>
 

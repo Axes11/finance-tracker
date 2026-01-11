@@ -2,7 +2,15 @@ import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { AccountType, createTransaction, CurrencyCrypto, CurrencyMoney, CurrencyStocks, useAccountStore, useTransactionsStore } from '@/entities';
+import { createTransaction } from '@/entities/transaction/api.ts';
+import { useLoadTransactions } from '@/shared/hooks/useLoadTransactions.ts';
+import { useLoadTotalAmount } from '@/shared/hooks/useLoadTotalAmount.ts';
+
+import { toDateOnly } from '@/shared/lib';
+import { AccountType } from '@/shared/types';
+
+import { CurrencyCrypto, CurrencyMoney, CurrencyStocks } from '@/entities/transaction';
+import { useAccountStore } from '@/entities/account';
 
 interface CreateTransactionProps {
 	type: AccountType;
@@ -20,11 +28,13 @@ interface Inputs {
 
 export function useCreateTransaction({ type, onClose }: CreateTransactionProps) {
 	const { getAccounts } = useAccountStore();
-	const { loadTransactions } = useTransactionsStore();
+	const { loadTransactions } = useLoadTransactions();
+	const { loadTotalAmount } = useLoadTotalAmount();
 
 	const {
 		register,
 		control,
+		reset,
 		handleSubmit,
 		formState: { errors },
 	} = useForm<Inputs>();
@@ -33,10 +43,12 @@ export function useCreateTransaction({ type, onClose }: CreateTransactionProps) 
 	};
 
 	const mutation = useMutation({
-		mutationFn: ({ account_id, amount, description, category, currency, date }: Inputs) => createTransaction(account_id, amount, description, category, currency, type, date),
+		mutationFn: ({ account_id, amount, description, category, currency, date }: Inputs) => createTransaction(account_id, amount, description, currency, category, type, toDateOnly(date)),
 		onSuccess: () => {
 			toast.success('Transaction successfully created!');
 			loadTransactions();
+			loadTotalAmount();
+			reset();
 			onClose();
 		},
 		onError: (error) => {

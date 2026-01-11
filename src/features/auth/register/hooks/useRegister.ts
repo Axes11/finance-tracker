@@ -4,8 +4,10 @@ import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import { AuthError } from '@supabase/supabase-js';
 
-import { PublicPaths } from '@/shared';
-import { LoginResponse, register as registerUser } from '@/entities';
+import { register as registerUser } from '@/entities/user/api.ts';
+
+import { PublicPaths } from '@/shared/config';
+import { LoginResponse } from '@/entities/user';
 
 interface Inputs {
 	email: string;

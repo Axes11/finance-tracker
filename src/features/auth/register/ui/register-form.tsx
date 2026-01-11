@@ -1,8 +1,9 @@
 'use client';
 
-import { Field, FieldDescription, FieldLabel, Input, PublicPaths, FormWrapper } from '@/shared';
+import { FormWrapper, Input, FormField } from '@/shared/ui';
+import { PublicPaths } from '@/shared/config';
 
-import { useRegister } from '../hooks/useRegister.ts';
+import { useRegister } from '../hooks/useRegister';
 
 export function RegisterForm() {
 	const { register, router, handleSubmit, errors, onSubmit, mutation } = useRegister();
@@ -26,9 +27,7 @@ export function RegisterForm() {
 							function: () => router.push(PublicPaths.LOGIN),
 						},
 					]}>
-					<Field>
-						<FieldLabel htmlFor='email'>E-mail</FieldLabel>
-						<FieldDescription>Enter unique email for your user.</FieldDescription>
+					<FormField label='E-mail' description='Enter unique email for your user.' tag='email' error={errors.email}>
 						<Input
 							id='email'
 							type='text'
@@ -41,11 +40,8 @@ export function RegisterForm() {
 								},
 							})}
 						/>
-						{errors.email && <FieldDescription className='text-red-500'>{errors.email?.message}</FieldDescription>}
-					</Field>
-					<Field>
-						<FieldLabel htmlFor='password'>Password</FieldLabel>
-						<FieldDescription>Password must be at least 8 characters long.</FieldDescription>
+					</FormField>
+					<FormField label='Password' description='Password must be at least 8 characters long.' tag='password' error={errors.password}>
 						<Input
 							id='password'
 							type='password'
@@ -54,8 +50,7 @@ export function RegisterForm() {
 								required: 'Password is required',
 							})}
 						/>
-						{errors.password && <FieldDescription className='text-red-500'>{errors.password?.message}</FieldDescription>}
-					</Field>
+					</FormField>
 				</FormWrapper>
 			</form>
 		</div>

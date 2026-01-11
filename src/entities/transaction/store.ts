@@ -1,35 +1,38 @@
 import { create } from 'zustand';
-import { toast } from 'sonner';
+import { TransactionSchema } from './model.ts';
+import { AccountType } from '@/shared/types';
 
-import { AccountType, getTransactions, TransactionShema } from '@/entities';
-import { Error } from '@/shared';
+interface TotalAmount {
+	crypto: number;
+	stocks: number;
+	bank: number;
+	total: number;
+}
 
-type TransactionsStore = {
-	transactions: TransactionShema[];
-	isLoading: boolean;
-	loadTransactions: () => Promise<void>;
-	getTransactions: (type: AccountType) => TransactionShema[];
-};
+interface TransactionsStore {
+	transactions: TransactionSchema[];
+	totalAmount: TotalAmount;
+	totalAmountForAccounts: Record<string, number>;
+	hydrated: boolean;
+
+	setTransactions: (transactions: TransactionSchema[]) => void;
+	setTotalAmount: (amount: TotalAmount) => void;
+	setTotalAmountForAccounts: (totals: Record<string, number>) => void;
+
+	getTransactionsByType: (type: AccountType) => TransactionSchema[];
+}
 
 export const useTransactionsStore = create<TransactionsStore>((set, get) => ({
 	transactions: [],
-	isLoading: false,
+	totalAmount: { crypto: 0, stocks: 0, bank: 0, total: 0 },
+	totalAmountForAccounts: {},
+	hydrated: false,
 
-	loadTransactions: async () => {
-		if (get().isLoading) return;
+	setTransactions: (transactions) => set({ transactions, hydrated: true }),
+	setTotalAmount: (totalAmount) => set({ totalAmount }),
+	setTotalAmountForAccounts: (totalAmountForAccounts) => set({ totalAmountForAccounts }),
 
-		set({ isLoading: true });
-		try {
-			const res = await getTransactions();
-			console.log('store: ', res);
-			set({ transactions: res, isLoading: false });
-		} catch (error) {
-			const err = error as Error;
-			set({ isLoading: false });
-			toast.error(`Error loading transactions: ${err.message}`);
-		}
-	},
-	getTransactions: (type: AccountType) => {
-		return get().transactions.filter((transaction) => transaction.type === type);
+	getTransactionsByType: (type) => {
+		return get().transactions.filter((t) => t.type === type);
 	},
 }));

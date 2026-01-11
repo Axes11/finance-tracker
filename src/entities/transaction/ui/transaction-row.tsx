@@ -1,24 +1,28 @@
+import { TableCell, TableRow } from '@/shared/ui';
 import { ReactNode } from 'react';
-import { TransactionShema } from '@/entities';
-import { TableRow, TableCell } from '@/shared';
+import { TransactionSchema } from '@/entities/transaction/model.ts';
 
 interface TransactionRowProps {
-	transaction: TransactionShema;
+	transaction: TransactionSchema;
+	accountName: string;
 	index: number;
 	type: 'sent' | 'received';
 	rightSlot: ReactNode;
 }
 
-export function TransactionRow({ transaction, index, type, rightSlot }: TransactionRowProps) {
+export function TransactionRow({ transaction, accountName, index, type, rightSlot }: TransactionRowProps) {
 	return (
 		<TableRow>
 			<TableCell className='font-medium'>{index}</TableCell>
-			<TableCell>{transaction.type}</TableCell>
-			<TableCell>{transaction.description}</TableCell>
-			<TableCell>{transaction.currency}</TableCell>
+			<TableCell>{transaction.type || '-'}</TableCell>
+			<TableCell>{accountName || '-'}</TableCell>
+			<TableCell>{transaction.description || '-'}</TableCell>
+			<TableCell>{transaction.category || '-'}</TableCell>
 			<TableCell>{type}</TableCell>
-			<TableCell className='text-right'>${transaction.amount}</TableCell>
-			<TableCell className='text-right'>{transaction.date}</TableCell>
+			<TableCell className='text-right'>
+				{transaction.amount || '-'} {transaction.currency || '-'}
+			</TableCell>
+			<TableCell className='text-right'>{transaction.date || '-'}</TableCell>
 			<TableCell className='text-right'>{rightSlot}</TableCell>
 		</TableRow>
 	);

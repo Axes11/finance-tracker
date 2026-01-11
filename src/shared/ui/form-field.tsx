@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
-import { Field, FieldDescription, FieldLabel } from '@/shared';
 import { FieldError } from 'react-hook-form';
+import { Field, FieldDescription, FieldLabel } from './field';
 
 interface FormFieldProps {
 	label: string;
