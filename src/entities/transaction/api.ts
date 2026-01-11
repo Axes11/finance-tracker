@@ -23,11 +23,14 @@ export const createTransaction = async (account_id: string, amount: number, desc
 	}
 };
 
-export const getTransactions = async (): Promise<TransactionSchema[]> => {
+export const getTransactions = async (page: number, limit: number): Promise<TransactionSchema[]> => {
 	try {
+		const from = page * limit;
+		const to = from + limit - 1;
+
 		const supabase = await getSupabaseServer();
 
-		const { data, error } = await supabase.from('transactions').select('*').order('created_at', { ascending: false }).limit(10);
+		const { data, error } = await supabase.from('transactions').select('*').order('created_at', { ascending: false }).range(from, to);
 
 		if (error) throw error;
 

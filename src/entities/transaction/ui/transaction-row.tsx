@@ -13,7 +13,7 @@ interface TransactionRowProps {
 export function TransactionRow({ transaction, accountName, index, type, rightSlot }: TransactionRowProps) {
 	return (
 		<TableRow>
-			<TableCell className='font-medium'>{index}</TableCell>
+			<TableCell className='font-medium'>{index + 1}</TableCell>
 			<TableCell>{transaction.type || '-'}</TableCell>
 			<TableCell>{accountName || '-'}</TableCell>
 			<TableCell>{transaction.description || '-'}</TableCell>

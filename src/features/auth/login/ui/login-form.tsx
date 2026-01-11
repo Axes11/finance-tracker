@@ -33,7 +33,7 @@ export function LoginForm() {
 							type: 'button',
 						},
 					]}>
-					<FormField label='E-mail' description='Your email address.' tag='email' error={errors.email}>
+					<FormField label='E-mail' tag='email' error={errors.email}>
 						<Input
 							id='email'
 							type='text'
@@ -47,7 +47,7 @@ export function LoginForm() {
 							})}
 						/>
 					</FormField>
-					<FormField label='Password' description='Your password must be atleast 8 charachters length' tag='password' error={errors.password}>
+					<FormField label='Password' tag='password' error={errors.password}>
 						<Input
 							id='password'
 							type='password'
