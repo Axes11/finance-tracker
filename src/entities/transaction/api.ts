@@ -5,11 +5,23 @@ import { getCryptoPrice, getForexPrice, getStockPrice } from './lib.ts';
 
 import { getSupabaseServer } from '@/shared/lib/server/supabaseServer';
 import { AccountType } from '@/shared/types';
+import { transactionSchema } from '@/shared/lib/validation';
 
 export const createTransaction = async (account_id: string, amount: number, description: string, currency: string, category: string, type: AccountType, date: string): Promise<void> => {
+	// Validate input
+	const validated = transactionSchema.parse({
+		account_id,
+		amount,
+		description,
+		currency,
+		category,
+		type,
+		date,
+	});
+
 	const supabase = await getSupabaseServer();
 
-	const { error } = await supabase.from('transactions').insert([{ account_id, amount, description, currency, category, type, date }]);
+	const { error } = await supabase.from('transactions').insert([validated]);
 
 	if (error) throw error;
 };
@@ -25,6 +37,11 @@ export const getTransactions = async (): Promise<TransactionSchema[]> => {
 };
 
 export const deleteTransaction = async (id: string): Promise<void> => {
+	// Validate ID format
+	if (!id || typeof id !== 'string') {
+		throw new Error('Invalid transaction ID');
+	}
+
 	const supabase = await getSupabaseServer();
 
 	const { error } = await supabase.from('transactions').delete().eq('id', id);
@@ -33,9 +50,24 @@ export const deleteTransaction = async (id: string): Promise<void> => {
 };
 
 export const updateTransaction = async (id: string, amount: number, description: string, currency: string, category: string, date: string): Promise<void> => {
+	// Validate ID
+	if (!id || typeof id !== 'string') {
+		throw new Error('Invalid transaction ID');
+	}
+
+	// Validate input (partial validation without account_id and type)
+	const partialSchema = transactionSchema.omit({ account_id: true, type: true });
+	const validated = partialSchema.parse({
+		amount,
+		description,
+		currency,
+		category,
+		date,
+	});
+
 	const supabase = await getSupabaseServer();
 
-	const { error } = await supabase.from('transactions').update({ amount, description, currency, category, date }).eq('id', id);
+	const { error } = await supabase.from('transactions').update(validated).eq('id', id);
 
 	if (error) throw error;
 };
