@@ -6,9 +6,10 @@ This finance tracker MVP has been reviewed for security vulnerabilities and code
 ## ✅ Security Improvements Implemented
 
 ### 1. Dependency Security
-- **Updated Next.js from 16.0.7 to 16.0.9** to fix critical vulnerabilities:
+- **Updated Next.js from 16.0.7 to 16.1.1** to fix critical vulnerabilities:
   - GHSA-w37m-7fhw-fmv9: Server Actions Source Code Exposure (CVE score: 5.3)
   - GHSA-mwv6-3258-q52c: Denial of Service with Server Components (CVE score: 7.5)
+  - GHSA-5j59-xgg2-r9c4: Denial of Service with Server Components - Incomplete Fix (CVE score: 7.5)
 
 ### 2. Input Validation
 - Added comprehensive Zod validation schemas for all user inputs:
