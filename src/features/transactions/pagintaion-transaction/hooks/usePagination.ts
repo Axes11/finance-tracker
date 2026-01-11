@@ -15,11 +15,16 @@ export const usePagination = () => {
 
 	useEffect(() => {
 		if (data) {
-			setTransactions(data);
+			setTransactions(data.data);
 		}
 	}, [data, setTransactions]);
 
-	const handleNext = () => setPage(page + 1);
+	const handleNext = () => {
+		if (data) {
+			setPage(Math.min(page + 1, data.total - 1));
+		}
+	};
+
 	const handlePrevious = () => setPage(Math.max(0, page - 1));
 
 	return {

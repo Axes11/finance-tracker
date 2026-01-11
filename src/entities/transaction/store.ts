@@ -33,6 +33,7 @@ export const useTransactionsStore = create<TransactionsStore>((set, get) => ({
 	hydrated: false,
 	page: 0,
 	limit: 10,
+	pagesTotalCount: 0,
 
 	setTransactions: (transactions) => set({ transactions, hydrated: true }),
 	setTotalAmount: (totalAmount) => set({ totalAmount }),

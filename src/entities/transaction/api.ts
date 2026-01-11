@@ -23,7 +23,7 @@ export const createTransaction = async (account_id: string, amount: number, desc
 	}
 };
 
-export const getTransactions = async (page: number, limit: number): Promise<TransactionSchema[]> => {
+export const getTransactions = async (page: number, limit: number): Promise<{ data: TransactionSchema[]; total: number }> => {
 	try {
 		const from = page * limit;
 		const to = from + limit - 1;
@@ -31,10 +31,14 @@ export const getTransactions = async (page: number, limit: number): Promise<Tran
 		const supabase = await getSupabaseServer();
 
 		const { data, error } = await supabase.from('transactions').select('*').order('created_at', { ascending: false }).range(from, to);
+		const { data: totalCount, error: totalCountError } = await supabase.from('transactions').select('*');
 
-		if (error) throw error;
+		if (error || totalCountError) throw error;
 
-		return data;
+		return {
+			data: data,
+			total: Math.ceil(totalCount.length / limit),
+		};
 	} catch (error) {
 		console.error('Error getting transactions:', error);
 		throw error;
