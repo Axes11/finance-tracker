@@ -35,8 +35,10 @@ export const useCreateAccount = ({ type, onClose }: CreateAccountProps) => {
 		mutationFn: async ({ type, name, description }: Account) => createAccount(type, name, description),
 		onSuccess: async () => {
 			toast.success('Account created successfully.');
+
+			await loadAccounts();
+
 			reset();
-			loadAccounts();
 			onClose();
 		},
 		onError: (error) => {

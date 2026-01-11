@@ -44,10 +44,11 @@ export function useCreateTransaction({ type, onClose }: CreateTransactionProps) 
 
 	const mutation = useMutation({
 		mutationFn: ({ account_id, amount, description, category, currency, date }: Inputs) => createTransaction(account_id, amount, description, currency, category, type, toDateOnly(date)),
-		onSuccess: () => {
+		onSuccess: async () => {
 			toast.success('Transaction successfully created!');
-			loadTransactions();
-			loadTotalAmount();
+
+			await Promise.all([loadTransactions(), loadTotalAmount()]);
+
 			reset();
 			onClose();
 		},

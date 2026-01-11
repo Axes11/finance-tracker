@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 
 import { deleteAccount } from '@/entities/account/api.ts';
 import { useLoadAccount } from '@/shared/hooks/useLoadAccount.ts';
+import { useLoadTotalAmount } from '@/shared/hooks/useLoadTotalAmount';
 
 interface UseDeleteAccountProps {
 	id: string;
@@ -26,12 +27,15 @@ export const useDeleteAccount = ({ id, onClose }: UseDeleteAccountProps) => {
 	};
 
 	const { loadAccounts } = useLoadAccount();
+	const { loadTotalAmount } = useLoadTotalAmount();
 
 	const mutation = useMutation({
 		mutationFn: async (accountId: string) => deleteAccount(accountId),
-		onSuccess: () => {
+		onSuccess: async () => {
 			toast.success('Account deleted successfully.');
-			loadAccounts();
+
+			await Promise.all([loadAccounts(), loadTotalAmount()]);
+
 			reset();
 			onClose();
 		},

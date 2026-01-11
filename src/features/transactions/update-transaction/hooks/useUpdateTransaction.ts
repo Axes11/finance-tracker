@@ -40,10 +40,11 @@ export function useUpdateTransaction({ id, onClose }: Transaction) {
 
 	const mutation = useMutation({
 		mutationFn: (data: Inputs) => updateTransaction(id, data.amount, data.description, data.currency, data.category, toDateOnly(data.date)),
-		onSuccess: () => {
+		onSuccess: async () => {
 			toast.success('Transaction updated successfully.!');
-			loadTransactions();
-			loadTotalAmount();
+
+			await Promise.all([loadTransactions(), loadTotalAmount()]);
+
 			reset();
 			onClose();
 		},
