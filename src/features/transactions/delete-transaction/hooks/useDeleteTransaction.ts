@@ -16,10 +16,11 @@ export function useDeleteTransaction({ id, onClose }: UseDeleteTransactionProps)
 
 	const mutation = useMutation({
 		mutationFn: (id: string) => deleteTransaction(id),
-		onSuccess: () => {
+		onSuccess: async () => {
 			toast.success('Transaction successfully deleted!');
-			loadTransactions();
-			loadTotalAmount();
+
+			await Promise.all([loadTransactions(), loadTotalAmount()]);
+
 			onClose();
 		},
 		onError: (error) => {

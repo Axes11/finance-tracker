@@ -23,3 +23,4 @@ export { Toaster } from './sonner';
 export { Spinner } from './spinner';
 export { Switch } from './switch';
 export { Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell, TableCaption } from './table';
+export { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from './pagination';

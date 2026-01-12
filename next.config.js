@@ -1,7 +1,5 @@
 const nextConfig = {
-	images: {
-		unoptimized: true,
-	},
+	dynamicIO: true,
 };
 
 export default nextConfig;

@@ -114,13 +114,15 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
 }
 
-html, body, #__next {
-  height: 100%;
+html,
+body,
+#__next {
   overflow-y: scroll;
   scrollbar-width: none;
 }
@@ -131,7 +133,7 @@ body::-webkit-scrollbar,
   display: none;
 }
 
-main{
+main {
   padding: 40px 40px 100px 40px;
   height: 100%
 }

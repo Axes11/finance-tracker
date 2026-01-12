@@ -26,7 +26,7 @@ export function Navigation() {
 	];
 
 	return (
-		<nav className='fixed bottom-5 left-0 right-0 flex justify-center z-50 pointer-events-none'>
+		<nav className='navigation fixed bottom-5 left-0 right-0 flex justify-center z-50 pointer-events-none'>
 			<Card className='flex flex-row gap-4 p-3 pointer-events-auto'>
 				{tabs.map((tab) => (
 					<Button key={tab.path} onClick={() => router.push(tab.path)} variant={pathname === tab.path ? 'default' : 'outline'} size='icon'>

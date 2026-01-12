@@ -30,9 +30,11 @@ export const useUpdateAccount = ({ id, onClose }: UpdateAccount) => {
 
 	const mutation = useMutation({
 		mutationFn: async (data: Inputs) => await updateAccount(id, { name: data.title, description: data.description }),
-		onSuccess: () => {
+		onSuccess: async () => {
 			toast.success('Account updated successfully');
-			loadAccounts();
+
+			await loadAccounts();
+
 			reset();
 			onClose();
 		},

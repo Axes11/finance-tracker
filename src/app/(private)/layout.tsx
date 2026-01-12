@@ -1,5 +1,3 @@
-export const dynamic = 'force-dynamic';
-
 import { redirect } from 'next/navigation';
 import { ReactNode } from 'react';
 
@@ -22,7 +20,7 @@ export default async function PrivateLayout({ children }: { children: ReactNode 
 		redirect('/login');
 	}
 
-	const [accounts, transactions, { total, crypto, bank, stocks, accountTotals }] = await Promise.all([getAccounts(), getTransactions(), getTotalTransactionsAmount()]);
+	const [accounts, transactions, { total, crypto, bank, stocks, accountTotals }] = await Promise.all([getAccounts(), getTransactions(0, 10), getTotalTransactionsAmount()]);
 
 	return (
 		<>
