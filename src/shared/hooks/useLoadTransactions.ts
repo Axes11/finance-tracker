@@ -6,7 +6,7 @@ export const useLoadTransactions = () => {
 
 	const loadTransactions = async () => {
 		const transactions = await getTransactions(page, limit);
-		setTransactions(transactions);
+		setTransactions(transactions.data);
 	};
 
 	return { loadTransactions };

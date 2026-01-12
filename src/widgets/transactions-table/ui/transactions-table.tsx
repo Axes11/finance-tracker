@@ -1,13 +1,13 @@
 'use client';
 
-import { TransactionRow, TransactionSchema, TransactionRowSkeleton } from '@/entities/transaction';
-import { useTransactionsStore } from '@/entities/transaction/store.ts';
-import { useAccountStore } from '@/entities/account/store.ts';
+import { TransactionRowSkeleton, TransactionSchema, useTransactionsStore, useTransactionModal } from '@/entities/transaction';
+import { useAccountStore } from '@/entities/account';
 
-import { UpdateTransaction, DeleteTransaction, PaginationTransaction } from '@/features/transactions';
+import { PaginationTransaction, TransactionModalsProvider } from '@/features/transactions';
 
 import { Card, Separator, Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/shared/ui';
 import { AccountType } from '@/shared/types';
+import { TransactionRow } from './transaction-row';
 
 interface TransactionsTableProps {
 	type?: AccountType;
@@ -15,10 +15,12 @@ interface TransactionsTableProps {
 
 export function TransactionsTable({ type }: TransactionsTableProps) {
 	const { getAccountById } = useAccountStore();
-
 	const { transactions, getTransactionsByType, hydrated } = useTransactionsStore();
 
 	const data = type ? getTransactionsByType(type) : transactions;
+
+	const openUpdate = useTransactionModal((state) => state.actions.openUpdate);
+	const openDelete = useTransactionModal((state) => state.actions.openDelete);
 
 	const isLoading = !hydrated;
 	const isEmpty = hydrated && data.length === 0;
@@ -30,7 +32,6 @@ export function TransactionsTable({ type }: TransactionsTableProps) {
 				<Table>
 					<TableHeader>
 						<TableRow>
-							<TableHead className='w-[100px]'>№</TableHead>
 							<TableHead>Type</TableHead>
 							<TableHead>Account</TableHead>
 							<TableHead>Description</TableHead>
@@ -50,19 +51,14 @@ export function TransactionsTable({ type }: TransactionsTableProps) {
 					)}
 					{hasTransactions && (
 						<TableBody>
-							{data.map((transaction: TransactionSchema, index: number) => (
+							{data.map((transaction: TransactionSchema) => (
 								<TransactionRow
-									key={index}
+									key={transaction.id}
 									transaction={transaction}
 									accountName={getAccountById(transaction.account_id) || 'Unknown Account'}
 									type={transaction.amount < 0 ? 'sent' : 'received'}
-									index={index}
-									rightSlot={
-										<div className='flex flex-row items-center justify-end'>
-											<UpdateTransaction transaction={transaction} /> /
-											<DeleteTransaction id={transaction.id} title={transaction.description} />
-										</div>
-									}
+									openUpdate={openUpdate}
+									openDelete={openDelete}
 								/>
 							))}
 						</TableBody>
@@ -77,11 +73,17 @@ export function TransactionsTable({ type }: TransactionsTableProps) {
 						</TableFooter>
 					)}
 				</Table>
-				<Separator />
-				<div className='flex justify-end'>
-					<PaginationTransaction />
-				</div>
+				{!isEmpty && (
+					<>
+						<Separator />
+						<div className='flex justify-end'>
+							<PaginationTransaction />
+						</div>
+					</>
+				)}
 			</Card>
+
+			<TransactionModalsProvider />
 		</>
 	);
 }
