@@ -1,38 +1,38 @@
-export const CurrencyMoney = {
-	USD: 'USD',
-	EUR: 'EUR',
-	GBP: 'GBP',
-	JPY: 'JPY',
-	AUD: 'AUD',
-	CAD: 'CAD',
-	CHF: 'CHF',
-	CNY: 'CNY',
-	SEK: 'SEK',
-	NZD: 'NZD',
-} as const;
+export const MoneyOptions = [
+	{ label: 'USD', value: 'USD' },
+	{ label: 'EUR', value: 'EUR' },
+	{ label: 'GBP', value: 'GBP' },
+	{ label: 'JPY', value: 'JPY' },
+	{ label: 'AUD', value: 'AUD' },
+	{ label: 'CAD', value: 'CAD' },
+	{ label: 'CHF', value: 'CHF' },
+	{ label: 'CNY', value: 'CNY' },
+	{ label: 'SEK', value: 'SEK' },
+	{ label: 'NZD', value: 'NZD' },
+];
 
-export const CurrencyCrypto = {
-	BTC: 'BTC',
-	ETH: 'ETH',
-	LTC: 'LTC',
-	XRP: 'XRP',
-	BCH: 'BCH',
-	ADA: 'ADA',
-	DOT: 'DOT',
-	LINK: 'LINK',
-	XLM: 'XLM',
-	USDT: 'USDT',
-} as const;
+export const CryptoOptions = [
+	{ label: 'Bitcoin', value: 'Bitcoin' },
+	{ label: 'Ethereum', value: 'Ethereum' },
+	{ label: 'Binancecoin', value: 'Binancecoin' },
+	{ label: 'Dogecoin', value: 'Dogecoin' },
+	{ label: 'Chainlink', value: 'Chainlink' },
+	{ label: 'Cardano', value: 'Cardano' },
+	{ label: 'Ripple', value: 'Ripple' },
+	{ label: 'Solana', value: 'Solana' },
+	{ label: 'Litecoin', value: 'Litecoin' },
+	{ label: 'Tether', value: 'Tether' },
+];
 
-export const CurrencyStocks = {
-	AAPL: 'AAPL',
-	GOOGL: 'GOOGL',
-	AMZN: 'AMZN',
-	MSFT: 'MSFT',
-	TSLA: 'TSLA',
-	FB: 'FB',
-	NFLX: 'NFLX',
-	NVDA: 'NVDA',
-	JPM: 'JPM',
-	V: 'V',
-} as const;
+export const StockOptions = [
+	{ label: 'AAPL', value: 'AAPL' },
+	{ label: 'GOOGL', value: 'GOOGL' },
+	{ label: 'AMZN', value: 'AMZN' },
+	{ label: 'MSFT', value: 'MSFT' },
+	{ label: 'TSLA', value: 'TSLA' },
+	{ label: 'FB', value: 'FB' },
+	{ label: 'NFLX', value: 'NFLX' },
+	{ label: 'NVDA', value: 'NVDA' },
+	{ label: 'JPM', value: 'JPM' },
+	{ label: 'V', value: 'V' },
+];

@@ -2,7 +2,7 @@
 
 import { revalidateTag, unstable_cache } from 'next/cache';
 
-import { TransactionSchema } from './model.ts';
+import { CurrenciesOption, TransactionSchema } from './model.ts';
 import { getCryptoPrice, getForexPrice, getStockPrice } from './lib.ts';
 
 import { getSupabaseServer } from '@/shared/lib/server/supabaseServer';
@@ -97,11 +97,15 @@ export const getCachedTotal = unstable_cache(
 		const priceCache: Record<string, number> = { USD: 1, USDT: 1 };
 
 		const getPriceWithCache = async (symbol: string, type: string) => {
-			if (priceCache[symbol]) return priceCache[symbol];
+			if (symbol in priceCache) return priceCache[symbol];
 
 			let price = 0;
-			if (type === 'crypto') price = await getCryptoPrice(symbol);
-			else if (type === 'stocks') price = await getStockPrice(symbol);
+			if (type === 'crypto') {
+				const priceArr = await getCryptoPrice();
+
+				const coin = priceArr.find((c) => c.name === symbol);
+				price = coin?.current_price ?? 0;
+			} else if (type === 'stocks') price = await getStockPrice(symbol);
 			else if (type === 'bank') price = await getForexPrice(symbol);
 
 			priceCache[symbol] = price;
@@ -142,6 +146,29 @@ export const getCachedTotal = unstable_cache(
 	{
 		revalidate: 3600,
 		tags: ['transactions'],
+		// @ts-expect-error - TS doesnt see the cacheLife property
+		cacheLife: 'max',
+	},
+);
+
+export const getOptionsForCurrencies = unstable_cache(
+	async (): Promise<CurrenciesOption[]> => {
+		const cryptoPrices = await getCryptoPrice();
+
+		const cryptoTypes = [];
+		for (const curr of cryptoPrices) {
+			cryptoTypes.push({
+				label: curr.name,
+				value: curr.name,
+			});
+		}
+
+		return cryptoTypes;
+	},
+	['currencies-types'],
+	{
+		revalidate: 3600,
+		tags: ['currencies-types'],
 		// @ts-expect-error - TS doesnt see the cacheLife property
 		cacheLife: 'max',
 	},

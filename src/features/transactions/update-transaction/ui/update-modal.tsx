@@ -1,40 +1,34 @@
 'use client';
+
 import { Controller } from 'react-hook-form';
 
 import { TransactionSchema } from '@/entities/transaction';
 
 import { ModalWrapper, FormField, FormSelect, Input, DatePicker } from '@/shared/ui';
-import { CurrencyCrypto, CurrencyMoney, CurrencyStocks } from '@/shared/constants';
-import { AccountType } from '@/shared/types';
 
 import { useUpdateTransaction } from '../hooks/useUpdateTransaction';
-
-interface CurrencyOption {
-	label: string;
-	value: string;
-}
+import { CurrenciesOption } from '@/entities/transaction/model';
 
 interface CreateAccountModalProps {
 	transaction: TransactionSchema;
 	isOpen: boolean;
 	onClose: () => void;
+	cryptoOptions: CurrenciesOption[];
+	stocksOptions: CurrenciesOption[];
+	moneyOptions: CurrenciesOption[];
 }
 
-const defineCurrencyOptions = (type: AccountType): CurrencyOption[] => {
-	const currencyMap: Record<AccountType, Record<string, string>> = {
-		bank: CurrencyMoney,
-		stocks: CurrencyStocks,
-		crypto: CurrencyCrypto,
-	};
+export function UpdateTransactionModal({ transaction, isOpen, onClose, cryptoOptions, stocksOptions, moneyOptions }: CreateAccountModalProps) {
+	const { register, control, handleSubmit, onSubmit, isPending, errors, optionsToShow } = useUpdateTransaction({
+		id: transaction.id,
+		onClose,
+		type: transaction.type,
+		cryptoOptions,
+		stocksOptions,
+		moneyOptions,
+	});
 
-	return Object.values(currencyMap[type]).map((currency) => ({
-		label: currency,
-		value: currency,
-	}));
-};
-
-export function UpdateTransactionModal({ transaction, isOpen, onClose }: CreateAccountModalProps) {
-	const { register, control, handleSubmit, onSubmit, isPending, errors } = useUpdateTransaction({ id: transaction.id, onClose });
+	console.log(cryptoOptions);
 
 	return (
 		<ModalWrapper
@@ -99,7 +93,7 @@ export function UpdateTransactionModal({ transaction, isOpen, onClose }: CreateA
 							control={control}
 							defaultValue={transaction.currency}
 							rules={{ required: 'Currency is required' }}
-							render={({ field }) => <FormSelect title='Currencies' placeholder='USD / BTC / AAPL' options={defineCurrencyOptions(transaction.type)} value={field.value} onChange={field.onChange} />}
+							render={({ field }) => <FormSelect title='Currencies' placeholder='USD / BTC / AAPL' options={optionsToShow || []} value={field.value} onChange={field.onChange} />}
 						/>
 					</FormField>
 					<FormField label='Category' tag='category' description='Give category of transaction' error={errors.category}>

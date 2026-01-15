@@ -1,5 +1,7 @@
 'use server';
 
+import { CryptoApiResponse } from './model';
+
 const ALPHAVANTAGE_API_KEY = process.env.ALPHAVANTAGE_API_KEY;
 
 type NextFetchOptions = RequestInit & {
@@ -9,24 +11,8 @@ type NextFetchOptions = RequestInit & {
 	};
 };
 
-const coinIdMap: Record<string, string> = {
-	BTC: 'bitcoin',
-	ETH: 'ethereum',
-	BNB: 'binancecoin',
-	DOGE: 'dogecoin',
-	LINK: 'chainlink',
-	ADA: 'cardano',
-	XRP: 'ripple',
-	SOL: 'solana',
-	LTC: 'litecoin',
-	USDT: 'tether',
-};
-
-export const getCryptoPrice = async (symbol: string): Promise<number> => {
+export const getCryptoPrice = async (): Promise<Pick<CryptoApiResponse, 'name' | 'current_price'>[]> => {
 	try {
-		const coinId = coinIdMap[symbol.toUpperCase()];
-		if (!coinId) return 0;
-
 		const fetchOptions: NextFetchOptions = {
 			next: {
 				revalidate: 3600,
@@ -34,16 +20,16 @@ export const getCryptoPrice = async (symbol: string): Promise<number> => {
 			},
 		};
 
-		const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coinId}&vs_currencies=usd`, fetchOptions);
+		const res = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd`, fetchOptions);
 
 		if (!res.ok) throw new Error('Failed to fetch crypto price');
 
-		const data = (await res.json()) as Record<string, { usd: number }>;
+		const data = await res.json();
 
-		return data[coinId]?.usd || 0;
+		return data;
 	} catch (error) {
 		console.error('Error fetching crypto price:', error);
-		return 0;
+		throw error;
 	}
 };
 

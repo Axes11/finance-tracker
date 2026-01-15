@@ -6,14 +6,8 @@ import { useCreateTransaction } from '../hooks/useCreateTransaction';
 
 import { AccountSchema } from '@/entities/account';
 
-import { CurrencyCrypto, CurrencyMoney, CurrencyStocks } from '@/shared/constants';
 import { ModalWrapper, FormField, Input, FormSelect, DatePicker } from '@/shared/ui';
 import { AccountType } from '@/shared/types';
-
-interface CurrencyOption {
-	label: string;
-	value: string;
-}
 
 interface CreateAccountModalProps {
 	type: AccountType;
@@ -21,21 +15,8 @@ interface CreateAccountModalProps {
 	onClose: () => void;
 }
 
-const defineCurrencyOptions = (type: AccountType): CurrencyOption[] => {
-	const currencyMap: Record<AccountType, Record<string, string>> = {
-		bank: CurrencyMoney,
-		stocks: CurrencyStocks,
-		crypto: CurrencyCrypto,
-	};
-
-	return Object.values(currencyMap[type]).map((currency) => ({
-		label: currency,
-		value: currency,
-	}));
-};
-
 export function CreateTransactionModal({ type, isOpen, onClose }: CreateAccountModalProps) {
-	const { register, control, handleSubmit, onSubmit, isPending, errors, getAccounts } = useCreateTransaction({ type, onClose });
+	const { register, control, handleSubmit, onSubmit, isPending, errors, getAccounts, optionsToShow } = useCreateTransaction({ type, onClose });
 
 	const accountOptions = getAccounts(type).map((acc: AccountSchema) => ({
 		label: acc.name,
@@ -101,7 +82,7 @@ export function CreateTransactionModal({ type, isOpen, onClose }: CreateAccountM
 							name='currency'
 							control={control}
 							rules={{ required: 'Currency is required' }}
-							render={({ field }) => <FormSelect title='Currencies' placeholder='USD / BTC / AAPL' options={defineCurrencyOptions(type)} value={field.value} onChange={field.onChange} />}
+							render={({ field }) => <FormSelect title='Currencies' placeholder='USD / BTC / AAPL' options={optionsToShow || []} value={field.value} onChange={field.onChange} />}
 						/>
 					</FormField>
 					<FormField label='Category' tag='category' description='Give category of transaction' error={errors.category}>
