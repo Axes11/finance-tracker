@@ -25,7 +25,7 @@ const ICONS_MAP = {
 
 export function SummaryCard({ id, badge, title, change, description, amount }: Card) {
 	return (
-		<Card className='p-6 flex flex-col gap-4 items-start justify-between w-full min-h-52'>
+		<Card className='p-6 flex flex-col gap-2 items-start justify-between w-full h-full'>
 			<div className='flex justify-between items-center w-full'>
 				<div className='flex flex-row gap-3 items-start'>
 					<div>
@@ -39,7 +39,7 @@ export function SummaryCard({ id, badge, title, change, description, amount }: C
 			</div>
 
 			<div className='flex flex-row gap-1 items-end'>
-				<span className='text-3xl font-bold'>${formatCurrency(Math.ceil(amount || 0).toString())}</span>
+				<span className='text-2xl font-bold'>${formatCurrency(Math.ceil(amount || 0).toString())}</span>
 				<span className='text-sm text-muted-foreground font-bold'>USD</span>
 			</div>
 
