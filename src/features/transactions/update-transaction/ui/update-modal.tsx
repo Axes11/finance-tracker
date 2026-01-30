@@ -96,22 +96,7 @@ export function UpdateTransactionModal({ transaction, isOpen, onClose, cryptoOpt
 							render={({ field }) => <FormSelect title='Currencies' placeholder='USD / BTC / AAPL' options={optionsToShow || []} value={field.value} onChange={field.onChange} />}
 						/>
 					</FormField>
-					<FormField label='Category' tag='category' description='Give category of transaction' error={errors.category}>
-						<Input
-							id='category'
-							type='text'
-							defaultValue={transaction.category}
-							placeholder='Investment'
-							{...register('category', {
-								required: 'Category is required',
-								maxLength: {
-									value: 50,
-									message: 'Category cannot exceed 10 characters',
-								},
-							})}
-						/>
-					</FormField>
-					<FormField label='Date' tag='date' description='Select date of transaction' error={errors.category}>
+					<FormField label='Date' tag='date' description='Select date of transaction' error={errors.date}>
 						<Controller
 							name='date'
 							control={control}

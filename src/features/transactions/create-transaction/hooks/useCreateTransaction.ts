@@ -22,7 +22,6 @@ interface Inputs {
 	account_id: string;
 	amount: number;
 	description: string;
-	category: string;
 	currency: string;
 	date: Date;
 }
@@ -52,11 +51,17 @@ export function useCreateTransaction({ type, onClose }: CreateTransactionProps) 
 		formState: { errors },
 	} = useForm<Inputs>();
 	const onSubmit = (data: Inputs) => {
-		mutation.mutate({ account_id: data.account_id, amount: data.amount, description: data.description, category: data.category, currency: data.currency, date: data.date });
+		mutation.mutate({
+			account_id: data.account_id,
+			amount: data.amount,
+			description: data.description || 'No description',
+			currency: data.currency,
+			date: data.date || new Date(),
+		});
 	};
 
 	const mutation = useMutation({
-		mutationFn: ({ account_id, amount, description, category, currency, date }: Inputs) => createTransaction(account_id, amount, description, currency, category, type, toDateOnly(date)),
+		mutationFn: ({ account_id, amount, description, currency, date }: Inputs) => createTransaction(account_id, amount, description, currency, type, toDateOnly(date)),
 		onSuccess: async () => {
 			toast.success('Transaction successfully created!');
 

@@ -23,7 +23,6 @@ interface Inputs {
 	account_id: string;
 	amount: number;
 	description: string;
-	category: string;
 	currency: string;
 	date: Date;
 }
@@ -54,7 +53,7 @@ export function useUpdateTransaction({ id, onClose, type, cryptoOptions, stocksO
 	};
 
 	const mutation = useMutation({
-		mutationFn: (data: Inputs) => updateTransaction(id, data.amount, data.description, data.currency, data.category, toDateOnly(data.date)),
+		mutationFn: (data: Inputs) => updateTransaction(id, data.amount, data.description, data.currency, toDateOnly(data.date)),
 		onSuccess: async () => {
 			toast.success('Transaction updated successfully.!');
 
