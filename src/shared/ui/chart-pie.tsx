@@ -32,7 +32,7 @@ const mockConfig = {
 
 export function ChartPie({ data, chartConfig }: ChartPieProps) {
 	return (
-		<ChartContainer config={chartConfig || mockConfig} className='[&_.recharts-pie-label-text]:fill-foreground mx-auto aspect-square min-h-[300px] pb-0'>
+		<ChartContainer config={chartConfig || mockConfig} className='[&_.recharts-pie-label-text]:fill-foreground mx-auto aspect-square w-full h-full min-h-[250px] pb-0'>
 			<PieChart>
 				<ChartTooltip content={<ChartTooltipContent hideLabel />} cursor={false} />
 				<Pie stroke='#333' data={data.length > 0 ? data : mockData} dataKey='quantity' nameKey='name' labelLine={false}></Pie>
