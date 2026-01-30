@@ -7,11 +7,16 @@ import { useLoadTransactions } from '@/shared/hooks/useLoadTransactions.ts';
 import { useLoadTotalAmount } from '@/shared/hooks/useLoadTotalAmount.ts';
 
 import { toDateOnly } from '@/shared/lib';
-import { CurrencyCrypto, CurrencyMoney, CurrencyStocks } from '@/entities/transaction';
+import { AccountType } from '@/shared/types';
+import { CurrenciesOption } from '@/entities/transaction/model';
 
 interface Transaction {
 	id: string;
 	onClose: () => void;
+	type: AccountType;
+	cryptoOptions: CurrenciesOption[];
+	stocksOptions: CurrenciesOption[];
+	moneyOptions: CurrenciesOption[];
 }
 
 interface Inputs {
@@ -19,13 +24,23 @@ interface Inputs {
 	amount: number;
 	description: string;
 	category: string;
-	currency: CurrencyMoney | CurrencyCrypto | CurrencyStocks;
+	currency: string;
 	date: Date;
 }
 
-export function useUpdateTransaction({ id, onClose }: Transaction) {
+export function useUpdateTransaction({ id, onClose, type, cryptoOptions, stocksOptions, moneyOptions }: Transaction) {
 	const { loadTransactions } = useLoadTransactions();
 	const { loadTotalAmount } = useLoadTotalAmount();
+
+	let optionsToShow: CurrenciesOption[] = [];
+
+	if (type === 'crypto') {
+		optionsToShow = cryptoOptions;
+	} else if (type === 'stocks') {
+		optionsToShow = stocksOptions;
+	} else if (type === 'bank') {
+		optionsToShow = moneyOptions;
+	}
 
 	const {
 		register,
@@ -62,5 +77,6 @@ export function useUpdateTransaction({ id, onClose }: Transaction) {
 		handleSubmit,
 		onSubmit,
 		errors,
+		optionsToShow,
 	};
 }

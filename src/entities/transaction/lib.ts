@@ -1,101 +1,93 @@
 'use server';
 
+import { unstable_cache } from 'next/cache';
+import { CryptoApiResponse } from './model';
+
+// CRYPTO
+
+let cryptoPricePromise: Promise<CryptoApiResponse[]> | null = null;
+
+export const getCryptoPrice = unstable_cache(
+	async () => {
+		if (!cryptoPricePromise) {
+			cryptoPricePromise = fetchCrypto();
+		}
+		return cryptoPricePromise;
+	},
+	['crypto-coins', 'usd'],
+	{
+		revalidate: 3600,
+		tags: ['crypto'],
+	},
+);
+
+async function fetchCrypto() {
+	const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd');
+
+	if (!res.ok) throw new Error('Failed to fetch crypto price');
+
+	return res.json();
+}
+
+// STOCKS
+
 const ALPHAVANTAGE_API_KEY = process.env.ALPHAVANTAGE_API_KEY;
 
-type NextFetchOptions = RequestInit & {
-	next?: {
-		revalidate?: number;
-		tags?: string[];
-	};
-};
+const stockPromises = new Map<string, Promise<number>>();
 
-const coinIdMap: Record<string, string> = {
-	BTC: 'bitcoin',
-	ETH: 'ethereum',
-	BNB: 'binancecoin',
-	DOGE: 'dogecoin',
-	LINK: 'chainlink',
-	ADA: 'cardano',
-	XRP: 'ripple',
-	SOL: 'solana',
-	LTC: 'litecoin',
-	USDT: 'tether',
-};
+export const getStockPrice = unstable_cache(
+	async (symbol: string) => {
+		if (!stockPromises.has(symbol)) {
+			stockPromises.set(symbol, fetchStocks(symbol));
+		}
 
-export const getCryptoPrice = async (symbol: string): Promise<number> => {
-	try {
-		const coinId = coinIdMap[symbol.toUpperCase()];
-		if (!coinId) return 0;
+		return stockPromises.get(symbol)!;
+	},
+	['stocks-prices'],
+	{
+		revalidate: 3600,
+		tags: ['stocks'],
+	},
+);
 
-		const fetchOptions: NextFetchOptions = {
-			next: {
-				revalidate: 3600,
-				tags: ['crypto-price'],
-			},
-		};
+async function fetchStocks(symbol: string): Promise<number> {
+	const res = await fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${ALPHAVANTAGE_API_KEY}`);
 
-		const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coinId}&vs_currencies=usd`, fetchOptions);
+	if (!res.ok) throw new Error('Failed to fetch stocks price');
 
-		if (!res.ok) throw new Error('Failed to fetch crypto price');
+	const data = await res.json();
 
-		const data = (await res.json()) as Record<string, { usd: number }>;
+	const priceStr = data?.['Global Quote']?.['05. price'];
+	return priceStr ? Number(priceStr) : 0;
+}
 
-		return data[coinId]?.usd || 0;
-	} catch (error) {
-		console.error('Error fetching crypto price:', error);
-		return 0;
-	}
-};
+// MONEY
 
-export const getStockPrice = async (symbol: string): Promise<number> => {
-	try {
-		if (!ALPHAVANTAGE_API_KEY) throw new Error('Alpha Vantage API key is missing');
+const forexPromises = new Map<string, Promise<number>>();
 
-		const fetchOptions: NextFetchOptions = {
-			next: {
-				revalidate: 3600,
-				tags: ['stock-price'],
-			},
-		};
+export const getForexPrice = unstable_cache(
+	async (symbol: string) => {
+		if (!forexPromises.has(symbol)) {
+			forexPromises.set(symbol, fetchForex(symbol));
+		}
 
-		const res = await fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${ALPHAVANTAGE_API_KEY}`, fetchOptions);
+		return forexPromises.get(symbol)!;
+	},
+	['forex-prices'],
+	{
+		revalidate: 3600,
+		tags: ['forex'],
+	},
+);
 
-		if (!res.ok) throw new Error('Failed to fetch stock price');
+async function fetchForex(symbol: string): Promise<number> {
+	if (symbol.toUpperCase() === 'USD') return 1;
 
-		const data = (await res.json()) as {
-			'Global Quote'?: {
-				'05. price': string;
-			};
-		};
+	const res = await fetch(`https://api.exchangerate.host/latest?base=${symbol.toUpperCase()}&symbols=USD`);
 
-		const priceStr = data['Global Quote']?.['05. price'];
-		return priceStr ? parseFloat(priceStr) : 0;
-	} catch (error) {
-		console.error('Error fetching stock price:', error);
-		return 0;
-	}
-};
+	if (!res.ok) throw new Error('Failed to fetch forex price');
 
-export const getForexPrice = async (symbol: string): Promise<number> => {
-	try {
-		if (symbol.toUpperCase() === 'USD') return 1;
+	const data = (await res.json()) as { rates: Record<string, number> };
 
-		const fetchOptions: NextFetchOptions = {
-			next: {
-				revalidate: 3600,
-				tags: ['forex-price'],
-			},
-		};
-
-		const res = await fetch(`https://api.exchangerate.host/latest?base=${symbol.toUpperCase()}&symbols=USD`, fetchOptions);
-
-		if (!res.ok) throw new Error('Failed to fetch forex price');
-
-		const data = (await res.json()) as { rates: Record<string, number> };
-
-		return data.rates?.USD || 0;
-	} catch (error) {
-		console.error('Error fetching forex price:', error);
-		return 0;
-	}
-};
+	return data.rates?.USD || 0;
+}

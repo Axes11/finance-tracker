@@ -1,5 +1,7 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+
 import { House, CurrencyBtc, ChartLineUp, Vault, SunDim, Moon } from '@phosphor-icons/react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
@@ -13,6 +15,12 @@ export function Navigation() {
 	const router = useRouter();
 
 	const { theme, setTheme } = useTheme();
+	const [mounted, setMounted] = useState(false);
+
+	useEffect(() => {
+		// eslint-disable-next-line react-hooks/set-state-in-effect
+		setMounted(true);
+	}, []);
 
 	const switchTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
 
@@ -25,6 +33,10 @@ export function Navigation() {
 		{ path: PrivatePaths.BANK, icon: <Vault size={32} /> },
 	];
 
+	if (!mounted) {
+		return null;
+	}
+
 	return (
 		<nav className='navigation fixed bottom-5 left-0 right-0 flex justify-center z-50 pointer-events-none'>
 			<Card className='flex flex-row gap-4 p-3 pointer-events-auto'>
@@ -34,7 +46,7 @@ export function Navigation() {
 					</Button>
 				))}
 				<Button onClick={switchTheme} variant='outline' size='icon'>
-					{!theme || theme === 'light' ? <Moon size={32} /> : <SunDim size={32} />}
+					{theme === 'light' ? <Moon size={32} /> : <SunDim size={32} />}
 				</Button>
 				<LogoutBtn />
 			</Card>

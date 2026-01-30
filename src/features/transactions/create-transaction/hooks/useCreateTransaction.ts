@@ -9,8 +9,9 @@ import { useLoadTotalAmount } from '@/shared/hooks/useLoadTotalAmount.ts';
 import { toDateOnly } from '@/shared/lib';
 import { AccountType } from '@/shared/types';
 
-import { CurrencyCrypto, CurrencyMoney, CurrencyStocks } from '@/entities/transaction';
 import { useAccountStore } from '@/entities/account';
+import { useTransactionModal } from '@/entities/transaction';
+import { CurrenciesOption } from '@/entities/transaction/model';
 
 interface CreateTransactionProps {
 	type: AccountType;
@@ -22,7 +23,7 @@ interface Inputs {
 	amount: number;
 	description: string;
 	category: string;
-	currency: CurrencyMoney | CurrencyCrypto | CurrencyStocks;
+	currency: string;
 	date: Date;
 }
 
@@ -30,6 +31,18 @@ export function useCreateTransaction({ type, onClose }: CreateTransactionProps) 
 	const { getAccounts } = useAccountStore();
 	const { loadTransactions } = useLoadTransactions();
 	const { loadTotalAmount } = useLoadTotalAmount();
+
+	const { currenciesCrypto, currenciesStocks, currenciesBank } = useTransactionModal();
+
+	let optionsToShow: CurrenciesOption[] = [];
+
+	if (type === 'crypto') {
+		optionsToShow = currenciesCrypto;
+	} else if (type === 'stocks') {
+		optionsToShow = currenciesStocks;
+	} else if (type === 'bank') {
+		optionsToShow = currenciesBank;
+	}
 
 	const {
 		register,
@@ -67,5 +80,6 @@ export function useCreateTransaction({ type, onClose }: CreateTransactionProps) 
 		onSubmit,
 		getAccounts,
 		errors,
+		optionsToShow,
 	};
 }

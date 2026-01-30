@@ -2,7 +2,7 @@
 
 import { revalidateTag, unstable_cache } from 'next/cache';
 
-import { TransactionSchema } from './model.ts';
+import { CurrenciesOption, TransactionSchema } from './model.ts';
 import { getCryptoPrice, getForexPrice, getStockPrice } from './lib.ts';
 
 import { getSupabaseServer } from '@/shared/lib/server/supabaseServer';
@@ -75,75 +75,106 @@ export const updateTransaction = async (id: string, amount: number, description:
 	}
 };
 
-export const getCachedTotal = unstable_cache(
-	async (transactions: TransactionSchema[], _userId: string): Promise<TotalTransactionsAmount> => {
-		const cryptoMap = new Map<string, number>();
-		const stocksMap = new Map<string, number>();
-		const bankMap = new Map<string, number>();
+export const getCachedTotal = async (transactions: TransactionSchema[], _userId: string): Promise<TotalTransactionsAmount> => {
+	const cryptoMap = new Map<string, number>();
+	const stocksMap = new Map<string, number>();
+	const bankMap = new Map<string, number>();
 
-		const accountCurrencyMap: Record<string, Record<string, number>> = {};
+	const accountCurrencyMap: Record<string, Record<string, number>> = {};
 
-		for (const tx of transactions!) {
-			const { type, currency, amount, account_id } = tx;
+	for (const tx of transactions!) {
+		const { type, currency, amount, account_id } = tx;
 
-			if (type === 'crypto') cryptoMap.set(currency, (cryptoMap.get(currency) || 0) + amount);
-			else if (type === 'stocks') stocksMap.set(currency, (stocksMap.get(currency) || 0) + amount);
-			else if (type === 'bank') bankMap.set(currency, (bankMap.get(currency) || 0) + amount);
+		if (type === 'crypto') cryptoMap.set(currency, (cryptoMap.get(currency) || 0) + amount);
+		else if (type === 'stocks') stocksMap.set(currency, (stocksMap.get(currency) || 0) + amount);
+		else if (type === 'bank') bankMap.set(currency, (bankMap.get(currency) || 0) + amount);
 
-			if (!accountCurrencyMap[account_id]) accountCurrencyMap[account_id] = {};
-			accountCurrencyMap[account_id][currency] = (accountCurrencyMap[account_id][currency] || 0) + amount;
+		if (!accountCurrencyMap[account_id]) accountCurrencyMap[account_id] = {};
+		accountCurrencyMap[account_id][currency] = (accountCurrencyMap[account_id][currency] || 0) + amount;
+	}
+
+	const priceCache: Record<string, number> = { USD: 1, USDT: 1 };
+
+	const getPriceWithCache = async (symbol: string, type: string) => {
+		if (symbol in priceCache) return priceCache[symbol];
+
+		let price = 0;
+		if (type === 'crypto') {
+			const priceArr = await getCryptoPrice();
+
+			const coin = priceArr.find((c) => c.name === symbol);
+			price = coin?.current_price ?? 0;
+		} else if (type === 'stocks') price = await getStockPrice(symbol);
+		else if (type === 'bank') price = await getForexPrice(symbol);
+
+		priceCache[symbol] = price;
+		return price;
+	};
+
+	const calculateTotal = async (map: Map<string, number>, type: string) => {
+		let sum = 0;
+		const result = {
+			total: 0,
+			values: [] as { name: string; value: number }[],
+		};
+
+		for (const [currency, amount] of map) {
+			const price = await getPriceWithCache(currency, type);
+			result.values.push({ name: currency, value: amount * price });
+			sum += amount * price;
 		}
 
-		const priceCache: Record<string, number> = { USD: 1, USDT: 1 };
+		result.total = sum;
+		return result;
+	};
 
-		const getPriceWithCache = async (symbol: string, type: string) => {
-			if (priceCache[symbol]) return priceCache[symbol];
+	const [totalCrypto, totalStocks, totalBank] = await Promise.all([calculateTotal(cryptoMap, 'crypto'), calculateTotal(stocksMap, 'stocks'), calculateTotal(bankMap, 'bank')]);
 
-			let price = 0;
-			if (type === 'crypto') price = await getCryptoPrice(symbol);
-			else if (type === 'stocks') price = await getStockPrice(symbol);
-			else if (type === 'bank') price = await getForexPrice(symbol);
+	const accountTotals: Map<string, number> = new Map();
+	for (const accountId in accountCurrencyMap) {
+		let accountSum = 0;
+		for (const currency in accountCurrencyMap[accountId]) {
+			const amount = accountCurrencyMap[accountId][currency];
+			const price = priceCache[currency] || 1;
+			accountSum += amount * price;
+		}
+		accountTotals.set(accountId, accountSum);
+	}
 
-			priceCache[symbol] = price;
-			return price;
-		};
+	return {
+		crypto: totalCrypto,
+		stocks: totalStocks,
+		bank: totalBank,
+		total: {
+			total: totalCrypto.total + totalStocks.total + totalBank.total,
+			values: [
+				{ value: totalCrypto.total, name: 'crypto' },
+				{ value: totalStocks.total, name: 'stocks' },
+				{ value: totalBank.total, name: 'bank' },
+			],
+		},
+		accountTotals,
+	};
+};
 
-		const calculateTotal = async (map: Map<string, number>, type: string) => {
-			let sum = 0;
-			for (const [currency, amount] of map) {
-				const price = await getPriceWithCache(currency, type);
-				sum += amount * price;
-			}
-			return sum;
-		};
+export const getOptionsForCurrencies = unstable_cache(
+	async (): Promise<CurrenciesOption[]> => {
+		const cryptoPrices = await getCryptoPrice();
 
-		const [totalCrypto, totalStocks, totalBank] = await Promise.all([calculateTotal(cryptoMap, 'crypto'), calculateTotal(stocksMap, 'stocks'), calculateTotal(bankMap, 'bank')]);
-
-		const accountTotals: Record<string, number> = {};
-		for (const accountId in accountCurrencyMap) {
-			let accountSum = 0;
-			for (const currency in accountCurrencyMap[accountId]) {
-				const amount = accountCurrencyMap[accountId][currency];
-				const price = priceCache[currency] || 1;
-				accountSum += amount * price;
-			}
-			accountTotals[accountId] = accountSum;
+		const cryptoTypes = [];
+		for (const curr of cryptoPrices) {
+			cryptoTypes.push({
+				label: curr.name,
+				value: curr.name,
+			});
 		}
 
-		return {
-			crypto: totalCrypto,
-			stocks: totalStocks,
-			bank: totalBank,
-			total: totalCrypto + totalStocks + totalBank,
-			accountTotals,
-		};
+		return cryptoTypes;
 	},
-	['transactions-total'],
+	['currencies-options'],
 	{
 		revalidate: 3600,
-		tags: ['transactions'],
-		// @ts-expect-error - TS doesnt see the cacheLife property
-		cacheLife: 'max',
+		tags: ['currencies-types'],
 	},
 );
 

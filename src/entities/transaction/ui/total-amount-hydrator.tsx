@@ -1,18 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { useTransactionsStore } from '@/entities/transaction/store';
 
-interface TotalAmount {
-	crypto: number;
-	stocks: number;
-	bank: number;
-	total: number;
-}
+import { useTransactionsStore } from '@/entities/transaction/store';
+import { TotalTransactionsAmount } from '@/shared/types';
 
 interface TotalAmountHydratorProps {
-	total: TotalAmount;
-	accounts: Record<string, number>;
+	total: TotalTransactionsAmount;
+	accounts: Map<string, number>;
 }
 
 export function TotalAmountHydrator({ total, accounts }: TotalAmountHydratorProps) {
