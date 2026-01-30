@@ -113,16 +113,24 @@ export const getCachedTotal = async (transactions: TransactionSchema[], _userId:
 
 	const calculateTotal = async (map: Map<string, number>, type: string) => {
 		let sum = 0;
+		const result = {
+			total: 0,
+			values: [] as { name: string; value: number }[],
+		};
+
 		for (const [currency, amount] of map) {
 			const price = await getPriceWithCache(currency, type);
+			result.values.push({ name: currency, value: amount * price });
 			sum += amount * price;
 		}
-		return sum;
+
+		result.total = sum;
+		return result;
 	};
 
 	const [totalCrypto, totalStocks, totalBank] = await Promise.all([calculateTotal(cryptoMap, 'crypto'), calculateTotal(stocksMap, 'stocks'), calculateTotal(bankMap, 'bank')]);
 
-	const accountTotals: Record<string, number> = {};
+	const accountTotals: Map<string, number> = new Map();
 	for (const accountId in accountCurrencyMap) {
 		let accountSum = 0;
 		for (const currency in accountCurrencyMap[accountId]) {
@@ -130,14 +138,21 @@ export const getCachedTotal = async (transactions: TransactionSchema[], _userId:
 			const price = priceCache[currency] || 1;
 			accountSum += amount * price;
 		}
-		accountTotals[accountId] = accountSum;
+		accountTotals.set(accountId, accountSum);
 	}
 
 	return {
 		crypto: totalCrypto,
 		stocks: totalStocks,
 		bank: totalBank,
-		total: totalCrypto + totalStocks + totalBank,
+		total: {
+			total: totalCrypto.total + totalStocks.total + totalBank.total,
+			values: [
+				{ value: totalCrypto.total, name: 'crypto' },
+				{ value: totalStocks.total, name: 'stocks' },
+				{ value: totalBank.total, name: 'bank' },
+			],
+		},
 		accountTotals,
 	};
 };

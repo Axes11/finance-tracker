@@ -39,7 +39,7 @@ export function SummaryCard({ id, badge, title, change, description, amount }: C
 			</div>
 
 			<div className='flex flex-row gap-1 items-end'>
-				<span className='text-3xl font-bold'>${formatCurrency(Math.ceil(amount).toString())}</span>
+				<span className='text-3xl font-bold'>${formatCurrency(Math.ceil(amount || 0).toString())}</span>
 				<span className='text-sm text-muted-foreground font-bold'>USD</span>
 			</div>
 

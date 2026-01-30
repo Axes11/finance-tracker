@@ -3,12 +3,22 @@ export type Error = {
 	status: number;
 };
 
-export type TotalTransactionsAmount = {
-	crypto: number;
-	stocks: number;
-	bank: number;
+export type TotalTransactionsAmountValues = {
+	name: string;
+	value: number;
+};
+
+export type TotalTransactionsAmountResult = {
 	total: number;
-	accountTotals: Record<string, number>;
+	values: TotalTransactionsAmountValues[];
+};
+
+export type TotalTransactionsAmount = {
+	crypto: TotalTransactionsAmountResult;
+	stocks: TotalTransactionsAmountResult;
+	bank: TotalTransactionsAmountResult;
+	total: TotalTransactionsAmountResult;
+	accountTotals: Map<string, number>;
 };
 
 export type AccountType = 'crypto' | 'stocks' | 'bank';

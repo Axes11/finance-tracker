@@ -1,1 +1,1 @@
-export { Colors, Color, type Colors as ColorType } from './colors';
+export { Colors, Color, type Colors as ColorType, ColorsFormPieChart } from './colors';

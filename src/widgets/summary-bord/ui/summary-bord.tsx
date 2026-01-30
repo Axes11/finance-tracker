@@ -31,6 +31,8 @@ export function SummaryBord({ header, description, type }: SummaryCardProps) {
 	const hasTransactions = transactionsHydrated && totalAmountForAccounts && Object.keys(totalAmountForAccounts).length > 0;
 	const isEmpty = accountHydrated && !accounts.length && !hasTransactions;
 
+	console.log(totalAmount);
+
 	return (
 		<Card className='p-6 w-full'>
 			<div className='flex flex-col gap-2'>
@@ -62,14 +64,14 @@ export function SummaryBord({ header, description, type }: SummaryCardProps) {
 												id={''}
 												title='Total'
 												description='Total amount from all your accounts!'
-												amount={type ? totalAmount[type] : totalAmount.total}
+												amount={type ? (totalAmount[type].total ?? 0) : (totalAmount.total.total ?? 0)}
 												badge={type ? type : 'all'}
 												change={1}
 											/>
 										)}
 
 										{chunk.map((item: AccountSchema) => (
-											<SummaryCard key={item.id} id={item.id} title={item.name} description={item.description} amount={totalAmountForAccounts[item.id] ?? 0} badge={type ?? item.type} change={1} />
+											<SummaryCard key={item.id} id={item.id} title={item.name} description={item.description} amount={totalAmountForAccounts.get(item.id) ?? 0} badge={type ?? item.type} change={1} />
 										))}
 
 										{type && ((showCreateOnFirst && slideIndex === 0) || (!showCreateOnFirst && slideIndex === totalSlides - 1)) && <CreateAccount type={type} />}

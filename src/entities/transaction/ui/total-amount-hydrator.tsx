@@ -4,15 +4,15 @@ import { useState } from 'react';
 import { useTransactionsStore } from '@/entities/transaction/store';
 
 interface TotalAmount {
-	crypto: number;
-	stocks: number;
-	bank: number;
-	total: number;
+	crypto: Map<string, number>;
+	stocks: Map<string, number>;
+	bank: Map<string, number>;
+	total: Map<string, number>;
 }
 
 interface TotalAmountHydratorProps {
 	total: TotalAmount;
-	accounts: Record<string, number>;
+	accounts: Map<string, number>;
 }
 
 export function TotalAmountHydrator({ total, accounts }: TotalAmountHydratorProps) {
