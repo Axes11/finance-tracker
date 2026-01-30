@@ -8,7 +8,6 @@ export type TransactionSchema = {
 	type: AccountType;
 	description: string;
 	currency: string;
-	category: string;
 	date: string;
 	created_at: string;
 };

@@ -9,8 +9,8 @@ export default function manifest(): MetadataRoute.Manifest {
 		description: 'Finance dashboard app',
 		start_url: '/',
 		display: 'standalone',
-		background_color: '#202020',
-		theme_color: '#202020',
+		background_color: '#000000ff',
+		theme_color: '#000000ff',
 		icons: [
 			{
 				src: '/icons/192.png',
