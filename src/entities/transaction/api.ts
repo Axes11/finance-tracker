@@ -8,11 +8,11 @@ import { getCryptoPrice, getForexPrice, getStockPrice } from './lib.ts';
 import { getSupabaseServer } from '@/shared/lib/server/supabaseServer';
 import { AccountType, TotalTransactionsAmount } from '@/shared/types';
 
-export const createTransaction = async (account_id: string, amount: number, description: string, currency: string, category: string, type: AccountType, date: string): Promise<void> => {
+export const createTransaction = async (account_id: string, amount: number, description: string, currency: string, type: AccountType, date: string): Promise<void> => {
 	try {
 		const supabase = await getSupabaseServer();
 
-		const { error } = await supabase.from('transactions').insert([{ account_id, amount, description, currency, category, type, date }]);
+		const { error } = await supabase.from('transactions').insert([{ account_id, amount, description, currency, type, date }]);
 
 		if (error) throw error;
 
@@ -60,11 +60,11 @@ export const deleteTransaction = async (id: string): Promise<void> => {
 	}
 };
 
-export const updateTransaction = async (id: string, amount: number, description: string, currency: string, category: string, date: string): Promise<void> => {
+export const updateTransaction = async (id: string, amount: number, description: string, currency: string, date: string): Promise<void> => {
 	try {
 		const supabase = await getSupabaseServer();
 
-		const { error } = await supabase.from('transactions').update({ amount, description, currency, category, date }).eq('id', id);
+		const { error } = await supabase.from('transactions').update({ amount, description, currency, date }).eq('id', id);
 
 		if (error) throw error;
 
