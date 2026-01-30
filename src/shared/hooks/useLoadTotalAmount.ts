@@ -6,7 +6,7 @@ export const useLoadTotalAmount = () => {
 
 	const loadTotalAmount = async () => {
 		const { accountTotals, total, bank, stocks, crypto } = await getTotalTransactionsAmount();
-		setTotalAmount({ total, bank, stocks, crypto });
+		setTotalAmount({ total, bank, stocks, crypto, accountTotals });
 		setTotalAmountForAccounts(accountTotals);
 	};
 
