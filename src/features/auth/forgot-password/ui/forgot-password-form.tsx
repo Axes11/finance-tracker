@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, FormWrapper, FieldDescription, Input, FormField } from '@/shared/ui';
+import { Card, FormWrapper, FieldDescription, Input, FormField, Button } from '@/shared/ui';
 import { PublicPaths } from '@/shared/config';
 
 import { useForgotPassword } from '../hooks/useForgotPassword';
@@ -87,9 +87,12 @@ export function ForgotPasswordForm() {
 						)}
 					</FormWrapper>
 				) : (
-					<Card>
+					<Card className='flex flex-col gap-4 items-center'>
 						<FieldDescription className='text-green-500 text-center text-xl font-bold'>Your password has been changed successfully! </FieldDescription>
-						<FieldDescription className='text-muted-foreground text-center'> Now you can return to the application and login with new password!</FieldDescription>
+						<FieldDescription className='text-muted-foreground text-center'> Now you can return to the login page and login with new password!</FieldDescription>
+						<Button onClick={() => router.push(PublicPaths.LOGIN)} className='cursor-pointer'>
+							Back To Login
+						</Button>
 					</Card>
 				)}
 			</form>
