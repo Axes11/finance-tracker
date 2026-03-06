@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 
 import { FieldError } from 'react-hook-form';
-import { Field, FieldDescription, FieldLabel } from './field';
 
 interface FormFieldProps {
 	label: string;
@@ -13,11 +12,13 @@ interface FormFieldProps {
 
 export function FormField({ label, tag, description, error, children }: FormFieldProps) {
 	return (
-		<Field>
-			<FieldLabel htmlFor={tag}>{label}</FieldLabel>
+		<div className='flex flex-col gap-2'>
+			<label htmlFor={tag} className='font-mono text-[0.62rem] font-medium tracking-[0.1em] uppercase text-muted-foreground'>
+				{label}
+			</label>
 			{children}
-			{description && <FieldDescription>{description}</FieldDescription>}
-			{error && <p className='text-red-500 text-sm'>{error.message}</p>}
-		</Field>
+			{description && !error && <p className='font-mono text-[0.58rem] tracking-[0.04em] text-muted-foreground/70'>{description}</p>}
+			{error && <span className='font-mono text-[0.62rem] text-destructive'>{error.message}</span>}
+		</div>
 	);
 }

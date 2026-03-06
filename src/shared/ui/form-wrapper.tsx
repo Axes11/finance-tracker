@@ -1,7 +1,9 @@
 import { ReactNode } from 'react';
-import { FieldDescription, FieldGroup, FieldLegend, FieldSet } from './field';
-import { Card } from './card';
+
 import { Button } from './button';
+import { Divider } from './divider';
+import { AuthHeader } from './auth-header';
+import { MobileLogo } from './mobile-logo';
 
 interface BodyActions {
 	function?: () => void;
@@ -18,7 +20,7 @@ interface BottomActions {
 	disabled?: boolean;
 }
 
-interface ForgotPasswordProps {
+interface FormWrapperProps {
 	header: string;
 	description: string;
 	bodyActions: BodyActions[];
@@ -26,34 +28,43 @@ interface ForgotPasswordProps {
 	children: ReactNode;
 }
 
-export function FormWrapper({ header, description, bodyActions, bottomActions, children }: ForgotPasswordProps) {
+export function FormWrapper({ header, description, bodyActions, bottomActions, children }: FormWrapperProps) {
 	return (
-		<Card className={'p-6'}>
-			<FieldSet>
-				<FieldLegend className='font-bold'>{header}</FieldLegend>
-				<FieldDescription>{description}</FieldDescription>
-				<FieldGroup>{children}</FieldGroup>
+		<div className='flex flex-col gap-8'>
+			<MobileLogo />
+
+			<AuthHeader title={header} description={description} />
+
+			<div className='flex flex-col gap-5'>
+				{children}
+
 				{bodyActions.map((btn, key) =>
 					btn.function ? (
 						btn.hide && (
-							<Button key={key} onClick={btn.function} type={btn.type} className='cursor-pointer' disabled={btn.disabled}>
+							<Button key={key} onClick={btn.function} type={btn.type} variant='primary' size='full' disabled={btn.disabled}>
 								{btn.text}
 							</Button>
 						)
 					) : (
-						<Button key={key} type={btn.type} className='cursor-pointer' disabled={btn.disabled}>
+						<Button key={key} type={btn.type} variant='primary' size='full' disabled={btn.disabled}>
 							{btn.text}
 						</Button>
 					),
 				)}
-				<div className='flex items-center justify-center flex-col'>
-					{bottomActions?.map((btn, key) => (
-						<Button key={key} type='button' onClick={btn.function} className='cursor-pointer' variant='link' disabled={btn.disabled}>
-							{btn.text}
-						</Button>
-					))}
-				</div>
-			</FieldSet>
-		</Card>
+			</div>
+
+			{bottomActions && bottomActions.length > 0 && (
+				<>
+					<Divider />
+					<div className='flex flex-col items-center gap-3'>
+						{bottomActions.map((btn, key) => (
+							<Button key={key} type={btn.type ?? 'button'} onClick={btn.function} variant='ghost-link' disabled={btn.disabled}>
+								{btn.text}
+							</Button>
+						))}
+					</div>
+				</>
+			)}
+		</div>
 	);
 }

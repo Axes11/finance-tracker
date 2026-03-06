@@ -9,6 +9,7 @@ export const MoneyOptions = [
 	{ label: 'CNY', value: 'CNY' },
 	{ label: 'SEK', value: 'SEK' },
 	{ label: 'NZD', value: 'NZD' },
+	{ label: 'PLN', value: 'PLN' },
 ];
 
 export const CryptoOptions = [

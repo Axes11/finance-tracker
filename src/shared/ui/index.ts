@@ -1,11 +1,15 @@
 // UI Components exports
+export { AuthBrandPanel } from './auth-brand-panel';
+export { AuthHeader } from './auth-header';
 export { Badge, badgeVariants } from './badge';
 export { Button } from './button';
 export { Calendar } from './calendar';
 export { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, CardAction } from './card';
 export { type CarouselApi, Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from './carousel';
+export { ClaroLogo } from './claro-logo';
 export { DatePicker } from './date-picker';
 export { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger } from './dialog';
+export { Divider } from './divider';
 export { Field, FieldLabel, FieldDescription, FieldError, FieldGroup, FieldLegend, FieldSeparator, FieldSet, FieldContent, FieldTitle } from './field';
 export { FormField } from './form-field';
 export { FormSelect } from './form-select';
@@ -13,6 +17,7 @@ export { FormWrapper } from './form-wrapper';
 export { useFormField, Form, FormItem, FormLabel, FormControl, FormDescription, FormMessage, FormField as FormFieldHookForm } from './form';
 export { Input } from './input';
 export { Label } from './label';
+export { MobileLogo } from './mobile-logo';
 export { ModalWrapper } from './modal-wrapper';
 export { Popover, PopoverTrigger, PopoverContent, PopoverAnchor } from './popover';
 export { ScrollArea, ScrollBar } from './scroll-area';

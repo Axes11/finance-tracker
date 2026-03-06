@@ -22,7 +22,7 @@ export const formatPriceDifference = (difference: number): ReactNode => {
 	} else {
 		return (
 			<div className='flex flex-row gap-1 items-center'>
-				<ArrowRight size={16} color={Colors.YELLOW} weight='bold' />
+				<ArrowRight size={16} color={Colors.MUTED} weight='bold' />
 				<span className='text-sm font-bold text-yellow-500'>0%</span>
 			</div>
 		);
