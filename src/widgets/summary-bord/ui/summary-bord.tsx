@@ -18,7 +18,7 @@ import { SummaryCardSkeleton } from './summary-card-skeleton.tsx';
 
 interface SummaryCardProps {
 	header: string;
-	description: string;
+	description?: string;
 	type?: AccountType;
 }
 
@@ -36,7 +36,7 @@ export function SummaryBord({ header, description, type }: SummaryCardProps) {
 		<Card className='p-6 w-full'>
 			<div className='flex flex-col gap-2'>
 				<span className='text-2xl font-bold'>{header}</span>
-				<span className='text-sm text-muted-foreground'>{description}</span>
+				{description ? <span className='text-sm text-muted-foreground'>{description}</span> : <></>}
 			</div>
 			{isLoading && (
 				<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 auto-rows-fr'>
