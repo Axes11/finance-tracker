@@ -35,7 +35,6 @@ export function TransactionsTable({ type }: TransactionsTableProps) {
 							<TableHead>Type</TableHead>
 							<TableHead>Account</TableHead>
 							<TableHead>Description</TableHead>
-							<TableHead>Category</TableHead>
 							<TableHead>Status</TableHead>
 							<TableHead className='text-right'>Amount</TableHead>
 							<TableHead className='text-right'>Date</TableHead>
@@ -66,7 +65,7 @@ export function TransactionsTable({ type }: TransactionsTableProps) {
 					{isEmpty && (
 						<TableFooter>
 							<TableRow>
-								<TableCell colSpan={9} className='text-center'>
+								<TableCell colSpan={8} className='text-center'>
 									No transactions found.
 								</TableCell>
 							</TableRow>

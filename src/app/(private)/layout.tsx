@@ -32,7 +32,7 @@ export default async function PrivateLayout({ children }: { children: ReactNode 
 		<>
 			<AccountHydrator data={accounts} />
 			<TransactionHydrator data={transactions} />
-			<TotalAmountHydrator total={{ total, crypto, bank, stocks }} accounts={accountTotals} />
+			<TotalAmountHydrator total={{ total, crypto, bank, stocks, accountTotals }} accounts={accountTotals} />
 			<CurrenciesTypesHydrator data={options} />
 			{children}
 			<Navigation />

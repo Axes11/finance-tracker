@@ -16,7 +16,7 @@ export function CreateAccount({ type }: CreateAccountProps) {
 	const [isOpen, setIsOpen] = useState(false);
 
 	return (
-		<Card className='flex justify-center min-h-52 items-center'>
+		<Card className='flex justify-center min-h-46 h-full items-center'>
 			<div className='absolute'>
 				<CreateAccountModal type={type} isOpen={isOpen} onClose={() => setIsOpen(false)} />
 			</div>

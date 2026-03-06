@@ -4,11 +4,6 @@ import { cookies } from 'next/headers';
 export async function getSupabaseServer() {
 	const cookieStore = await cookies();
 
-	console.log('ENV CHECK:', {
-		url: process.env.NEXT_PUBLIC_SUPABASE_URL ? 'EXISTS' : 'MISSING',
-		key: process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY ? 'EXISTS' : 'MISSING',
-	});
-
 	const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 	const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY;
 

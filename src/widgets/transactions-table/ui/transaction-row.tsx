@@ -19,7 +19,6 @@ export const TransactionRow = memo(
 				<TableCell>{transaction.type || '-'}</TableCell>
 				<TableCell>{accountName || '-'}</TableCell>
 				<TableCell>{transaction.description || '-'}</TableCell>
-				<TableCell>{transaction.category || '-'}</TableCell>
 				<TableCell>{type}</TableCell>
 				<TableCell className='text-right'>
 					{transaction.amount || '-'} {transaction.amount > 1 ? transaction.currency + '`s' : transaction.currency || '-'}

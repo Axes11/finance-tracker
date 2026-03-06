@@ -1,25 +1,18 @@
 import { create } from 'zustand';
 import { TransactionSchema } from './model.ts';
-import { AccountType } from '@/shared/types';
-
-interface TotalAmount {
-	crypto: number;
-	stocks: number;
-	bank: number;
-	total: number;
-}
+import { AccountType, TotalTransactionsAmount } from '@/shared/types';
 
 interface TransactionsStore {
 	transactions: TransactionSchema[];
-	totalAmount: TotalAmount;
-	totalAmountForAccounts: Record<string, number>;
+	totalAmount: TotalTransactionsAmount;
+	totalAmountForAccounts: Map<string, number>;
 	hydrated: boolean;
 	page: number;
 	limit: number;
 
 	setTransactions: (transactions: TransactionSchema[]) => void;
-	setTotalAmount: (amount: TotalAmount) => void;
-	setTotalAmountForAccounts: (totals: Record<string, number>) => void;
+	setTotalAmount: (amount: TotalTransactionsAmount) => void;
+	setTotalAmountForAccounts: (totals: Map<string, number>) => void;
 	setPage: (page: number) => void;
 	setLimit: (limit: number) => void;
 
@@ -28,12 +21,17 @@ interface TransactionsStore {
 
 export const useTransactionsStore = create<TransactionsStore>((set, get) => ({
 	transactions: [],
-	totalAmount: { crypto: 0, stocks: 0, bank: 0, total: 0 },
-	totalAmountForAccounts: {},
+	totalAmount: {
+		crypto: { total: 0, values: [] },
+		stocks: { total: 0, values: [] },
+		bank: { total: 0, values: [] },
+		total: { total: 0, values: [] },
+		accountTotals: new Map(),
+	},
+	totalAmountForAccounts: new Map(),
 	hydrated: false,
 	page: 0,
 	limit: 10,
-	pagesTotalCount: 0,
 
 	setTransactions: (transactions) => set({ transactions, hydrated: true }),
 	setTotalAmount: (totalAmount) => set({ totalAmount }),
