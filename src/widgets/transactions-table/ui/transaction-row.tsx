@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { PencilSimple, Trash } from '@phosphor-icons/react';
+import { ArrowUp, ArrowDown, PencilSimple, Trash } from '@phosphor-icons/react';
 
 import { Button, TableCell, TableRow } from '@/shared/ui';
 import { TransactionSchema } from '@/entities/transaction';
@@ -16,10 +16,10 @@ export const TransactionRow = memo(
 	({ transaction, accountName, type, openUpdate, openDelete }: TransactionRowProps) => {
 		return (
 			<TableRow>
+				<TableCell>{type === 'received' ? <ArrowUp size={16} weight='bold' className='text-green-600' /> : <ArrowDown size={16} weight='bold' className='text-red-600' />}</TableCell>
 				<TableCell>{transaction.type || '-'}</TableCell>
 				<TableCell>{accountName || '-'}</TableCell>
 				<TableCell>{transaction.description || '-'}</TableCell>
-				<TableCell>{type}</TableCell>
 				<TableCell className='text-right'>
 					{transaction.amount || '-'} {transaction.amount > 1 ? transaction.currency + '`s' : transaction.currency || '-'}
 				</TableCell>

@@ -17,30 +17,30 @@ interface Card {
 }
 
 const ICONS_MAP = {
-	crypto: <CurrencyBtc size={32} />,
-	stocks: <ChartLineUp size={32} />,
-	bank: <Vault size={32} />,
-	all: <CurrencyCircleDollar size={32} />,
+	crypto: <CurrencyBtc size={14} />,
+	stocks: <ChartLineUp size={14} />,
+	bank: <Vault size={14} />,
+	all: <CurrencyCircleDollar size={14} />,
 };
 
 export function SummaryCard({ id, badge, title, change, description, amount }: Card) {
 	return (
-		<Card className='p-6 flex flex-col gap-2 items-start justify-between w-full h-full'>
-			<div className='flex justify-between items-center w-full'>
+		<Card className='p-4 flex flex-col gap-3 items-start justify-between w-full h-full'>
+			<div className='flex justify-between items-start w-full'>
 				<div className='flex flex-row gap-3 items-start'>
 					<div>
-						<span className='text-base font-bold text-muted-foreground'>
+						<span className='font-display text-base font-bold text-muted-foreground'>
 							{title} <Badge>{ICONS_MAP[badge]}</Badge>
 						</span>
-						<div className='text-xs text-muted-foreground mt-0'>{description}</div>
+						<div className='font-mono text-[0.62rem] tracking-[0.06em] text-muted-foreground mt-0'>{description}</div>
 					</div>
 				</div>
 				<UpdateAccount id={id} title={title} description={description} />
 			</div>
 
 			<div className='flex flex-row gap-1 items-end'>
-				<span className='text-2xl font-bold'>${formatCurrency(Math.ceil(amount || 0).toString())}</span>
-				<span className='text-sm text-muted-foreground font-bold'>USD</span>
+				<span className='font-display text-2xl font-extrabold tracking-tight'>${formatCurrency(Math.ceil(amount || 0).toString())}</span>
+				<span className='font-mono text-[0.65rem] tracking-[0.08em] uppercase text-muted-foreground font-medium'>USD</span>
 			</div>
 
 			<div className='flex flex-row justify-between items-center w-full'>

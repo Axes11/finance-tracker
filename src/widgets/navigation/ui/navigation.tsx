@@ -7,7 +7,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
 
 import { PrivatePaths } from '@/shared/config';
-import { Card, Button } from '@/shared/ui';
+import { Card, Button, Separator } from '@/shared/ui';
 
 import { LogoutBtn } from '@/features/auth/logout/ui/logout-btn.tsx';
 
@@ -38,13 +38,14 @@ export function Navigation() {
 	}
 
 	return (
-		<nav className='navigation fixed bottom-5 left-0 right-0 flex justify-center z-50 pointer-events-none'>
-			<Card className='flex flex-row gap-4 p-3 pointer-events-auto'>
+		<nav className='shrink-0 flex justify-center border-t border-border bg-background z-50'>
+			<Card className='flex flex-row gap-4 p-3 border-0 shadow-none'>
 				{tabs.map((tab) => (
 					<Button key={tab.path} onClick={() => router.push(tab.path)} variant={pathname === tab.path ? 'default' : 'outline'} size='icon'>
 						{tab.icon}
 					</Button>
 				))}
+				<Separator orientation='vertical' />
 				<Button onClick={switchTheme} variant='outline' size='icon'>
 					{theme === 'light' ? <Moon size={32} /> : <SunDim size={32} />}
 				</Button>

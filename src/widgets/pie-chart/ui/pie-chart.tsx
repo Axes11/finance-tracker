@@ -39,7 +39,7 @@ export function PieChart({ type }: { type: 'total' | 'crypto' | 'stocks' | 'bank
 	}, [totalAmount, type]);
 
 	return (
-		<Card className='p-6 mt-2'>
+		<Card className='py-0 px-6 h-full'>
 			<ChartPie data={data} chartConfig={config} />
 		</Card>
 	);

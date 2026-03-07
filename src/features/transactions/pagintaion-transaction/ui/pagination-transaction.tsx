@@ -1,3 +1,5 @@
+'use client';
+
 import { Button, Pagination, PaginationContent, PaginationEllipsis, PaginationItem, Spinner } from '@/shared/ui';
 import { usePagination } from '../hooks/usePagination';
 import { ArrowCircleLeft, ArrowCircleRight } from '@phosphor-icons/react';

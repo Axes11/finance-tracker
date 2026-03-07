@@ -128,6 +128,30 @@
 
   body {
     @apply bg-background text-foreground font-sans;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      linear-gradient(rgba(17,17,16,.032) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(17,17,16,.032) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  body:has(.auth-layout)::before {
+    display: none;
+  }
+
+  .dark body::before,
+  .dark::before {
+    background-image:
+      linear-gradient(rgba(248,247,243,.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(248,247,243,.025) 1px, transparent 1px);
   }
 }
 
@@ -150,15 +174,17 @@ body:has(.auth-layout) {
 }
 
 main {
-  padding: 40px 40px 40px 40px;
+  padding: 0;
   height: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 main.auth-layout {
   display: grid;
   grid-template-columns: 1fr;
-  padding: 40px;
-  height: 90dvh;
+  padding: 0;
+  height: 100%;
   max-height: 100dvh;
   overflow: hidden;
 }
@@ -167,5 +193,28 @@ main.auth-layout {
   main.auth-layout {
     grid-template-columns: 1fr 1fr;
   }
+}
+
+/* Custom scrollbar */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 0;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
 }
 
