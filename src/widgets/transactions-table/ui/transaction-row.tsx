@@ -10,10 +10,11 @@ interface TransactionRowProps {
 	type: 'sent' | 'received';
 	openUpdate: (t: TransactionSchema) => void;
 	openDelete: (t: TransactionSchema) => void;
+	isBalancesHidden?: boolean;
 }
 
 export const TransactionRow = memo(
-	({ transaction, accountName, type, openUpdate, openDelete }: TransactionRowProps) => {
+	({ transaction, accountName, type, openUpdate, openDelete, isBalancesHidden }: TransactionRowProps) => {
 		return (
 			<TableRow>
 				<TableCell>{type === 'received' ? <ArrowUp size={16} weight='bold' className='text-green-600' /> : <ArrowDown size={16} weight='bold' className='text-red-600' />}</TableCell>
@@ -21,7 +22,13 @@ export const TransactionRow = memo(
 				<TableCell>{accountName || '-'}</TableCell>
 				<TableCell>{transaction.description || '-'}</TableCell>
 				<TableCell className='text-right'>
-					{transaction.amount || '-'} {transaction.amount > 1 ? transaction.currency + '`s' : transaction.currency || '-'}
+					{isBalancesHidden ? (
+						<>
+							{transaction.amount || '-'} {transaction.amount > 1 ? transaction.currency + '`s' : transaction.currency || '-'}
+						</>
+					) : (
+						'****'
+					)}
 				</TableCell>
 				<TableCell className='text-right'>{transaction.date || '-'}</TableCell>
 				<TableCell className='text-right'>
@@ -35,7 +42,8 @@ export const TransactionRow = memo(
 			</TableRow>
 		);
 	},
-	(prev, next) => prev.transaction.id === next.transaction.id && prev.transaction.amount === next.transaction.amount && prev.accountName === next.accountName,
+	(prev, next) =>
+		prev.transaction.id === next.transaction.id && prev.transaction.amount === next.transaction.amount && prev.accountName === next.accountName && prev.isBalancesHidden === next.isBalancesHidden,
 );
 
 TransactionRow.displayName = 'TransactionRow';

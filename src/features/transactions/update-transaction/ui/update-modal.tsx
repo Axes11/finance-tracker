@@ -19,7 +19,7 @@ interface CreateAccountModalProps {
 }
 
 export function UpdateTransactionModal({ transaction, isOpen, onClose, cryptoOptions, stocksOptions, moneyOptions }: CreateAccountModalProps) {
-	const { register, control, handleSubmit, onSubmit, isPending, errors, optionsToShow } = useUpdateTransaction({
+	const { register, control, handleSubmit, onSubmit, isPending, errors, optionsToShow, isBalancesHidden } = useUpdateTransaction({
 		id: transaction.id,
 		onClose,
 		type: transaction.type,
@@ -27,8 +27,6 @@ export function UpdateTransactionModal({ transaction, isOpen, onClose, cryptoOpt
 		stocksOptions,
 		moneyOptions,
 	});
-
-	console.log(cryptoOptions);
 
 	return (
 		<ModalWrapper
@@ -75,11 +73,11 @@ export function UpdateTransactionModal({ transaction, isOpen, onClose, cryptoOpt
 							id='title'
 							type='text'
 							placeholder='100$'
-							defaultValue={transaction.amount}
+							defaultValue={isBalancesHidden ? transaction.amount : '***'}
 							{...register('amount', {
 								required: 'Amount is required',
 								maxLength: {
-									value: 50,
+									value: 10,
 									message: 'Amount cannot exceed 50 characters',
 								},
 							})}

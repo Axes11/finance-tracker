@@ -2,6 +2,8 @@
 
 import { ChartLineUp, CurrencyBtc, CurrencyCircleDollar, Vault } from '@phosphor-icons/react';
 
+import { useUserStore } from '@/entities/user';
+
 import { DeleteAccount, UpdateAccount } from '@/features/accounts';
 
 import { formatCurrency, formatPriceDifference } from '@/shared/lib';
@@ -24,6 +26,8 @@ const ICONS_MAP = {
 };
 
 export function SummaryCard({ id, badge, title, change, description, amount }: Card) {
+	const { isBalancesHidden } = useUserStore();
+
 	return (
 		<Card className='p-4 flex flex-col gap-3 items-start justify-between w-full h-full'>
 			<div className='flex justify-between items-start w-full'>
@@ -39,12 +43,12 @@ export function SummaryCard({ id, badge, title, change, description, amount }: C
 			</div>
 
 			<div className='flex flex-row gap-1 items-end'>
-				<span className='font-display text-2xl font-extrabold tracking-tight'>${formatCurrency(Math.ceil(amount || 0).toString())}</span>
+				<span className='font-display text-2xl font-extrabold tracking-tight'>$ {isBalancesHidden ? formatCurrency(Math.ceil(amount || 0).toString()) : '****'}</span>
 				<span className='font-mono text-[0.65rem] tracking-[0.08em] uppercase text-muted-foreground font-medium'>USD</span>
 			</div>
 
 			<div className='flex flex-row justify-between items-center w-full'>
-				<span className='text-sm'>{formatPriceDifference(change)}</span>
+				<span className='text-sm'>{isBalancesHidden ? formatPriceDifference(change) : '***'}</span>
 				<DeleteAccount title={title} id={id} />
 			</div>
 		</Card>

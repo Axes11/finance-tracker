@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from 'react';
 
-import { House, CurrencyBtc, ChartLineUp, Vault, SunDim, Moon } from '@phosphor-icons/react';
+import { House, CurrencyBtc, ChartLineUp, Vault, SunDim, Moon, EyeIcon, EyeClosed } from '@phosphor-icons/react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
+
+import { useUserStore } from '@/entities/user';
 
 import { PrivatePaths } from '@/shared/config';
 import { Card, Button, Separator } from '@/shared/ui';
@@ -13,6 +15,8 @@ import { LogoutBtn } from '@/features/auth/logout/ui/logout-btn.tsx';
 
 export function Navigation() {
 	const router = useRouter();
+
+	const { isBalancesHidden, toggleBalancesVisibility } = useUserStore();
 
 	const { theme, setTheme } = useTheme();
 	const [mounted, setMounted] = useState(false);
@@ -23,6 +27,7 @@ export function Navigation() {
 	}, []);
 
 	const switchTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
+	const toggleBalances = () => toggleBalancesVisibility();
 
 	const pathname = usePathname();
 
@@ -49,6 +54,10 @@ export function Navigation() {
 				<Button onClick={switchTheme} variant='outline' size='icon'>
 					{theme === 'light' ? <Moon size={32} /> : <SunDim size={32} />}
 				</Button>
+				<Button onClick={toggleBalances} variant='outline' size='icon'>
+					{isBalancesHidden ? <EyeIcon size={32} /> : <EyeClosed size={32} />}
+				</Button>
+				<Separator orientation='vertical' />
 				<LogoutBtn />
 			</Card>
 		</nav>

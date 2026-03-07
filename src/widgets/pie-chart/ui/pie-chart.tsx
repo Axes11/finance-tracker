@@ -6,6 +6,7 @@ import { useTransactionsStore } from '@/entities/transaction';
 
 import { Card, ChartPie } from '@/shared/ui';
 import { ColorsFormPieChart } from '@/shared/constants';
+import { useUserStore } from '@/entities/user';
 
 interface ChartConfigItem {
 	label: string;
@@ -19,6 +20,7 @@ interface ChartPieData {
 
 export function PieChart({ type }: { type: 'total' | 'crypto' | 'stocks' | 'bank' }) {
 	const totalAmount = useTransactionsStore((state) => state.totalAmount);
+	const { isBalancesHidden } = useUserStore();
 
 	const { data, config } = useMemo(() => {
 		const dataToDisplay: ChartPieData[] = [];
@@ -40,7 +42,7 @@ export function PieChart({ type }: { type: 'total' | 'crypto' | 'stocks' | 'bank
 
 	return (
 		<Card className='py-0 px-6 h-full'>
-			<ChartPie data={data} chartConfig={config} />
+			<ChartPie data={data} chartConfig={config} hideValues={!isBalancesHidden} />
 		</Card>
 	);
 }

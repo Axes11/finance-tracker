@@ -8,6 +8,7 @@ import { PaginationTransaction, TransactionModalsProvider } from '@/features/tra
 import { Separator, Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/shared/ui';
 import { AccountType } from '@/shared/types';
 import { TransactionRow } from './transaction-row';
+import { useUserStore } from '@/entities/user';
 
 interface TransactionsTableProps {
 	type?: AccountType;
@@ -25,6 +26,8 @@ export function TransactionsTable({ type }: TransactionsTableProps) {
 	const isLoading = !hydrated;
 	const isEmpty = hydrated && data.length === 0;
 	const hasTransactions = hydrated && data.length > 0;
+
+	const { isBalancesHidden } = useUserStore();
 
 	return (
 		<>
@@ -68,6 +71,7 @@ export function TransactionsTable({ type }: TransactionsTableProps) {
 										type={transaction.amount < 0 ? 'sent' : 'received'}
 										openUpdate={openUpdate}
 										openDelete={openDelete}
+										isBalancesHidden={isBalancesHidden}
 									/>
 								))}
 							</TableBody>
