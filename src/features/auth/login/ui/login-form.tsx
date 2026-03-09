@@ -1,7 +1,7 @@
 'use client';
 
-import { FormWrapper, Input, FormField } from '@/shared/ui';
 import { PublicPaths } from '@/shared/config';
+import { FormWrapper, FormField, Input } from '@/shared/ui';
 
 import { useLogin } from '../hooks/useLogin';
 
@@ -9,56 +9,53 @@ export function LoginForm() {
 	const { register, router, handleSubmit, errors, onSubmit, mutation } = useLogin();
 
 	return (
-		<div className='w-full max-w-md'>
-			<form onSubmit={handleSubmit(onSubmit)}>
-				<FormWrapper
-					header='Log In and Track Your Money!'
-					description='Note and track your money in all your spaces!'
-					bodyActions={[
-						{
-							text: mutation.isPending ? 'Logging In...' : 'Log In',
-							type: 'submit',
-							disabled: mutation.isPending,
-						},
-					]}
-					bottomActions={[
-						{
-							text: 'Forgot Password?',
-							function: () => router.push(PublicPaths.FORGOT_PASSWORD),
-							type: 'button',
-						},
-						{
-							text: 'Don`t have an account?',
-							function: () => router.push(PublicPaths.REGISTER),
-							type: 'button',
-						},
-					]}>
-					<FormField label='E-mail' tag='email' error={errors.email}>
-						<Input
-							id='email'
-							type='text'
-							placeholder='example@gmail.com'
-							{...register('email', {
-								required: 'Email is required',
-								pattern: {
-									value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-									message: 'Invalid email address',
-								},
-							})}
-						/>
-					</FormField>
-					<FormField label='Password' tag='password' error={errors.password}>
-						<Input
-							id='password'
-							type='password'
-							placeholder='••••••••'
-							{...register('password', {
-								required: 'Password is required',
-							})}
-						/>
-					</FormField>
-				</FormWrapper>
-			</form>
-		</div>
+		<form onSubmit={handleSubmit(onSubmit)}>
+			<FormWrapper
+				header='Log in'
+				description='Track your wealth across all accounts in one place.'
+				bodyActions={[
+					{
+						text: mutation.isPending ? 'Logging in...' : 'Log in',
+						type: 'submit',
+						disabled: mutation.isPending,
+					},
+				]}
+				bottomActions={[
+					{
+						text: 'Forgot password?',
+						function: () => router.push(PublicPaths.FORGOT_PASSWORD),
+					},
+					{
+						text: "Don't have an account? Sign up",
+						function: () => router.push(PublicPaths.REGISTER),
+					},
+				]}>
+				<FormField label='E-mail' tag='email' error={errors.email}>
+					<Input
+						id='email'
+						type='text'
+						placeholder='name@example.com'
+						{...register('email', {
+							required: 'Email is required',
+							pattern: {
+								value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+								message: 'Invalid email address',
+							},
+						})}
+					/>
+				</FormField>
+
+				<FormField label='Password' tag='password' error={errors.password}>
+					<Input
+						id='password'
+						type='password'
+						placeholder='••••••••'
+						{...register('password', {
+							required: 'Password is required',
+						})}
+					/>
+				</FormField>
+			</FormWrapper>
+		</form>
 	);
 }

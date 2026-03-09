@@ -17,7 +17,7 @@ interface FormSelectProps {
 export function FormSelect({ placeholder, title, options, value, onChange }: FormSelectProps) {
 	return (
 		<Select value={value} onValueChange={onChange}>
-			<SelectTrigger className='w-[180px]'>
+			<SelectTrigger className='w-full'>
 				<SelectValue placeholder={placeholder} />
 			</SelectTrigger>
 			<SelectContent>

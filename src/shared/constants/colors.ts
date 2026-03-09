@@ -1,15 +1,25 @@
 export const Colors = {
-	RED: '#ff5f57',
-	GREEN: '#28c840',
-	YELLOW: '#ffbd2e',
-	GREY: '#1a1a1a',
+	BG: '#f8f7f3',
+	FG: '#111110',
+	MUTED: '#6b6b65',
+	BORDER: '#d8d7d2',
+	GREEN: '#1a7a3e',
+	RED: '#b8271e',
+	CRYPTO: '#f59e0b',
+	STOCKS: '#22c55e',
+	BANKS: '#3b82f6',
 };
 
 export const Color: Colors = {
-	RED: Colors.RED,
+	BG: Colors.BG,
+	FG: Colors.FG,
+	MUTED: Colors.MUTED,
+	BORDER: Colors.BORDER,
 	GREEN: Colors.GREEN,
-	YELLOW: Colors.YELLOW,
-	GREY: Colors.GREY,
+	RED: Colors.RED,
+	CRYPTO: Colors.CRYPTO,
+	STOCKS: Colors.STOCKS,
+	BANKS: Colors.BANKS,
 };
 
 export type Colors = typeof Colors;

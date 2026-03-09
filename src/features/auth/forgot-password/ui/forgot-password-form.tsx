@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, FormWrapper, FieldDescription, Input, FormField, Button } from '@/shared/ui';
+import { FormWrapper, Input, FormField, AuthHeader, Button, MobileLogo } from '@/shared/ui';
 import { PublicPaths } from '@/shared/config';
 
 import { useForgotPassword } from '../hooks/useForgotPassword';
@@ -8,94 +8,90 @@ import { useForgotPassword } from '../hooks/useForgotPassword';
 export function ForgotPasswordForm() {
 	const { step, sendCode, changePassword, handleSubmit, register, errors, router, mutationSendCode, mutationChangePassword, resendAfter } = useForgotPassword();
 
+	if (step === 'passwordChanged') {
+		return (
+			<div className='flex flex-col gap-8'>
+				<MobileLogo />
+				<AuthHeader title='Password changed' description='Your password has been changed successfully. You can now log in with your new password.' />
+				<Button variant='primary' size='full' onClick={() => router.push(PublicPaths.LOGIN)}>
+					Back to Login
+				</Button>
+			</div>
+		);
+	}
+
 	return (
-		<div className='w-full max-w-md'>
-			<form>
-				{step !== 'passwordChanged' ? (
-					<FormWrapper
-						header='Change Your Password'
-						description='We will send mail to your email address to change your password.'
-						bodyActions={[
-							{
-								text: mutationSendCode?.isPending ? 'Sending Code...' : 'Send Code',
-								function: () => handleSubmit(sendCode)(),
-								hide: step === 'sendCode',
-								disabled: mutationSendCode?.isPending,
-								type: 'button',
-							},
-							{
-								text: mutationChangePassword?.isPending ? 'Changing Password...' : 'Change Password',
-								function: () => handleSubmit(changePassword)(),
-								hide: step === 'newPassword',
-								disabled: mutationSendCode?.isPending,
-								type: 'button',
-							},
-						]}
-						bottomActions={[
-							{
-								text: mutationSendCode.isSuccess && resendAfter > 0 ? `Resend Code After 00:${resendAfter < 10 ? `0${resendAfter}` : resendAfter}` : 'Resend Code',
-								function: () => handleSubmit(sendCode)(),
-								disabled: (resendAfter > 0 && mutationSendCode.isSuccess) || mutationSendCode?.isPending,
-								type: 'button',
-							},
-							{
-								text: 'Don`t Remember Your Email?',
-								function: () => {
-									router.push(PublicPaths.DONT_REMEMBER_EMAIL);
+		<form>
+			<FormWrapper
+				header='Forgot password'
+				description='We will send a code to your email address to reset your password.'
+				bodyActions={[
+					{
+						text: mutationSendCode?.isPending ? 'Sending Code...' : 'Send Code',
+						function: () => handleSubmit(sendCode)(),
+						hide: step === 'sendCode',
+						disabled: mutationSendCode?.isPending,
+						type: 'button',
+					},
+					{
+						text: mutationChangePassword?.isPending ? 'Changing Password...' : 'Change Password',
+						function: () => handleSubmit(changePassword)(),
+						hide: step === 'newPassword',
+						disabled: mutationSendCode?.isPending,
+						type: 'button',
+					},
+				]}
+				bottomActions={[
+					{
+						text: mutationSendCode.isSuccess && resendAfter > 0 ? `Resend Code After 00:${resendAfter < 10 ? `0${resendAfter}` : resendAfter}` : 'Resend Code',
+						function: () => handleSubmit(sendCode)(),
+						disabled: (resendAfter > 0 && mutationSendCode.isSuccess) || mutationSendCode?.isPending,
+						type: 'button',
+					},
+					{
+						text: "Don't remember your email?",
+						function: () => router.push(PublicPaths.DONT_REMEMBER_EMAIL),
+						type: 'button',
+					},
+					{
+						text: 'Back to Login',
+						function: () => router.push(PublicPaths.LOGIN),
+						type: 'button',
+					},
+				]}>
+				{step === 'sendCode' && (
+					<FormField label='E-mail' tag='email' error={errors.email}>
+						<Input
+							id='email'
+							type='text'
+							placeholder='name@example.com'
+							{...register('email', {
+								required: 'Email is required',
+								pattern: {
+									value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+									message: 'Invalid email address',
 								},
-								type: 'button',
-							},
-							{
-								text: 'Back to Login',
-								function: () => {
-									router.push(PublicPaths.LOGIN);
-								},
-								type: 'button',
-							},
-						]}>
-						{step === 'sendCode' && (
-							<FormField label='E-mail' description='Your email address.' tag='email' error={errors.email}>
-								<Input
-									id='email'
-									type='text'
-									placeholder='example@gmail.com'
-									{...register('email', {
-										required: 'Email is required',
-										pattern: {
-											value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-											message: 'Invalid email address',
-										},
-									})}
-								/>
-							</FormField>
-						)}
-						{step === 'newPassword' && (
-							<FormField label='New Password' description='Your password must be atleast 8 charactres length' tag='newPassword' error={errors.newPassword}>
-								<Input
-									id='newPassword'
-									type='password'
-									placeholder='••••••••'
-									{...register('newPassword', {
-										required: 'New password is required',
-										minLength: {
-											value: 8,
-											message: 'Password must be at least 6 characters long',
-										},
-									})}
-								/>
-							</FormField>
-						)}
-					</FormWrapper>
-				) : (
-					<Card className='flex flex-col gap-4 items-center'>
-						<FieldDescription className='text-green-500 text-center text-xl font-bold'>Your password has been changed successfully! </FieldDescription>
-						<FieldDescription className='text-muted-foreground text-center'> Now you can return to the login page and login with new password!</FieldDescription>
-						<Button onClick={() => router.push(PublicPaths.LOGIN)} className='cursor-pointer'>
-							Back To Login
-						</Button>
-					</Card>
+							})}
+						/>
+					</FormField>
 				)}
-			</form>
-		</div>
+				{step === 'newPassword' && (
+					<FormField label='New Password' tag='newPassword' error={errors.newPassword}>
+						<Input
+							id='newPassword'
+							type='password'
+							placeholder='••••••••'
+							{...register('newPassword', {
+								required: 'New password is required',
+								minLength: {
+									value: 8,
+									message: 'Password must be at least 8 characters long',
+								},
+							})}
+						/>
+					</FormField>
+				)}
+			</FormWrapper>
+		</form>
 	);
 }

@@ -1,14 +1,18 @@
 import { PieChart, SummaryBord, TransactionsTable } from '@/widgets';
+import { CreateTransaction } from '@/features/transactions';
 
 export default function StocksPage() {
 	return (
-		<div className='space-y-2'>
-			<SummaryBord header='Stocks Accounts Overview' description='Here you can see your balances in all categories, if you want see details switch to another page!' type='stocks' />
-			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
-				<div className='order-2 lg:order-1 lg:col-span-3'>
+		<div className='flex flex-col h-full'>
+			<SummaryBord type='stocks' />
+			<div className='px-6 py-4 border-b border-border shrink-0'>
+				<CreateTransaction type='stocks' />
+			</div>
+			<div className='flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-5'>
+				<div className='lg:col-span-3 min-w-0 flex flex-col min-h-0 overflow-hidden'>
 					<TransactionsTable type='stocks' />
 				</div>
-				<div className='order-1 lg:order-2 lg:col-span-1'>
+				<div className='lg:col-span-2 min-w-0 lg:border-l border-border overflow-hidden'>
 					<PieChart type='stocks' />
 				</div>
 			</div>

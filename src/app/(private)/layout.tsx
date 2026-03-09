@@ -34,8 +34,10 @@ export default async function PrivateLayout({ children }: { children: ReactNode 
 			<TransactionHydrator data={transactions} />
 			<TotalAmountHydrator total={{ total, crypto, bank, stocks, accountTotals }} accounts={accountTotals} />
 			<CurrenciesTypesHydrator data={options} />
-			{children}
-			<Navigation />
+			<div className='border-x border-border h-screen flex flex-col overflow-hidden'>
+				<div className='flex-1 min-h-0 flex flex-col'>{children}</div>
+				<Navigation />
+			</div>
 		</>
 	);
 }

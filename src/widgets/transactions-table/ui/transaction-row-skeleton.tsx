@@ -3,28 +3,25 @@ import { TableCell, TableRow, Skeleton } from '@/shared/ui';
 export function TransactionRowSkeleton() {
 	return (
 		<TableRow>
-			<TableCell className='font-medium'>
+			<TableCell>
+				<Skeleton className='w-4 h-4 rounded-full' />
+			</TableCell>
+			<TableCell>
 				<Skeleton className='w-full h-[25px]' />
 			</TableCell>
-			<TableCell colSpan={1}>
+			<TableCell>
 				<Skeleton className='w-full h-[25px]' />
 			</TableCell>
-			<TableCell colSpan={1}>
+			<TableCell>
 				<Skeleton className='w-full h-[25px]' />
 			</TableCell>
-			<TableCell colSpan={1}>
+			<TableCell>
 				<Skeleton className='w-full h-[25px]' />
 			</TableCell>
-			<TableCell colSpan={1}>
+			<TableCell className='text-right'>
 				<Skeleton className='w-full h-[25px]' />
 			</TableCell>
-			<TableCell className='text-right' colSpan={1}>
-				<Skeleton className='w-full h-[25px]' />
-			</TableCell>
-			<TableCell className='text-right' colSpan={1}>
-				<Skeleton className='w-full h-[25px]' />
-			</TableCell>
-			<TableCell className='text-right' colSpan={1}>
+			<TableCell className='text-right'>
 				<Skeleton className='w-full h-[25px]' />
 			</TableCell>
 		</TableRow>

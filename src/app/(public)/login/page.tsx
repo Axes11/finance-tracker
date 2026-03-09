@@ -3,5 +3,9 @@
 import { LoginForm } from '@/features/auth';
 
 export default function LoginPage() {
-	return <div className='flex flex-col justify-center items-center gap-6'>{<LoginForm />}</div>;
+	return (
+		<div className='w-full max-w-[420px]'>
+			<LoginForm />
+		</div>
+	);
 }

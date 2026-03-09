@@ -2,13 +2,15 @@ import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
+import { CurrenciesOption } from '@/entities/transaction/model';
 import { updateTransaction } from '@/entities/transaction/api.ts';
+import { useUserStore } from '@/entities/user';
+
 import { useLoadTransactions } from '@/shared/hooks/useLoadTransactions.ts';
 import { useLoadTotalAmount } from '@/shared/hooks/useLoadTotalAmount.ts';
 
 import { toDateOnly } from '@/shared/lib';
 import { AccountType } from '@/shared/types';
-import { CurrenciesOption } from '@/entities/transaction/model';
 
 interface Transaction {
 	id: string;
@@ -30,6 +32,7 @@ interface Inputs {
 export function useUpdateTransaction({ id, onClose, type, cryptoOptions, stocksOptions, moneyOptions }: Transaction) {
 	const { loadTransactions } = useLoadTransactions();
 	const { loadTotalAmount } = useLoadTotalAmount();
+	const { isBalancesHidden } = useUserStore();
 
 	let optionsToShow: CurrenciesOption[] = [];
 
@@ -77,5 +80,6 @@ export function useUpdateTransaction({ id, onClose, type, cryptoOptions, stocksO
 		onSubmit,
 		errors,
 		optionsToShow,
+		isBalancesHidden,
 	};
 }
