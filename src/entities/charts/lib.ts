@@ -1,4 +1,5 @@
 import { unstable_cache } from 'next/cache';
+import type { FetchParameters, HistoricalData } from './model';
 
 const fetchFromApi = async (ticker: string, from: number, to: number): Promise<HistoricalData> => {
 	const res = await fetch(`https://api.coingecko.com/api/v3/coins/${ticker}/market_chart/range?vs_currency=usd&from=${from}&to=${to}&precision=full`, { next: { revalidate: 3600 } });

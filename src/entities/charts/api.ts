@@ -1,12 +1,14 @@
 import { getSupabaseServer } from '@/shared/lib/server/supabaseServer.ts';
 
 import { getCryptoChartsData } from '@/entities/charts/lib.ts';
-import { HistoricalData, FetchParameters } from '@/entities/charts/model.ts';
+import { FetchParameters } from '@/entities/charts/model.ts';
 
 export const getHistoricalData = async ({ ticker, from, to }: FetchParameters) => {
-	const res: Promise<Pick<HistoricalData, 'prices'>> = await getCryptoChartsData({ ticker, from, to });
-
-	if (!res) throw new Error('Failed to fetch historical data');
+	try {
+		await getCryptoChartsData({ ticker, from, to });
+	} catch (error: unknown) {
+		throw new Error(`Failed to fetch historical data: ${error}`);
+	}
 
 	const supabase = await getSupabaseServer();
 

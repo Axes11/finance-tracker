@@ -83,7 +83,10 @@ export const getCachedTotal = async (transactions: TransactionSchema[], _userId:
 	const accountCurrencyMap: Record<string, Record<string, number>> = {};
 
 	for (const tx of transactions!) {
-		const { type, currency, amount, account_id } = tx;
+		const { type, account_id } = tx;
+		const currency = type === 'stocks' ? tx.currency : tx.currency;
+		const amount = Number(tx.amount);
+		if (!Number.isFinite(amount)) continue;
 
 		if (type === 'crypto') cryptoMap.set(currency, (cryptoMap.get(currency) || 0) + amount);
 		else if (type === 'stocks') stocksMap.set(currency, (stocksMap.get(currency) || 0) + amount);
@@ -99,13 +102,18 @@ export const getCachedTotal = async (transactions: TransactionSchema[], _userId:
 		if (symbol in priceCache) return priceCache[symbol];
 
 		let price = 0;
-		if (type === 'crypto') {
-			const priceArr = await getCryptoPrice();
+		try {
+			if (type === 'crypto') {
+				const priceArr = await getCryptoPrice();
 
-			const coin = priceArr.find((c) => c.name === symbol);
-			price = coin?.current_price ?? 0;
-		} else if (type === 'stocks') price = await getStockPrice(symbol);
-		else if (type === 'bank') price = await getForexPrice(symbol);
+				const coin = priceArr.find((c: { name: string; current_price: number }) => c.name === symbol);
+				price = coin?.current_price ?? 0;
+			} else if (type === 'stocks') price = await getStockPrice(symbol);
+			else if (type === 'bank') price = await getForexPrice(symbol);
+		} catch (error) {
+			console.error(`Failed to fetch ${type} price for "${symbol}":`, error);
+			price = 0;
+		}
 
 		priceCache[symbol] = price;
 		return price;
@@ -135,7 +143,7 @@ export const getCachedTotal = async (transactions: TransactionSchema[], _userId:
 		let accountSum = 0;
 		for (const currency in accountCurrencyMap[accountId]) {
 			const amount = accountCurrencyMap[accountId][currency];
-			const price = priceCache[currency] || 1;
+			const price = priceCache[currency] ?? 0;
 			accountSum += amount * price;
 		}
 		accountTotals.set(accountId, accountSum);

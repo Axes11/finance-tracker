@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import type { HistoricalData } from './model';
 
 interface ChartsStore {
 	historicalData: HistoricalData | null;

@@ -1,8 +1,8 @@
 'use client';
 
-import { ChangeEvent, createElement, ReactNode, useMemo, useState } from 'react';
+import { ChangeEvent, createElement, useMemo, useState } from 'react';
 
-import { Bank, ChartLineUp, CurrencyBtc, House, Keyboard, PlusCircle, TrendUp, Vault } from '@phosphor-icons/react';
+import { Bank, ChartLineUp, CurrencyBtc, House, Keyboard, PlusCircle, TrendUp, Vault, type Icon, type IconWeight } from '@phosphor-icons/react';
 import { usePathname, useRouter } from 'next/navigation';
 
 import { useAccountStore } from '@/entities/account';
@@ -48,8 +48,8 @@ const RESULT_LIMIT_PER_GROUP = 5;
 const normalize = (value: string) => value.trim().toLowerCase();
 const formatAmount = (amount: number, currency: string) => `${amount > 0 ? '+' : ''}${amount} ${currency}`;
 
-function createIcon(Icon: ({ size, weight }: { size: number; weight: string }) => ReactNode) {
-	return createElement(Icon, { size: 16, weight: 'duotone' });
+function createIcon(IconComponent: Icon) {
+	return createElement(IconComponent, { size: 16, weight: 'duotone' as IconWeight });
 }
 
 function createNavigationSearchItems(): GlobalSearchItem[] {
