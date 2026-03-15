@@ -1,1 +1,1 @@
-export type { Error, AccountType, TotalTransactionsAmount } from './types';
+export type { Error, AccountType, TotalTransactionsAmount, TransactionSchema } from './types';

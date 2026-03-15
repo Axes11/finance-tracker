@@ -21,4 +21,16 @@ export type TotalTransactionsAmount = {
 	accountTotals: Map<string, number>;
 };
 
+export interface TransactionSchema {
+	id: string;
+	user_id: string;
+	account_id: string;
+	amount: number;
+	type: AccountType;
+	description: string;
+	currency: string;
+	date: string;
+	created_at: string;
+}
+
 export type AccountType = 'crypto' | 'stocks' | 'bank';
