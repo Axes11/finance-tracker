@@ -34,5 +34,5 @@ jobs:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         with:
           args:
-            -Dsonar.projectKey=axes11
-            -Dsonar.organization=Ivan
+            -Dsonar.projectKey=Axes11_finance-tracker
+            -Dsonar.organization=axes11
