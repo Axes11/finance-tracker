@@ -19,6 +19,23 @@ interface CreateAccountModalProps {
 }
 
 export function UpdateTransactionModal({ transaction, isOpen, onClose, cryptoOptions, stocksOptions, moneyOptions }: CreateAccountModalProps) {
+	const defaultDate = (() => {
+		const raw = String(transaction.date || '');
+		const withHourMatch = raw.match(/^(\d{4})-(\d{2})-(\d{2})-(\d{2})$/);
+		if (withHourMatch) {
+			const [, y, m, d, h] = withHourMatch;
+			return new Date(Number(y), Number(m) - 1, Number(d), Number(h), 0, 0, 0);
+		}
+
+		const dayOnlyMatch = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+		if (dayOnlyMatch) {
+			const [, y, m, d] = dayOnlyMatch;
+			return new Date(Number(y), Number(m) - 1, Number(d), new Date().getHours(), 0, 0, 0);
+		}
+
+		return new Date();
+	})();
+
 	const { register, control, handleSubmit, onSubmit, isPending, errors, optionsToShow, isBalancesHidden } = useUpdateTransaction({
 		id: transaction.id,
 		onClose,
@@ -98,7 +115,7 @@ export function UpdateTransactionModal({ transaction, isOpen, onClose, cryptoOpt
 						<Controller
 							name='date'
 							control={control}
-							defaultValue={new Date(`${transaction.date}T00:00:00`)}
+							defaultValue={defaultDate}
 							rules={{ required: 'Date is required' }}
 							render={({ field }) => <DatePicker placeholder='Select date' value={field.value} onChange={field.onChange} />}
 						/>

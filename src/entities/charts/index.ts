@@ -1,0 +1,1 @@
+export { getHistoricalData } from './api';

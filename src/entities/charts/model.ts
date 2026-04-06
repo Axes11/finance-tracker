@@ -1,7 +1,8 @@
 export interface FetchParameters {
-	ticker: string;
 	from: number;
 	to: number;
+	stepHours?: number;
+	bucketMode?: 'hours' | 'fortnight' | 'month';
 }
 
 export interface HistoricalData {
@@ -10,9 +11,15 @@ export interface HistoricalData {
 	total_volumes: [number, number][];
 }
 
-export interface TransactionsData {
-	[date: string]: {
-		amount: number;
-		currency: string;
-	};
-}
+export type HistoricalBucketValue = {
+	crypto: number;
+	stocks: number;
+	bank: number;
+	total: number;
+};
+
+export type HistoricalSeries = Record<string, HistoricalBucketValue>;
+
+export type ChartRangeKey = '1d' | '7d' | '30d' | '180d' | '360d';
+
+export type HistoricalSeriesByRange = Record<ChartRangeKey, HistoricalSeries>;
