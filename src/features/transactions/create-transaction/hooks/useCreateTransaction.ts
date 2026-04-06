@@ -6,7 +6,7 @@ import { createTransaction } from '@/entities/transaction/api.ts';
 import { useLoadTransactions } from '@/shared/hooks/useLoadTransactions.ts';
 import { useLoadTotalAmount } from '@/shared/hooks/useLoadTotalAmount.ts';
 
-import { toDateOnly } from '@/shared/lib';
+import { toDateWithHour } from '@/shared/lib';
 import { AccountType } from '@/shared/types';
 
 import { useAccountStore } from '@/entities/account';
@@ -61,7 +61,7 @@ export function useCreateTransaction({ type, onClose }: CreateTransactionProps) 
 	};
 
 	const mutation = useMutation({
-		mutationFn: ({ account_id, amount, description, currency, date }: Inputs) => createTransaction(account_id, amount, description, currency, type, toDateOnly(date)),
+		mutationFn: ({ account_id, amount, description, currency, date }: Inputs) => createTransaction(account_id, amount, description, currency, type, toDateWithHour(date)),
 		onSuccess: async () => {
 			toast.success('Transaction successfully created!');
 

@@ -25,7 +25,11 @@ export function GlobalSearch() {
 					/>
 				</div>
 			</PopoverAnchor>
-			<PopoverContent align='start' side='bottom' sideOffset={1} className='w-[min(42rem,calc(100vw-2rem))] border-border bg-background p-0 shadow-none max-h-[min(70vh,44rem)] overflow-hidden'>
+			<PopoverContent
+				align='start'
+				side='bottom'
+				sideOffset={11}
+				className='w-[min(42rem,calc(100vw-2rem))] translate-x-[-1px] top-2.5 border-border bg-background p-0 shadow-none max-h-[min(70vh,44rem)] overflow-hidden'>
 				<ScrollArea className='h-[min(70vh,44rem)]'>
 					<div className='flex flex-col'>
 						{groupedItems.length ? (

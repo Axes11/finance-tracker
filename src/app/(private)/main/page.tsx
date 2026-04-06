@@ -1,6 +1,6 @@
 import { SummaryBord, TransactionsTable, PieChart } from '@/widgets';
 import { Divider } from '@/shared/ui';
-import { LineChart } from '@/shared/ui';
+import { LineChart } from '@/shared/ui/line-chart';
 
 export default async function MainPage() {
 	return (

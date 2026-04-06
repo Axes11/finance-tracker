@@ -9,7 +9,7 @@ import { useUserStore } from '@/entities/user';
 import { useLoadTransactions } from '@/shared/hooks/useLoadTransactions.ts';
 import { useLoadTotalAmount } from '@/shared/hooks/useLoadTotalAmount.ts';
 
-import { toDateOnly } from '@/shared/lib';
+import { toDateWithHour } from '@/shared/lib';
 import { AccountType } from '@/shared/types';
 
 interface Transaction {
@@ -56,7 +56,7 @@ export function useUpdateTransaction({ id, onClose, type, cryptoOptions, stocksO
 	};
 
 	const mutation = useMutation({
-		mutationFn: (data: Inputs) => updateTransaction(id, data.amount, data.description, data.currency, toDateOnly(data.date)),
+		mutationFn: (data: Inputs) => updateTransaction(id, data.amount, data.description, data.currency, toDateWithHour(data.date)),
 		onSuccess: async () => {
 			toast.success('Transaction updated successfully.!');
 

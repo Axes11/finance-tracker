@@ -1,1 +1,1 @@
-export { GlobalSearch } from './ui/global-search';
+export { GlobalSearch } from './ui/global-search.tsx';
