@@ -1,2 +1,2 @@
-export { PrivateRoutes, PrivatePaths } from './private-routes';
+export { PrivateRoutes, PrivatePaths, PRIVATE_NAVIGATION_ITEMS } from './private-routes';
 export { PublicRoutes, PublicPaths } from './public-routes';

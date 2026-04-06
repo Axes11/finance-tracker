@@ -14,7 +14,7 @@ interface UserStore {
 export const useUserStore = create<UserStore>((set) => ({
 	user: null,
 	hydrated: false,
-	isBalancesHidden: false,
+	isBalancesHidden: true,
 
 	loginUser: (newUser) => set({ user: newUser, hydrated: true }),
 	logoutUser: () => set({ user: null }),

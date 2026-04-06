@@ -7,10 +7,11 @@ import { AccountSchema } from '@/entities/account/model.ts';
 import { useAccountStore } from '@/entities/account/store.ts';
 import { useTransactionsStore } from '@/entities/transaction/store.ts';
 
-import { Divider, Input, ClaroLogo } from '@/shared/ui';
+import { Divider, ClaroLogo } from '@/shared/ui';
 import { AccountType } from '@/shared/types';
 
 import { CreateAccount } from '@/features/accounts';
+import { GlobalSearch } from '@/features/global-search';
 
 import { SummaryCard } from './summary-card.tsx';
 import { SummaryCardSkeleton } from './summary-card-skeleton.tsx';
@@ -36,15 +37,8 @@ export function SummaryBord({ type }: SummaryCardProps) {
 					<ClaroLogo size={20} className='text-foreground' style={{ '--claro-eye': 'var(--background)' } as React.CSSProperties} />
 				</div>
 				<div className='lg:col-span-2 flex items-center border-r border-border'>
-					<div className='relative w-full'>
-						<svg width='14' height='14' viewBox='0 0 256 256' fill='none' className='absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground'>
-							<circle cx='116' cy='116' r='84' stroke='currentColor' strokeWidth='20' fill='none' />
-							<line x1='175.4' y1='175.4' x2='224' y2='224' stroke='currentColor' strokeWidth='20' strokeLinecap='round' />
-						</svg>
-						<Input type='text' placeholder='Search accounts, transactions...' className='border-0 h-full pl-10 focus-visible:border-0 focus-visible:ring-0' />
-					</div>
+					<GlobalSearch />
 				</div>
-				{/* Empty space — spans 2 columns */}
 				<div className='lg:col-span-2 hidden lg:block' />
 			</div>
 

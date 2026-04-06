@@ -31,7 +31,7 @@ export const StockOptions = [
 	{ label: 'AMZN', value: 'AMZN' },
 	{ label: 'MSFT', value: 'MSFT' },
 	{ label: 'TSLA', value: 'TSLA' },
-	{ label: 'FB', value: 'FB' },
+	{ label: 'META', value: 'META' },
 	{ label: 'NFLX', value: 'NFLX' },
 	{ label: 'NVDA', value: 'NVDA' },
 	{ label: 'JPM', value: 'JPM' },
