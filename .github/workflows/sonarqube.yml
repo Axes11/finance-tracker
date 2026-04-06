@@ -35,3 +35,4 @@ jobs:
         with:
           args:
             -Dsonar.projectKey=axes11
+            -Dsonar.organization=Ivan
